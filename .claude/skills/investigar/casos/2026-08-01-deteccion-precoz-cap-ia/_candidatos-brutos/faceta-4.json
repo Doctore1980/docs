@@ -1,0 +1,440 @@
+{
+  "query": "artificial intelligence prostate cancer early detection screening prospective validation diagnostic accuracy",
+  "n": 61,
+  "candidatos": [
+    {
+      "identifier": "PMID:41228295",
+      "title": "Improving Early Prostate Cancer Detection Through Artificial Intelligence: Evidence from a Systematic Review.",
+      "date": "2025 Oct 30",
+      "journal": "Cancers",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:42291630",
+      "title": "Next-generation imaging in prostate cancer.",
+      "date": "2026",
+      "journal": "Frontiers in urology",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:42192906",
+      "title": "Artificial Intelligence in Oncology: A Comprehensive Cross-Cancer Translational Readiness Analysis Across 18 Malignancies.",
+      "date": "2026 May 10",
+      "journal": "Cancers",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:41186168",
+      "title": "Towards Precision Oncology: A New Predictive Machine Learning Model for Early Progression to Castration Resistant Prostate Cancer.",
+      "date": "2026 Feb",
+      "journal": "The Prostate",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:33998173",
+      "title": "The future direction of imaging in prostate cancer: MRI with or without contrast injection.",
+      "date": "2021 Sep",
+      "journal": "Andrology",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:41753318",
+      "title": "Contemporary Evidence for Optimization of Robotic Radical Prostatectomy Outcomes Using Advanced Imaging Techniques.",
+      "date": "2026 Feb 21",
+      "journal": "Journal of clinical medicine",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:31200839",
+      "title": "Multi-institutional Clinical Tool for Predicting High-risk Lesions on 3Tesla Multiparametric Prostate Magnetic Resonance Imaging.",
+      "date": "2019 May",
+      "journal": "European urology oncology",
+      "pubtypes": [
+        "Journal Article",
+        "Multicenter Study"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "DOI:10.3389/fruro.2026.1829407",
+      "title": "Next-generation imaging in prostate cancer.",
+      "date": "2026-05-29",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/life16050848",
+      "title": "Olfactory Science and Technology in Prostate Cancer Diagnosis: From Invertebrate Models to Artificial Intelligence.",
+      "date": "2026-05-20",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers18101543",
+      "title": "Artificial Intelligence in Oncology: A Comprehensive Cross-Cancer Translational Readiness Analysis Across 18 Malignancies.",
+      "date": "2026-05-10",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.21037/tau-2026-0193",
+      "title": "PI-RADS v2.1 for prostate MRI: current applications, ongoing debates, and synergies with advanced technologies-a narrative review.",
+      "date": "2026-05-26",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/diseases14060217",
+      "title": "Diagnosis of Prostate Cancer: A Comparative Evaluation of Biological Techniques.",
+      "date": "2026-06-17",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/curroncol33030166",
+      "title": "Current Applications and Future Directions of Artificial Intelligence in Prostate Cancer Diagnosis: A Narrative Review.",
+      "date": "2026-03-13",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1002/mco2.70773",
+      "title": "Radiomics: Current Applications and Future Directions.",
+      "date": "2026-05-23",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1097/cu9.0000000000000326",
+      "title": "From prostate-specific antigen to precision: The future of prostate cancer diagnosis with artificial intelligence, biomarkers, and imaging.",
+      "date": "2026-01-29",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2026.1763359",
+      "title": "Multimodal artificial intelligence in urologic precision oncology: from algorithm to translational medicine (a systemized narrative review).",
+      "date": "2026-04-13",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1177/00469580261457387",
+      "title": "AI in Prostate Cancer Screening &amp; Diagnosis: A Registry-Based Study of ClinicalTrials.gov Trials.",
+      "date": "2026-01-01",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.7759/cureus.107050",
+      "title": "Artificial Intelligence in Low-Dose Computed Tomography Lung Cancer Screening: Clinical Integration, Validation, and Translational Challenges.",
+      "date": "2026-04-14",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/tomography12050062",
+      "title": "The Role of Artificial Intelligence in the Characterization and Outcome Prediction of Prostate Cancer: A Systematic Review.",
+      "date": "2026-04-28",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.7759/cureus.96226",
+      "title": "Artificial Intelligence Across the Prostate Cancer Pathway: Screening, Imaging, Pathology, and Biomarkers.",
+      "date": "2025-11-06",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/jcm15103856",
+      "title": "Advancing Genitourinary Cancer Surgery: The Role of Artificial Intelligence and Robotics.",
+      "date": "2026-05-17",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2026.1763766",
+      "title": "Construction and validation of a multimodal MRI-based deep learning model for early differential diagnosis of prostate cancer in the PSA gray zone: a retrospective cohort study.",
+      "date": "2026-04-15",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.7759/cureus.105167",
+      "title": "Artificial Intelligence and Machine Learning in Diagnostic Pathology: A Systematic Review of Applications, Challenges, and Clinical Implications.",
+      "date": "2026-03-13",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2026.1775271",
+      "title": "Multimodal data fusion: integrating PET/MRI and liquid biopsy for a holistic view of cancer biology.",
+      "date": "2026-05-08",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3389/fcell.2026.1769097",
+      "title": "Advancements in artificial intelligence for cancer diagnosis and prognosis prediction: current applications and emerging opportunities.",
+      "date": "2026-04-22",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1002/bco2.70133",
+      "title": "AI-enhanced micro-ultrasound improves detection of clinically significant prostate cancer at biopsy.",
+      "date": "2026-02-05",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1186/s12909-023-04698-z",
+      "title": "Revolutionizing healthcare: the role of artificial intelligence in clinical practice",
+      "date": "2023-09-22",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers14061524",
+      "title": "The Role of Artificial Intelligence in Early Cancer Diagnosis",
+      "date": "2022-03-16",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1016/s0140-6736(24)00651-2",
+      "title": "The Lancet Commission on prostate cancer: planning for the surge in cases",
+      "date": "2024-04-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1016/j.ccell.2022.09.012",
+      "title": "Artificial intelligence for multimodal data integration in oncology",
+      "date": "2022-10-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1177/117693510600200030",
+      "title": "Applications of Machine Learning in Cancer Prediction and Prognosis",
+      "date": "2006-01-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1186/s13000-023-01375-z",
+      "title": "Artificial intelligence in diagnostic pathology",
+      "date": "2023-10-03",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41591-020-1034-x",
+      "title": "Reporting guidelines for clinical trial reports for interventions involving artificial intelligence: the CONSORT-AI extension",
+      "date": "2020-09-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1111/joim.13030",
+      "title": "Artificial intelligence as the next step towards precision pathology",
+      "date": "2020-03-03",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1097/mpa.0000000000001762",
+      "title": "Artificial Intelligence and Early Detection of Pancreatic Cancer",
+      "date": "2021-03-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1186/s12967-023-03960-8",
+      "title": "Liquid biopsies: the future of cancer early detection",
+      "date": "2023-02-11",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1016/j.jtho.2018.11.023",
+      "title": "Biomarkers in Lung Cancer Screening: Achievements, Promises, and Challenges",
+      "date": "2018-12-04",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s43856-022-00199-0",
+      "title": "Artificial intelligence and machine learning in cancer imaging",
+      "date": "2022-10-27",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1002/cac2.12204",
+      "title": "Early screening and diagnosis strategies of pancreatic cancer: a comprehensive review",
+      "date": "2021-07-31",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41591-022-01772-9",
+      "title": "Reporting guideline for the early-stage clinical evaluation of decision support systems driven by artificial intelligence: DECIDE-AI",
+      "date": "2022-05-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41568-021-00399-1",
+      "title": "Artificial intelligence in cancer research, diagnosis and therapy",
+      "date": "2021-09-17",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41585-022-00638-6",
+      "title": "Serum PSA-based early detection of prostate cancer in Europe and globally: past, present and future",
+      "date": "2022-08-16",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41571-023-00781-y",
+      "title": "Circulating tumour cells for early detection of clinically relevant cancer",
+      "date": "2023-06-02",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41591-020-1037-7",
+      "title": "Guidelines for clinical trial protocols for interventions involving artificial intelligence: the SPIRIT-AI extension",
+      "date": "2020-09-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2022.998222",
+      "title": "Artificial intelligence assists precision medicine in cancer treatment",
+      "date": "2023-01-04",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers15174344",
+      "title": "Artificial Intelligence in Lung Cancer Screening: The Future Is Now",
+      "date": "2023-08-30",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "NCT:NCT06954337",
+      "title": "MATCH-UP: MAking Telehealth-Delivery of Cancer Care at Home Effective and Safe-Upscaled: A Pragmatic Cluster Randomized Trial",
+      "date": "2026-07-31",
+      "status": "RECRUITING",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT03767244",
+      "title": "A Study of Apalutamide in Participants With High-Risk, Localized or Locally Advanced Prostate Cancer Who Are Candidates for Radical Prostatectomy",
+      "date": "2026-07-31",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT07739121",
+      "title": "Benchmarking Large Language Models Against Tumour Boards for Oncology Treatment Recommendations",
+      "date": "2026-07-31",
+      "status": "RECRUITING",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT05828082",
+      "title": "Testing the Effect of M1774 on Hard-to-Treat Refractory SPOP-mutant Prostate Cancer",
+      "date": "2026-07-31",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT00967863",
+      "title": "Radiation Therapy in Treating Patients Receiving Hormone Therapy for Prostate Cancer (GETUG-AFU 18)",
+      "date": "2026-07-31",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT06192758",
+      "title": "Dose Escalation Study Evaluating Safety of TheraSphere Prostate Cancer (PCa) Device",
+      "date": "2026-07-31",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT06788509",
+      "title": "A Rollover Study for Continued Study Treatment and Ongoing Safety Monitoring",
+      "date": "2026-07-31",
+      "status": "ENROLLING_BY_INVITATION",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT06625970",
+      "title": "Study Evaluating the Efficacy and Safety of Darolutamide and Stereotactic Dose Escalated Radiotherapy in Patients With Localized Prostate Cancer and High-risk Features of Relapse",
+      "date": "2026-07-31",
+      "status": "RECRUITING",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT06095089",
+      "title": "A Study of JNJ-87189401 Combined With JNJ-78278343 for Advanced Prostate Cancer",
+      "date": "2026-07-31",
+      "status": "RECRUITING",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT05901649",
+      "title": "A Study for the Participants With Metastatic Hormone Sensitive Prostate Cancer (mHSPC) Treated With Androgen Deprivation Therapy (ADT) Plus Apalutamide or Enzalutamide",
+      "date": "2026-07-31",
+      "status": "COMPLETED",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT03748641",
+      "title": "A Study of Niraparib in Combination With Abiraterone Acetate and Prednisone Versus Abiraterone Acetate and Prednisone for Treatment of Participants With Metastatic Prostate Cancer",
+      "date": "2026-07-31",
+      "status": "ACTIVE_NOT_RECRUITING",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT02960022",
+      "title": "A Study for Subjects With Prostate Cancer Who Previously Participated in an Enzalutamide Clinical Study",
+      "date": "2026-07-31",
+      "status": "RECRUITING",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT07328516",
+      "title": "Natural History Study of Early Life Exposures in Agriculture (ELEA)",
+      "date": "2026-07-31",
+      "status": "ENROLLING_BY_INVITATION",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT06863272",
+      "title": "A Clinical Study of Ifinatamab Deruxtecan Based Treatment Combinations or as Monotherapy to Treat Metastatic Castrate Resistant Prostate Cancer (mCRPC) (MK-2400-01A/IDeate-Prostate02)",
+      "date": "2026-07-31",
+      "status": "RECRUITING",
+      "source": "ClinicalTrials.gov"
+    },
+    {
+      "identifier": "NCT:NCT03866382",
+      "title": "Testing the Effectiveness of Two Immunotherapy Drugs (Nivolumab and Ipilimumab) With One Anti-cancer Targeted Drug (Cabozantinib) for Rare Genitourinary Tumors",
+      "date": "2026-07-31",
+      "status": "RECRUITING",
+      "source": "ClinicalTrials.gov"
+    }
+  ]
+}

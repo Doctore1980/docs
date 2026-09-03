@@ -1,0 +1,22 @@
+{
+  "n_cifras_sin_respaldo": 2,
+  "veredicto": "REVISAR: cifras sin respaldo en los abstracts citados",
+  "cifras_a_cotejar": [
+    {
+      "cifra": "0,90",
+      "citas_en_frase": [
+        "(sin cita en la frase)"
+      ],
+      "respaldo_en_abstract": false,
+      "frase": "0,90 vs 0,89; espec."
+    },
+    {
+      "cifra": "0,89",
+      "citas_en_frase": [
+        "(sin cita en la frase)"
+      ],
+      "respaldo_en_abstract": false,
+      "frase": "0,90 vs 0,89; espec."
+    }
+  ]
+}

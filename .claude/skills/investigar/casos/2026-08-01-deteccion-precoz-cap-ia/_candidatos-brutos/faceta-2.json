@@ -1,0 +1,361 @@
+{
+  "query": "machine learning risk prediction model PSA density biomarker prostate cancer detection",
+  "n": 49,
+  "candidatos": [
+    {
+      "identifier": "PMID:40824495",
+      "title": "Machine learning driven diagnostic pathway for clinically significant prostate cancer: the role of micro-ultrasound.",
+      "date": "2025 Aug 18",
+      "journal": "World journal of urology",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:38851995",
+      "title": "Prediction of Clinically Significant Prostate Cancer by a Specific Collagen-related Transcriptome, Proteome, and Urinome Signature.",
+      "date": "2025 Jun",
+      "journal": "European urology oncology",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:36059701",
+      "title": "Machine learning model for the prediction of prostate cancer in patients with low prostate-specific antigen levels: A multicenter retrospective analysis.",
+      "date": "2022",
+      "journal": "Frontiers in oncology",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:36933775",
+      "title": "Comparison of quantitative parameters and radiomic features as inputs into machine learning models to predict the Gleason score of prostate cancer lesions.",
+      "date": "2023 Jul",
+      "journal": "Magnetic resonance imaging",
+      "pubtypes": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:37796326",
+      "title": "Machine learning based on radiomics features combing B-mode transrectal ultrasound and contrast-enhanced ultrasound to improve peripheral zone prostate cancer detection.",
+      "date": "2024 Jan",
+      "journal": "Abdominal radiology (New York)",
+      "pubtypes": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:39905119",
+      "title": "Integrating radiological and clinical data for clinically significant prostate cancer detection with machine learning techniques.",
+      "date": "2025 Feb 4",
+      "journal": "Scientific reports",
+      "pubtypes": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:39537107",
+      "title": "A Novel Machine Learning-based Predictive Model of Clinically Significant Prostate Cancer and Online Risk Calculator.",
+      "date": "2025 Feb",
+      "journal": "Urology",
+      "pubtypes": [
+        "Journal Article",
+        "Multicenter Study"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:32630787",
+      "title": "Multiparametric MRI for Prostate Cancer Characterization: Combined Use of Radiomics Model with PI-RADS and Clinical Parameters.",
+      "date": "2020 Jul 2",
+      "journal": "Cancers",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:40418923",
+      "title": "Does Machine Learning Prediction of Magnetic Resonance Imaging Prostate Imaging Reporting and Data System Correlate with Target Prostate Biopsy Results?",
+      "date": "2025",
+      "journal": "Medical principles and practice : international journal of the Kuwait University, Health Science Centre",
+      "pubtypes": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers18091389",
+      "title": "Synolitic Graph Neural Networks for MRI-Derived Radiomic-Based Prediction of Prostate Cancer Progression on Active Surveillance.",
+      "date": "2026-04-28",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers18111751",
+      "title": "Biomarkers for Precision Prognosis in Prostate Cancer: Imaging, Molecular, and Integrated Approaches.",
+      "date": "2026-05-27",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1038/s41698-026-01406-0",
+      "title": "Identification of biomarkers for non-invasive diagnosis and risk stratification in prostate cancer using NMR-based metabolomics and machine learning.",
+      "date": "2026-04-08",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1177/15330338261440434",
+      "title": "Outsmarting Metastatic Prostate Cancer: Integration of Imaging, Liquid Biopsies and Biomarkers With Artificial Intelligence.",
+      "date": "2026-01-01",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/diseases14060217",
+      "title": "Diagnosis of Prostate Cancer: A Comparative Evaluation of Biological Techniques.",
+      "date": "2026-06-17",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1007/s12672-026-04777-9",
+      "title": "Meta learning optimized TabNet for small sample repeat prostate biopsy prediction.",
+      "date": "2026-03-10",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.7759/cureus.96226",
+      "title": "Artificial Intelligence Across the Prostate Cancer Pathway: Screening, Imaging, Pathology, and Biomarkers.",
+      "date": "2025-11-06",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.7189/jogh.16.04185",
+      "title": "Plasma proteomic signatures predict incident benign prostatic hyperplasia: a prospective cohort study of 20 996 men.",
+      "date": "2026-06-12",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1186/s12916-026-04859-z",
+      "title": "Non-invasive diagnosis strategy integrating PSMA PET/CT and mpMRI for patients with suspected prostate cancer: a multi-center study.",
+      "date": "2026-04-16",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/diagnostics16101454",
+      "title": "Prioritising Data Quality Governance for AI in Prostate Cancer: A Methodological Proof-of-Concept Study Using Neural Networks for Risk Stratification.",
+      "date": "2026-05-10",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2026.1762494",
+      "title": "Role of urinary leukocytes in the risk stratification of prostate cancer using nonlinear stacking learning strategy: a bi-cohort diagnostic study.",
+      "date": "2026-03-02",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2026.1763359",
+      "title": "Multimodal artificial intelligence in urologic precision oncology: from algorithm to translational medicine (a systemized narrative review).",
+      "date": "2026-04-13",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1093/jrr/rraf079",
+      "title": "Machine learning-DeepSurv prediction model integrating mpMRI radiomics and genomic biomarkers for BCR-free survival and tumor response in prostate radiotherapy.",
+      "date": "2026-01-01",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1002/mco2.70654",
+      "title": "Clinical Application of Peripheral Blood Biomarkers for Solid Tumors.",
+      "date": "2026-03-04",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3389/fendo.2026.1757255",
+      "title": "Development and validation of a clinical nomogram based on lasso-logistic regression for predicting prostate cancer with PSA 4-20.0 ng/mL: a retrospective study.",
+      "date": "2026-03-26",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/curroncol33030166",
+      "title": "Current Applications and Future Directions of Artificial Intelligence in Prostate Cancer Diagnosis: A Narrative Review.",
+      "date": "2026-03-13",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2025.1707946",
+      "title": "Predicting HER2 overexpression in prostate cancer using machine learning: implications for personalized therapy.",
+      "date": "2026-01-13",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers18101543",
+      "title": "Artificial Intelligence in Oncology: A Comprehensive Cross-Cancer Translational Readiness Analysis Across 18 Malignancies.",
+      "date": "2026-05-10",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.62347/qtaw5624",
+      "title": "Diagnostic utility of serum prostate-specific antigen and circulating inflammatory markers for differentiating prostate cancer from benign prostatic hyperplasia.",
+      "date": "2025-11-15",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1186/s12967-026-07848-1",
+      "title": "Interpretable habitat and peritumoral radiomics from multiparametric MRI for preoperative high-risk prostate cancer prediction: a multi-institutional study.",
+      "date": "2026-02-14",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1002/14651858.cd012663.pub2",
+      "title": "Prostate MRI, with or without MRI-targeted biopsy, and systematic biopsy for detecting prostate cancer",
+      "date": "2019-04-25",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3390/s24010037",
+      "title": "Biomarkers in Cancer Detection, Diagnosis, and Prognosis",
+      "date": "2023-12-20",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1186/s41747-019-0109-2",
+      "title": "Machine learning applications in prostate cancer magnetic resonance imaging",
+      "date": "2019-08-07",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1002/mp.13678",
+      "title": "Machine and deep learning methods for radiomics",
+      "date": "2020-05-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1186/s12943-022-01509-9",
+      "title": "Exosomes as a new frontier of cancer liquid biopsy",
+      "date": "2022-02-18",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1007/s11306-012-0482-9",
+      "title": "Translational biomarker discovery in clinical metabolomics: an introductory tutorial",
+      "date": "2012-12-03",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41585-019-0212-4",
+      "title": "Multiparametric MRI for prostate cancer diagnosis: current status and future directions",
+      "date": "2019-07-17",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3390/diagnostics11020354",
+      "title": "Artificial Intelligence and Machine Learning in Prostate Cancer Patient Management—Current Trends and Future Perspectives",
+      "date": "2021-02-20",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1109/access.2021.3057654",
+      "title": "Prostate Cancer Detection Using Deep Learning and Traditional Techniques",
+      "date": "2021-01-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1186/1755-8794-3-8",
+      "title": "Molecular sampling of prostate cancer: a dilemma for predicting disease progression",
+      "date": "2010-03-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1371/journal.pgen.1004102",
+      "title": "Comprehensive Functional Annotation of 77 Prostate Cancer Risk Loci",
+      "date": "2014-01-30",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41571-023-00781-y",
+      "title": "Circulating tumour cells for early detection of clinically relevant cancer",
+      "date": "2023-06-02",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1186/s12880-015-0069-9",
+      "title": "Automated prostate cancer detection via comprehensive multi-parametric magnetic resonance imaging texture feature models",
+      "date": "2015-08-04",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2021.802964",
+      "title": "Machine and Deep Learning Prediction Of Prostate Cancer Aggressiveness Using Multiparametric MRI",
+      "date": "2022-01-13",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3390/ijms22094367",
+      "title": "Biomarkers in Prostate Cancer Diagnosis: From Current Knowledge to the Role of Metabolomics and Exosomes",
+      "date": "2021-04-22",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers12071767",
+      "title": "Multiparametric MRI for Prostate Cancer Characterization: Combined Use of Radiomics Model with PI-RADS and Clinical Parameters",
+      "date": "2020-07-02",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1186/s12943-022-01543-7",
+      "title": "Liquid biopsy: a step closer to transform diagnosis, prognosis and future of cancer treatments",
+      "date": "2022-03-18",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2022.941349",
+      "title": "Machine Learning-Based Models Enhance the Prediction of Prostate Cancer",
+      "date": "2022-07-06",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1016/j.ceh.2020.11.002",
+      "title": "An anatomization on breast cancer detection and diagnosis employing multi-layer perceptron neural network (MLP) and Convolutional neural network (CNN)",
+      "date": "2020-11-24",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1177/17562872221109020",
+      "title": "Radiomics in prostate cancer: an up-to-date review",
+      "date": "2022-01-01",
+      "source": "OpenAlex"
+    }
+  ]
+}

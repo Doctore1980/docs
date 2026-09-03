@@ -1,0 +1,400 @@
+{
+  "query": "artificial intelligence deep learning digital pathology prostate biopsy Gleason grading cancer detection",
+  "n": 52,
+  "candidatos": [
+    {
+      "identifier": "PMID:32128929",
+      "title": "Artificial intelligence as the next step towards precision pathology.",
+      "date": "2020 Jul",
+      "journal": "Journal of internal medicine",
+      "pubtypes": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:37627935",
+      "title": "Deep Learning Methodologies Applied to Digital Pathology in Prostate Cancer: A Systematic Review.",
+      "date": "2023 Aug 14",
+      "journal": "Diagnostics (Basel, Switzerland)",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:41800500",
+      "title": "Artificial intelligence in urological malignancy diagnosis and prognosis: current status and future prospects.",
+      "date": "2026 Feb 28",
+      "journal": "The Canadian journal of urology",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:41394863",
+      "title": "Utilization of artificial intelligence in prostate cancer detection: a comprehensive review of innovations in screening and diagnosis.",
+      "date": "2025",
+      "journal": "Frontiers in immunology",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:41808601",
+      "title": "Artificial intelligence for detection, grading, and prognostication in prostate cancer pathology: A scoping review.",
+      "date": "2026 Mar 25",
+      "journal": "Histology and histopathology",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:40623883",
+      "title": "Development and retrospective validation of an artificial intelligence system for diagnostic assessment of prostate biopsies: study protocol.",
+      "date": "2025 Jul 7",
+      "journal": "BMJ open",
+      "pubtypes": [
+        "Journal Article",
+        "Validation Study"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:35463378",
+      "title": "Automatic Prostate Gleason Grading Using Pyramid Semantic Parsing Network in Digital Histopathology.",
+      "date": "2022",
+      "journal": "Frontiers in oncology",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:38438436",
+      "title": "Critical evaluation of artificial intelligence as a digital twin of pathologists for prostate cancer pathology.",
+      "date": "2024 Mar 4",
+      "journal": "Scientific reports",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:41410015",
+      "title": "Validation of fibroblast activation protein and α-smooth muscle actin as prognostic biomarkers in prostate cancer through AI-assisted image analysis of dual-marker IHC.",
+      "date": "2026 Jan",
+      "journal": "The journal of pathology. Clinical research",
+      "pubtypes": [
+        "Journal Article",
+        "Validation Study",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:35900376",
+      "title": "A concurrent, deep learning-based computer-aided detection system for prostate multiparametric MRI: a performance study involving experienced and less-experienced radiologists.",
+      "date": "2023 Jan",
+      "journal": "European radiology",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:38953042",
+      "title": "A selective CutMix approach improves generalizability of deep learning-based grading and risk assessment of prostate cancer.",
+      "date": "2024 Dec",
+      "journal": "Journal of pathology informatics",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:28634789",
+      "title": "Detection and grading of prostate cancer using temporal enhanced ultrasound: combining deep neural networks and tissue mimicking simulations.",
+      "date": "2017 Aug",
+      "journal": "International journal of computer assisted radiology and surgery",
+      "pubtypes": [
+        "Evaluation Study",
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:32555410",
+      "title": "Histologic tissue components provide major cues for machine learning-based prostate cancer detection and grading on prostatectomy specimens.",
+      "date": "2020 Jun 18",
+      "journal": "Scientific reports",
+      "pubtypes": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "DOI:10.3390/curroncol33030166",
+      "title": "Current Applications and Future Directions of Artificial Intelligence in Prostate Cancer Diagnosis: A Narrative Review.",
+      "date": "2026-03-13",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1097/cu9.0000000000000326",
+      "title": "From prostate-specific antigen to precision: The future of prostate cancer diagnosis with artificial intelligence, biomarkers, and imaging.",
+      "date": "2026-01-29",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1038/s41598-026-52148-9",
+      "title": "The impact of tissue detection on diagnostic artificial intelligence algorithms in prostate digital pathology.",
+      "date": "2026-05-13",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1097/mou.0000000000001361",
+      "title": "Modern integrative prostate cancer diagnostics.",
+      "date": "2025-12-10",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers18111751",
+      "title": "Biomarkers for Precision Prognosis in Prostate Cancer: Imaging, Molecular, and Integrated Approaches.",
+      "date": "2026-05-27",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1080/14737159.2026.2665801",
+      "title": "AI and the digital pathology revolution: clinical applications in cancer diagnosis and assessment.",
+      "date": "2026-04-01",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3389/fimmu.2025.1670671",
+      "title": "Utilization of artificial intelligence in prostate cancer detection: a comprehensive review of innovations in screening and diagnosis.",
+      "date": "2025-11-27",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1016/j.euros.2026.03.016",
+      "title": "Finding Holes: Pathologist-Level Performance Using AI for Cribriform Morphology Detection in Prostate Cancer.",
+      "date": "2026-04-07",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/life15101508",
+      "title": "Beyond PSA: The Future of Prostate Cancer Diagnosis Using Artificial Intelligence, Novel Biomarkers, and Advanced Imagery.",
+      "date": "2025-09-25",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.62347/ztwj5779",
+      "title": "Artificial intelligence in prostate cancer: navigating the new frontier of precision uro-oncology.",
+      "date": "2025-10-25",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1177/15330338261440434",
+      "title": "Outsmarting Metastatic Prostate Cancer: Integration of Imaging, Liquid Biopsies and Biomarkers With Artificial Intelligence.",
+      "date": "2026-01-01",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers18030456",
+      "title": "Contemporary Preoperative Detection of Extraprostatic Extension in Prostate Cancer.",
+      "date": "2026-01-30",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2026.1763359",
+      "title": "Multimodal artificial intelligence in urologic precision oncology: from algorithm to translational medicine (a systemized narrative review).",
+      "date": "2026-04-13",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.7759/cureus.96226",
+      "title": "Artificial Intelligence Across the Prostate Cancer Pathway: Screening, Imaging, Pathology, and Biomarkers.",
+      "date": "2025-11-06",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers18111700",
+      "title": "The Precision Paradox in Prostate Cancer Diagnostics: Grade Migration, Risk Misclassification, and Overtreatment in the mpMRI-Targeted Biopsy Era.",
+      "date": "2026-05-23",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3389/fcell.2026.1769097",
+      "title": "Advancements in artificial intelligence for cancer diagnosis and prognosis prediction: current applications and emerging opportunities.",
+      "date": "2026-04-22",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1136/bmjonc-2026-001102",
+      "title": "Foundation models in computational pathology: methods, applications and clinical implications.",
+      "date": "2026-05-08",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/curroncol33030151",
+      "title": "Artificial Intelligence in Prostate MRI: Comparison of an AI-Based Software and an Experienced Radiologist for Detecting Clinically Significant Prostate Cancer.",
+      "date": "2026-03-06",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers18101543",
+      "title": "Artificial Intelligence in Oncology: A Comprehensive Cross-Cancer Translational Readiness Analysis Across 18 Malignancies.",
+      "date": "2026-05-10",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1038/s41591-021-01620-2",
+      "title": "Artificial intelligence for diagnosis and Gleason grading of prostate cancer: the PANDA challenge",
+      "date": "2022-01-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41746-019-0112-2",
+      "title": "Development and validation of a deep learning algorithm for improving Gleason scoring of prostate cancer",
+      "date": "2019-06-07",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41416-020-01122-x",
+      "title": "Deep learning in cancer pathology: a new generation of clinical biomarkers",
+      "date": "2020-11-18",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1097/pas.0000000000001497",
+      "title": "The 2019 International Society of Urological Pathology (ISUP) Consensus Conference on Grading of Prostatic Carcinoma",
+      "date": "2020-05-26",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1111/joim.13030",
+      "title": "Artificial intelligence as the next step towards precision pathology",
+      "date": "2020-03-03",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1002/cac2.12012",
+      "title": "Emerging role of deep learning‐based artificial intelligence in tumor pathology",
+      "date": "2020-04-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1186/s13073-021-00968-x",
+      "title": "Deep learning in cancer diagnosis, prognosis and treatment selection",
+      "date": "2021-09-27",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1101/gad.315739.118",
+      "title": "Genetics and biology of prostate cancer",
+      "date": "2018-09-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41467-020-18147-8",
+      "title": "Clinically applicable histopathological diagnosis system for gastric cancer detection using deep learning",
+      "date": "2020-08-27",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1186/s13000-023-01375-z",
+      "title": "Artificial intelligence in diagnostic pathology",
+      "date": "2023-10-03",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1016/s1470-2045(24)00220-1",
+      "title": "Artificial intelligence and radiologists in prostate cancer detection on MRI (PI-CAI): an international, paired, non-inferiority, confirmatory study",
+      "date": "2024-06-12",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.4132/jptm.2018.12.16",
+      "title": "Artificial Intelligence in Pathology",
+      "date": "2018-12-28",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1109/jproc.2021.3054390",
+      "title": "A Review of Deep Learning in Medical Imaging: Imaging Traits, Technology Trends, Case Studies With Progress Highlights, and Future Promises",
+      "date": "2021-02-26",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers14061524",
+      "title": "The Role of Artificial Intelligence in Early Cancer Diagnosis",
+      "date": "2022-03-16",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1016/j.csbj.2020.08.019",
+      "title": "Artificial intelligence (AI) and big data in cancer and precision oncology",
+      "date": "2020-01-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1016/j.breast.2019.12.007",
+      "title": "Artificial intelligence in digital breast pathology: Techniques and applications",
+      "date": "2019-12-19",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers11091235",
+      "title": "Cancer Diagnosis Using Deep Learning: A Bibliographic Review",
+      "date": "2019-08-23",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41586-024-07894-z",
+      "title": "A pathology foundation model for cancer diagnosis and prognosis prediction",
+      "date": "2024-09-04",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1016/j.ccell.2022.09.012",
+      "title": "Artificial intelligence for multimodal data integration in oncology",
+      "date": "2022-10-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41379-021-00794-x",
+      "title": "An independent assessment of an artificial intelligence system for prostate cancer detection shows strong diagnostic accuracy",
+      "date": "2021-03-29",
+      "source": "OpenAlex"
+    }
+  ]
+}

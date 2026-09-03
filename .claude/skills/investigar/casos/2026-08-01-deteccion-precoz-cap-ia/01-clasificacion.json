@@ -1,0 +1,11 @@
+{
+  "nivel": "completo",
+  "razon": "Es una ponencia de congreso; requiere informe estructurado + guion de diapositivas + material visual sugerido.",
+  "facetas": [
+    {"id": "faceta-1", "descripcion": "IA aplicada a RM multiparamétrica (RMmp) para detección y clasificación de cáncer de próstata clínicamente significativo (CAD, deep learning).", "query_pubmed": "artificial intelligence deep learning multiparametric MRI prostate cancer detection clinically significant", "condicion_ctgov": null, "brief_investigador": "Céntrate en el rendimiento diagnóstico de la IA sobre RMmp para csPCa, comparación con radiólogo/PI-RADS, y reducción de biopsias."},
+    {"id": "faceta-2", "descripcion": "IA/ML sobre biomarcadores séricos, PSA, densidad PSA y calculadoras de riesgo para detección precoz.", "query_pubmed": "machine learning risk prediction model PSA density biomarker prostate cancer detection", "condicion_ctgov": null, "brief_investigador": "Modelos de ML que combinan PSA, densidad, biomarcadores (PHI, 4K) y clínica para predecir CaP y evitar biopsias innecesarias."},
+    {"id": "faceta-3", "descripcion": "IA en patología digital y biopsia: detección de cáncer y gradación de Gleason en histopatología.", "query_pubmed": "artificial intelligence deep learning digital pathology prostate biopsy Gleason grading cancer detection", "condicion_ctgov": null, "brief_investigador": "Algoritmos de patología computacional para detección y grading de CaP en biopsia; validación y aprobaciones regulatorias."},
+    {"id": "faceta-4", "descripcion": "Validación clínica prospectiva, cribado y desempeño diagnóstico global de la IA en detección precoz.", "query_pubmed": "artificial intelligence prostate cancer early detection screening prospective validation diagnostic accuracy", "condicion_ctgov": "Prostate Cancer", "brief_investigador": "Evidencia de validación prospectiva/ensayos, impacto en cribado poblacional y limitaciones de generalización."}
+  ],
+  "brief_verificador": "Rigor alto: es material para ponencia. Verifica existencia y retractación de toda cita; señala afirmaciones sobre rendimiento diagnóstico que dependan de una sola fuente."
+}

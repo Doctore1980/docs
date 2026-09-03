@@ -1,0 +1,74 @@
+name: Procesar nuevo encargo
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  procesar:
+    if: contains(github.event.issue.labels.*.name, 'nuevo-encargo')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Configurar Node.js (necesario para el CLI de Claude Code)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar dependencias
+        run: |
+          pip install -r requirements.txt
+          npm install -g @anthropic-ai/claude-code
+
+      - name: Instalar ToolUniverse, acotado a literatura y farmacovigilancia (opcional, no crítico)
+        continue-on-error: true
+        run: |
+          pip install tooluniverse
+          echo '{"mcpServers":{"tooluniverse":{"command":"tooluniverse-smcp-stdio","args":["--tool-categories","pubmed,semantic_scholar,faers"]}}}' > tooluniverse-mcp.json
+
+      - name: Ejecutar el orquestador (Fase 1 + Fase 2)
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: python orchestrator.py
+
+      - name: Guardar el expediente e INDICE en el repositorio (trazabilidad)
+        run: |
+          git config user.name "investigacion-agentica-bot"
+          git config user.email "actions@github.com"
+          git add casos/ INDICE.md
+          git diff --cached --quiet || git commit -m "Expediente Issue #${{ github.event.issue.number }}: Investigación completada"
+          git push
+
+      - name: Publicar el resultado completo como comentario en el Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const dirs = fs.readdirSync('casos').filter(d => d.includes(`issue-${context.issue.number}`));
+            const expediente = dirs.sort().pop();
+            const plan = JSON.parse(fs.readFileSync(`casos/${expediente}/01-clasificacion-orquestador.json`, 'utf8'));
+            const verificacion = fs.readFileSync(`casos/${expediente}/03-verificacion1.md`, 'utf8');
+            let resultadoFinal = "";
+            if (fs.existsSync(`casos/${expediente}/07-resultado-final.md`)) {
+              resultadoFinal = fs.readFileSync(`casos/${expediente}/07-resultado-final.md`, 'utf8');
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## 🚀 Encargo de Investigación Completado\n\n**Nivel clasificado**: \`${plan.nivel}\`\n**Facetas investigadas**: ${plan.facetas.length}\n\n---\n\n### 📄 Resultado Final (Fase 2)\n\n${resultadoFinal}\n\n---\n\n### 🔍 Verificación de Hechos (Verificador 1)\n\n${verificacion}\n\n---\n📁 Expediente completo en \`casos/${expediente}/\` | Fuente para NotebookLM en \`casos/${expediente}/04-fuente-notebooklm.md\``
+            });

@@ -1,0 +1,86 @@
+{
+  "faceta_id": "faceta-2",
+  "sintesis": "La evidencia sobre modelos de machine learning que integran PSA, densidad de PSA, biomarcadores y datos clinicos para detectar cancer de prostata clinicamente significativo (CaPcs) y evitar biopsias innecesarias es abundante pero dominada por estudios observacionales retrospectivos y monocentricos, con pocos disenos multicentricos y ninguna guia clinica ni metaanalisis especifico dentro de los candidatos. Los modelos ML (regresion logistica-lasso, gradient boosting, TabNet, stacking no lineal) mejoran de forma consistente la discriminacion frente al PSA aislado y frente a calculadoras clasicas, y varios generan calculadoras de riesgo online (p.ej. PMID:39537107). Un vacio importante es que los candidatos recuperados apenas contienen validacion prospectiva de biomarcadores comerciales concretos como PHI o 4Kscore integrados en modelos ML; la mayoria usa PSA, derivados y marcadores sericos/urinarios genericos o metabolomica. Existe heterogeneidad metodologica y riesgo de sobreajuste (muestras pequenas, validacion externa limitada), lo que limita la transferibilidad clinica pese a AUC reportados altos.",
+  "herramientas_consultadas": ["Lectura directa del fichero de candidatos (PubMed, Europe PMC, OpenAlex)"],
+  "herramientas_no_disponibles": ["Consensus/Elicit/PubMed MCP no invocados en esta pasada; seleccion basada solo en candidatos ya recuperados para no introducir identificadores externos no verificados"],
+  "items": [
+    {
+      "identifier": "PMID:39537107",
+      "title": "A Novel Machine Learning-based Predictive Model of Clinically Significant Prostate Cancer and Online Risk Calculator.",
+      "evidence_level": "estudio observacional (multicentrico)",
+      "fuente": "PubMed (Urology, 2025)",
+      "relevancia": "Modelo ML multicentrico para CaPcs con calculadora de riesgo online; ejemplo directo de la faceta (combinar variables clinicas y PSA para decidir biopsia)."
+    },
+    {
+      "identifier": "PMID:36059701",
+      "title": "Machine learning model for the prediction of prostate cancer in patients with low prostate-specific antigen levels: A multicenter retrospective analysis.",
+      "evidence_level": "estudio observacional (multicentrico retrospectivo)",
+      "fuente": "PubMed (Frontiers in Oncology, 2022)",
+      "relevancia": "Aborda el escenario de PSA bajo, relevante para evitar biopsias innecesarias mediante ML con datos clinicos y PSA."
+    },
+    {
+      "identifier": "PMID:39905119",
+      "title": "Integrating radiological and clinical data for clinically significant prostate cancer detection with machine learning techniques.",
+      "evidence_level": "estudio observacional",
+      "fuente": "PubMed (Scientific Reports, 2025)",
+      "relevancia": "Integra datos clinicos (incluye PSA/densidad) con ML para deteccion de CaPcs; encaja en modelos multimodales de decision de biopsia."
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2022.941349",
+      "title": "Machine Learning-Based Models Enhance the Prediction of Prostate Cancer.",
+      "evidence_level": "estudio observacional",
+      "fuente": "Europe PMC/OpenAlex (Frontiers in Oncology, 2022)",
+      "relevancia": "Compara modelos ML frente a metodos clasicos mostrando mejora en la prediccion de CaP a partir de variables clinicas y sericas."
+    },
+    {
+      "identifier": "DOI:10.3389/fendo.2026.1757255",
+      "title": "Development and validation of a clinical nomogram based on lasso-logistic regression for predicting prostate cancer with PSA 4-20.0 ng/mL: a retrospective study.",
+      "evidence_level": "estudio observacional (retrospectivo)",
+      "fuente": "Europe PMC (Frontiers in Endocrinology, 2026)",
+      "relevancia": "Nomograma lasso-logistico en la zona gris de PSA 4-20 ng/mL; nucleo de la faceta (riesgo y decision de biopsia)."
+    },
+    {
+      "identifier": "DOI:10.1007/s12672-026-04777-9",
+      "title": "Meta learning optimized TabNet for small sample repeat prostate biopsy prediction.",
+      "evidence_level": "estudio observacional",
+      "fuente": "Europe PMC (Discover Oncology, 2026)",
+      "relevancia": "Modelo ML (TabNet) para predecir resultado de rebiopsia; directamente orientado a evitar biopsias repetidas innecesarias."
+    },
+    {
+      "identifier": "DOI:10.1038/s41698-026-01406-0",
+      "title": "Identification of biomarkers for non-invasive diagnosis and risk stratification in prostate cancer using NMR-based metabolomics and machine learning.",
+      "evidence_level": "estudio observacional",
+      "fuente": "Europe PMC (npj Precision Oncology, 2026)",
+      "relevancia": "Biomarcadores metabolomicos sericos combinados con ML para diagnostico no invasivo y estratificacion de riesgo."
+    },
+    {
+      "identifier": "DOI:10.62347/qtaw5624",
+      "title": "Diagnostic utility of serum prostate-specific antigen and circulating inflammatory markers for differentiating prostate cancer from benign prostatic hyperplasia.",
+      "evidence_level": "estudio observacional",
+      "fuente": "Europe PMC (2025)",
+      "relevancia": "PSA serico mas marcadores inflamatorios circulantes para discriminar CaP de HBP; relevante para paneles de biomarcadores sericos."
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2026.1762494",
+      "title": "Role of urinary leukocytes in the risk stratification of prostate cancer using nonlinear stacking learning strategy: a bi-cohort diagnostic study.",
+      "evidence_level": "estudio observacional (bicohorte diagnostico)",
+      "fuente": "Europe PMC (Frontiers in Oncology, 2026)",
+      "relevancia": "Estrategia de stacking no lineal con biomarcadores urinarios para estratificar riesgo; complementa biomarcadores sericos con ML."
+    },
+    {
+      "identifier": "DOI:10.3390/diagnostics11020354",
+      "title": "Artificial Intelligence and Machine Learning in Prostate Cancer Patient Management-Current Trends and Future Perspectives.",
+      "evidence_level": "revision narrativa",
+      "fuente": "OpenAlex (Diagnostics, 2021)",
+      "relevancia": "Panoramica de aplicaciones de IA/ML en el manejo del CaP; util como marco de contexto, no aporta datos primarios."
+    },
+    {
+      "identifier": "DOI:10.7759/cureus.96226",
+      "title": "Artificial Intelligence Across the Prostate Cancer Pathway: Screening, Imaging, Pathology, and Biomarkers.",
+      "evidence_level": "revision narrativa",
+      "fuente": "Europe PMC (Cureus, 2025)",
+      "relevancia": "Revision reciente que cubre cribado y biomarcadores con IA; contextualiza el papel de los modelos sericos y de riesgo."
+    }
+  ],
+  "vacios_o_contradicciones": "Vacio principal: entre los candidatos no hay guias clinicas ni metaanalisis/revisiones sistematicas especificos de modelos ML sobre biomarcadores sericos, ni validacion prospectiva de PHI o 4Kscore integrados en modelos ML (el brief los menciona pero no aparecen estudios dedicados en la lista). Predominan disenos retrospectivos monocentricos con validacion externa escasa, lo que genera riesgo de sobreajuste y AUC probablemente optimistas. Posible contradiccion latente: la mejora de discriminacion frente al PSA es consistente, pero no hay evidencia de alto nivel de que estos modelos reduzcan biopsias innecesarias en la practica sin perder CaP significativos. Muchos candidatos del fichero eran radiomica/RM, enfermedad metastasica o supervivencia (fuera de faceta) y se descartaron."
+}

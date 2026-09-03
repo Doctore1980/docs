@@ -1,0 +1,39 @@
+name: Nuevo encargo de investigación
+description: Lanza una pregunta, duda o idea para que el sistema la trabaje.
+title: "[Encargo] "
+labels: ["nuevo-encargo"]
+body:
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Tipo de encargo
+      description: Si no estás seguro, elige "No lo sé" — el Orquestador lo clasificará por ti.
+      options:
+        - Duda clínica rápida
+        - Pregunta de investigación
+        - Ponencia o comunicación de congreso
+        - No lo sé, que lo decida el sistema
+    validations:
+      required: true
+  - type: textarea
+    id: pregunta
+    attributes:
+      label: Pregunta, duda o título
+      description: Escríbelo tal cual lo tengas en la cabeza, no hace falta pulirlo.
+      placeholder: "Ej.: ¿Hay evidencia de que la IA mejore la detección de cáncer de próstata clínicamente significativo en RM multiparamétrica?"
+    validations:
+      required: true
+  - type: textarea
+    id: contexto
+    attributes:
+      label: Contexto adicional (opcional)
+      description: Cualquier matiz que ayude a acotar el encargo — a qué congreso va, qué ángulo te interesa, qué ya sabes.
+    validations:
+      required: false
+  - type: input
+    id: plazo
+    attributes:
+      label: Plazo (opcional)
+      placeholder: "Ej.: antes del 15 de septiembre"
+    validations:
+      required: false
