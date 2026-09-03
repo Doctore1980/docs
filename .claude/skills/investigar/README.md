@@ -17,8 +17,11 @@ Escribe en el chat:
 ```
 
 o simplemente "investiga…", "busca evidencia sobre…", "prepara una ponencia sobre…".
-No hace falta entrar en GitHub ni lanzar nada por terminal: la skill `investigar`
-(`~/.claude/skills/investigar/SKILL.md`) coordina todo el proceso.
+No hace falta entrar en GitHub ni lanzar nada por terminal: el `SKILL.md` de esta
+carpeta registra el comando y coordina todo el proceso. La skill se activa
+automáticamente en cualquier sesión de Claude Code abierta sobre este repositorio;
+para tenerla en todas tus sesiones, súbela también a tu biblioteca de skills de
+claude.ai (Ajustes → Capacidades → Skills) o cópiala a `~/.claude/skills/investigar/`.
 
 ## Qué hace, paso a paso
 
@@ -64,10 +67,10 @@ reproducible que queda guardada en el expediente (transparencia tipo PRISMA).
 (existe pero retractado — nunca se usa como apoyo) e **INVENTADO** (no existe — señal de
 alucinación). Solo los VÁLIDOS pueden citarse en el documento final.
 
-## Instalación (una vez)
+## Instalación (una vez, la skill la hace sola si falta)
 
 ```bash
-cd ~/Documents/investigacion-agentica
+cd .claude/skills/investigar
 python3 -m venv .venv
 ./.venv/bin/pip install -r requirements.txt
 ```
@@ -75,16 +78,20 @@ python3 -m venv .venv
 ## Estructura
 
 ```
-investigacion-agentica/
+.claude/skills/investigar/    # la skill
+├── SKILL.md                  # registra /investigar y orquesta el pipeline
 ├── tools/
 │   ├── research_tools.py     # ancla determinista: search + verify (existencia + retractación)
 │   ├── zotero_export.py      # export RIS / CSL-JSON (+ sync opcional a Zotero web API)
 │   └── slide_generator.py    # (opcional) diapositivas Marp para nivel "completo"
 ├── prompts/                  # rúbricas de cada rol del pipeline
+├── skills/                   # regla citation-verifier
+└── .venv/                    # (local, no versionado)
+
+investigacion/                # en la raíz del repo
 ├── casos/                    # expedientes generados
 ├── INDICE.md                 # registro de expedientes
-├── legacy/                   # enfoque anterior (subprocess + GitHub Actions), como referencia
-└── .venv/
+└── legacy/                   # enfoque anterior (subprocess + GitHub Actions), como referencia
 ```
 
 ## Principios
@@ -100,4 +107,4 @@ investigacion-agentica/
 La versión original disparaba el pipeline por GitHub Actions y llamaba a `claude` por
 subprocess. Se ha sustituido por orquestación nativa (subagentes reales + tus MCPs), que
 elimina la fragilidad del CLI y aprovecha tus conectores autenticados. El código antiguo se
-conserva en `legacy/` por si quieres consultarlo.
+conserva en `investigacion/legacy/` por si quieres consultarlo.
