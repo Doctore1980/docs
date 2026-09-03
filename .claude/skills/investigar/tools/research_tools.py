@@ -439,12 +439,47 @@ def _pubmed_retracted_set(pmids: list[str]) -> set[str]:
     return retracted
 
 
+# Tipos de "update" de Crossref que invalidan un trabajo como apoyo de una
+# afirmación. Las expressions of concern no invalidan pero se señalan aparte.
+_CROSSREF_RETRACTION_TYPES = {"retraction", "retracion", "removal", "withdrawal", "partial_retraction"}
+
+
+def _crossref_retraction_check(doi: str) -> bool | None:
+    """Comprueba en Crossref si existe una nota de retractacion que actualice este DOI.
+
+    Crossref registra las retractaciones como trabajos con campo `update-to`
+    apuntando al DOI original; `filter=updates:{doi}` los recupera. Devuelve
+    True (retractado), False (sin retractacion registrada) o None (no evaluable
+    porque la API fallo).
+    """
+    resp = safe_get(
+        "https://api.crossref.org/works",
+        params={"filter": f"updates:{doi}", "rows": 10},
+        timeout=15,
+    )
+    if not resp or resp.status_code != 200:
+        return None
+    try:
+        items = resp.json().get("message", {}).get("items", [])
+    except Exception:
+        return None
+    doi_lower = doi.lower()
+    for item in items:
+        for upd in item.get("update-to", []):
+            if upd.get("DOI", "").lower() == doi_lower and \
+                    upd.get("type", "").lower() in _CROSSREF_RETRACTION_TYPES:
+                return True
+    return False
+
+
 def verify_identifiers(identifiers: list[str]) -> dict[str, dict]:
-    """Comprueba existencia (y retractacion en PMIDs) de cada identificador.
+    """Comprueba existencia y retractacion de cada identificador.
 
     Devuelve {identificador_normalizado: {"exists": bool, "retracted": bool|None,
-    "checked_against": str}}. retracted=None => no se pudo evaluar (p.ej. DOI/NCT
-    sin PMID; usar Scite MCP para esos casos).
+    "checked_against": str}}. Retractacion: PMIDs contra PubMed ("Retracted
+    Publication") y DOIs contra Crossref (notas de retractacion via
+    `filter=updates:`). retracted=None => no se pudo evaluar (p.ej. NCT, o la
+    API fallo; usar Scite MCP como cruce adicional).
     """
     norm = [normalize_identifier(i) for i in identifiers if i]
     norm = list(dict.fromkeys([n for n in norm if n and ":" in n]))  # dedup preservando orden
@@ -475,9 +510,10 @@ def verify_identifiers(identifiers: list[str]) -> dict[str, dict]:
                 r = safe_get(f"https://clinicaltrials.gov/api/v2/studies/{value}", timeout=15)
                 exists = bool(r and r.status_code == 200)
             elif kind == "DOI":
-                checked = "Crossref"
+                checked = "Crossref (existencia + notas de retractacion)"
                 r = safe_get(f"https://api.crossref.org/works/{value}", timeout=15)
                 exists = bool(r and r.status_code == 200)
+                retracted = _crossref_retraction_check(value) if exists else None
         except Exception:
             exists = False
         out[ident] = {"exists": exists, "retracted": retracted, "checked_against": checked}

@@ -9,8 +9,9 @@ encontrar problemas, no confirmarlos.
 Recibirás: la síntesis de cada Investigador (una por faceta), junto con el
 resultado del verificador determinista (script no-LLM) que, para cada
 identificador citado, indica si EXISTE contra su API oficial (PubMed /
-Crossref / ClinicalTrials) y si está RETRACTADO (PubMed marca "Retracted
-Publication"). Tres categorías:
+Crossref / ClinicalTrials) y si está RETRACTADO (PMIDs: marca "Retracted
+Publication" en PubMed; DOIs: notas de retractación registradas en
+Crossref). Tres categorías:
 - VÁLIDO: existe y no está retractado.
 - RETRACTADO: existe pero fue retractado -> nunca puede usarse como apoyo.
 - INVENTADO: no existe -> señal fuerte de alucinación del modelo.

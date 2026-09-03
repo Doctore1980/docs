@@ -65,7 +65,9 @@ reproducible que queda guardada en el expediente (transparencia tipo PRISMA).
 
 `verify` distingue tres estados: **VÁLIDO** (existe, no retractado), **RETRACTADO**
 (existe pero retractado — nunca se usa como apoyo) e **INVENTADO** (no existe — señal de
-alucinación). Solo los VÁLIDOS pueden citarse en el documento final.
+alucinación). Solo los VÁLIDOS pueden citarse en el documento final. La retractación se
+comprueba en doble vía: PMIDs contra PubMed ("Retracted Publication") y DOIs contra
+Crossref (notas de retractación registradas vía `filter=updates:`).
 
 ## Instalación (una vez, la skill la hace sola si falta)
 

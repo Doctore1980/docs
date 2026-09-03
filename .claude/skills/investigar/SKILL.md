@@ -102,10 +102,18 @@ o fallan, el subagente continúa y lo anota. Guarda cada salida JSON en
 
 1. Ofrece (no impongas) los pasos opcionales: colección Zotero
    (`tools/zotero_export.py` o el MCP de Zotero), subida a NotebookLM,
-   volcado al vault de Obsidian (ISO 690 / RMmp / PEEL).
-2. Añade la fila del expediente a `investigacion/INDICE.md`
+   volcado al vault de Obsidian (ISO 690 / RMmp / PEEL). El export a Zotero
+   marca como "METADATOS INCOMPLETOS" los registros cuya API no respondió y
+   no los sube a la biblioteca — revísalos a mano antes de citarlos.
+2. **Integración SCI-INDEX**: si las skills `sci-index-processor` /
+   `zotero-bridge` están disponibles en la sesión, ofrece indexar los
+   identificadores VÁLIDOS del expediente en la colección SCI-INDEX del
+   usuario (añadirlos a Zotero vía zotero-bridge y procesarlos con
+   sci-index-processor para clasificación, calidad y tags `sci/*`). Así cada
+   investigación alimenta la biblioteca curada sin trabajo manual.
+3. Añade la fila del expediente a `investigacion/INDICE.md`
    (fecha, pregunta, nivel, veredicto, ruta).
-3. Entrega al usuario `07-resultado-final.md` y un resumen de: nivel
+4. Entrega al usuario `07-resultado-final.md` y un resumen de: nivel
    aplicado, nº de facetas, citas VÁLIDAS / RETRACTADAS / INVENTADAS
    detectadas, y herramientas MCP que no estuvieron disponibles.
 

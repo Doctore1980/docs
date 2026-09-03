@@ -15,18 +15,23 @@ HTTP_HEADERS = {
 
 
 def fetch_item_metadata(identifier: str) -> dict:
-    """Recupera metadatos básicos de una cita a partir de su identificador normalizado."""
+    """Recupera metadatos básicos de una cita a partir de su identificador normalizado.
+
+    Si la API no responde, el registro se marca complete=False y su título deja
+    claro que faltan metadatos — nunca se rellena con un título inventado.
+    """
     kind, val = identifier.split(":", 1) if ":" in identifier else ("UNKNOWN", identifier)
     meta = {
         "identifier": identifier,
         "type": "journal",
-        "title": f"Estudio {identifier}",
+        "title": f"[METADATOS NO RECUPERADOS — cotejar manualmente] {identifier}",
         "authors": [],
         "year": "",
         "journal": "",
         "doi": val if kind == "DOI" else "",
         "pmid": val if kind == "PMID" else "",
         "nct": val if kind == "NCT" else "",
+        "complete": False,
     }
 
     try:
@@ -39,7 +44,9 @@ def fetch_item_metadata(identifier: str) -> dict:
             )
             if r.status_code == 200:
                 doc = r.json().get("result", {}).get(val, {})
-                meta["title"] = doc.get("title", meta["title"])
+                if doc.get("title") and "error" not in doc:
+                    meta["title"] = doc["title"]
+                    meta["complete"] = True
                 meta["journal"] = doc.get("source", "")
                 pubdate = doc.get("pubdate", "")
                 meta["year"] = pubdate.split()[0] if pubdate else ""
@@ -54,7 +61,9 @@ def fetch_item_metadata(identifier: str) -> dict:
             if r.status_code == 200:
                 item = r.json().get("message", {})
                 title = item.get("title", [])
-                meta["title"] = title[0] if title else meta["title"]
+                if title:
+                    meta["title"] = title[0]
+                    meta["complete"] = True
                 container = item.get("container-title", [])
                 meta["journal"] = container[0] if container else ""
                 issued = item.get("issued", {}).get("date-parts", [[]])
@@ -69,7 +78,9 @@ def fetch_item_metadata(identifier: str) -> dict:
                 study = r.json()
                 ident = study.get("protocolSection", {}).get("identificationModule", {})
                 status = study.get("protocolSection", {}).get("statusModule", {})
-                meta["title"] = ident.get("briefTitle", meta["title"])
+                if ident.get("briefTitle"):
+                    meta["title"] = ident["briefTitle"]
+                    meta["complete"] = True
                 meta["type"] = "clinical_trial"
                 date_str = status.get("lastUpdatePostDateStruct", {}).get("date", "")
                 meta["year"] = date_str.split("-")[0] if date_str else ""
@@ -97,6 +108,8 @@ def generate_ris(items: list[dict]) -> str:
             ris_lines.append(f"AN  - PMID:{item['pmid']}")
         if item.get("nct"):
             ris_lines.append(f"C1  - NCT:{item['nct']}")
+        if not item.get("complete", True):
+            ris_lines.append("N1  - METADATOS INCOMPLETOS: la API no respondió; cotejar manualmente antes de citar")
         ris_lines.append("ER  - \n")
 
     return "\n".join(ris_lines)
@@ -114,6 +127,8 @@ def generate_csl_json(items: list[dict]) -> str:
             "PMID": item.get("pmid", ""),
             "container-title": item.get("journal", ""),
         }
+        if not item.get("complete", True):
+            csl_item["note"] = "METADATOS INCOMPLETOS: la API no respondió; cotejar manualmente antes de citar"
         if item.get("year"):
             csl_item["issued"] = {"date-parts": [[int(item["year"])]]} if item["year"].isdigit() else {"raw": item["year"]}
         csl.append(csl_item)
@@ -140,7 +155,11 @@ def sync_to_zotero_api(items: list[dict], collection_name: str) -> bool:
         # 2. Subir items a la colección
         items_url = f"https://api.zotero.org/users/{user_id}/items"
         zotero_payload = []
+        # Los registros incompletos no se suben a Zotero: mejor un hueco visible
+        # en el .ris local que un item con título placeholder en la biblioteca.
         for item in items:
+            if not item.get("complete", True):
+                continue
             zotero_payload.append({
                 "itemType": "journalArticle",
                 "title": item.get("title", ""),
@@ -149,7 +168,8 @@ def sync_to_zotero_api(items: list[dict], collection_name: str) -> bool:
                 "extra": f"PMID: {item.get('pmid', '')}" if item.get('pmid') else "",
                 "collections": [col_key] if col_key else [],
             })
-        requests.post(items_url, headers=headers, json=zotero_payload, timeout=15)
+        if zotero_payload:
+            requests.post(items_url, headers=headers, json=zotero_payload, timeout=15)
         return True
     except Exception:
         return False
