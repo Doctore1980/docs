@@ -1,0 +1,107 @@
+{
+  "faceta_id": "faceta-3",
+  "sintesis": "La evidencia en patología computacional para cáncer de próstata (CaP) está madurando desde estudios metodológicos hacia validaciones diagnósticas de gran escala. El referente de calidad de datos y benchmarking es el reto PANDA (Nat Med 2021), que reunió miles de biopsias multicéntricas para detección y gradación Gleason con rendimiento a nivel de patólogo; lo precede el algoritmo de Google validado para el Gleason scoring (npj Digit Med 2019). En el terreno de la validación clínica y despliegue, la evaluación independiente del sistema de Paige Prostate (Mod Pathol 2021) demostró alta exactitud diagnóstica en cohortes externas, alineándose con su condición de primer sistema de IA en patología con marcado regulatorio (FDA De Novo). Toda la gradación se ancla en el consenso ISUP 2019, referencia normativa imprescindible para interpretar los grupos de grado que los algoritmos predicen. Persisten señales de precaución: la crítica del 'gemelo digital' del patólogo (Sci Rep 2024) y el impacto del preprocesado (detección de tejido) sobre el rendimiento muestran fragilidad de generalización, y las revisiones sistemática/scoping recientes coinciden en heterogeneidad metodológica y escasez de validaciones prospectivas e impacto clínico real.",
+  "herramientas_consultadas": ["Fichero de candidatos precomputado (PubMed, Europe PMC, OpenAlex)"],
+  "herramientas_no_disponibles": ["Consensus (no invocado en esta pasada)", "Elicit (no invocado)", "PubMed MCP (no invocado; identificadores tomados de candidatos ya recuperados)"],
+  "items": [
+    {
+      "identifier": "DOI:10.1097/pas.0000000000001497",
+      "title": "The 2019 International Society of Urological Pathology (ISUP) Consensus Conference on Grading of Prostatic Carcinoma",
+      "evidence_level": "guia clinica / consenso",
+      "fuente": "OpenAlex",
+      "relevancia": "Marco normativo de gradación (grupos de grado ISUP/Gleason) sobre el que se define el patron oro que todo algoritmo de grading debe reproducir."
+    },
+    {
+      "identifier": "DOI:10.1038/s41591-021-01620-2",
+      "title": "Artificial intelligence for diagnosis and Gleason grading of prostate cancer: the PANDA challenge",
+      "evidence_level": "validacion diagnostica multicentrica (observacional)",
+      "fuente": "OpenAlex",
+      "relevancia": "Benchmark internacional de referencia; miles de biopsias, detección y gradación Gleason con rendimiento comparable a patologos y validación externa."
+    },
+    {
+      "identifier": "DOI:10.1038/s41746-019-0112-2",
+      "title": "Development and validation of a deep learning algorithm for improving Gleason scoring of prostate cancer",
+      "evidence_level": "estudio de validacion diagnostica (observacional)",
+      "fuente": "OpenAlex",
+      "relevancia": "Algoritmo de Google que mejora la concordancia del Gleason scoring frente a patologos generales; hito temprano de grading automatizado."
+    },
+    {
+      "identifier": "DOI:10.1038/s41379-021-00794-x",
+      "title": "An independent assessment of an artificial intelligence system for prostate cancer detection shows strong diagnostic accuracy",
+      "evidence_level": "estudio de validacion diagnostica externa (observacional)",
+      "fuente": "OpenAlex",
+      "relevancia": "Validación independiente del sistema tipo Paige Prostate (primer sistema con marcado regulatorio FDA); alta exactitud en deteccion sobre cohortes externas."
+    },
+    {
+      "identifier": "PMID:37627935",
+      "title": "Deep Learning Methodologies Applied to Digital Pathology in Prostate Cancer: A Systematic Review",
+      "evidence_level": "revision sistematica",
+      "fuente": "PubMed",
+      "relevancia": "Sintesis sistematica de metodos de deep learning en patologia digital de CaP; util para panorama de rendimiento y limitaciones metodologicas."
+    },
+    {
+      "identifier": "PMID:41808601",
+      "title": "Artificial intelligence for detection, grading, and prognostication in prostate cancer pathology: A scoping review",
+      "evidence_level": "revision (scoping)",
+      "fuente": "PubMed",
+      "relevancia": "Mapa reciente (2026) de deteccion, gradacion y pronostico por IA en patologia de CaP; identifica vacios de validacion prospectiva."
+    },
+    {
+      "identifier": "PMID:40623883",
+      "title": "Development and retrospective validation of an artificial intelligence system for diagnostic assessment of prostate biopsies: study protocol",
+      "evidence_level": "estudio de validacion (protocolo)",
+      "fuente": "PubMed",
+      "relevancia": "Protocolo de desarrollo y validacion retrospectiva de un sistema de IA para evaluacion diagnostica de biopsias prostaticas; ejemplo de diseno de validacion clinica."
+    },
+    {
+      "identifier": "PMID:38438436",
+      "title": "Critical evaluation of artificial intelligence as a digital twin of pathologists for prostate cancer pathology",
+      "evidence_level": "observacional",
+      "fuente": "PubMed",
+      "relevancia": "Evaluacion critica de las limitaciones de la IA como sustituto del patologo; aporta contrapeso a las metricas optimistas de exactitud."
+    },
+    {
+      "identifier": "DOI:10.1038/s41598-026-52148-9",
+      "title": "The impact of tissue detection on diagnostic artificial intelligence algorithms in prostate digital pathology",
+      "evidence_level": "observacional",
+      "fuente": "Europe PMC",
+      "relevancia": "Muestra como el preprocesado (deteccion de tejido) condiciona el rendimiento diagnostico; relevante para reproducibilidad y generalizacion."
+    },
+    {
+      "identifier": "DOI:10.1016/j.euros.2026.03.016",
+      "title": "Finding Holes: Pathologist-Level Performance Using AI for Cribriform Morphology Detection in Prostate Cancer",
+      "evidence_level": "observacional (exactitud diagnostica)",
+      "fuente": "Europe PMC",
+      "relevancia": "IA a nivel de patologo para detectar morfologia cribiforme, patron de alto valor pronostico dificil de reproducir entre observadores."
+    },
+    {
+      "identifier": "PMID:38953042",
+      "title": "A selective CutMix approach improves generalizability of deep learning-based grading and risk assessment of prostate cancer",
+      "evidence_level": "observacional (metodologico)",
+      "fuente": "PubMed",
+      "relevancia": "Tecnica de aumento de datos para mejorar la generalizacion del grading; aborda directamente el problema de robustez entre centros."
+    },
+    {
+      "identifier": "PMID:32555410",
+      "title": "Histologic tissue components provide major cues for machine learning-based prostate cancer detection and grading on prostatectomy specimens",
+      "evidence_level": "observacional",
+      "fuente": "PubMed",
+      "relevancia": "Analiza que componentes tisulares guian la deteccion/gradacion por ML en piezas de prostatectomia; util para interpretabilidad."
+    },
+    {
+      "identifier": "DOI:10.1038/s41586-024-07894-z",
+      "title": "A pathology foundation model for cancer diagnosis and prognosis prediction",
+      "evidence_level": "observacional (modelo fundacional)",
+      "fuente": "OpenAlex",
+      "relevancia": "Modelo fundacional de patologia aplicable a diagnostico/pronostico pan-cancer; marca la tendencia hacia modelos generalistas que incluyen CaP."
+    },
+    {
+      "identifier": "DOI:10.1136/bmjonc-2026-001102",
+      "title": "Foundation models in computational pathology: methods, applications and clinical implications",
+      "evidence_level": "revision",
+      "fuente": "Europe PMC",
+      "relevancia": "Revision de modelos fundacionales en patologia computacional; contexto metodologico y de implicaciones clinicas para la faceta de biopsia."
+    }
+  ],
+  "vacios_o_contradicciones": "Predomina la evidencia observacional/de exactitud diagnostica y validaciones retrospectivas; faltan ensayos prospectivos y estudios de impacto clinico (efecto sobre decisiones, sobrediagnostico o carga de trabajo del patologo). Existe tension entre metricas de rendimiento a nivel de patologo (PANDA, Paige, cribiforme) y las advertencias de fragilidad/generalizacion (critica del gemelo digital, impacto del preprocesado). Solo un sistema (tipo Paige Prostate) cuenta con via regulatoria clara; el resto son prototipos de investigacion. La heterogeneidad de patrones de referencia y la dependencia del ISUP 2019 introducen variabilidad no resuelta en la etiqueta de entrenamiento."
+}

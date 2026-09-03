@@ -1,0 +1,526 @@
+{
+  "query": "artificial intelligence deep learning multiparametric MRI prostate cancer detection clinically significant",
+  "n": 63,
+  "candidatos": [
+    {
+      "identifier": "PMID:39105640",
+      "title": "Fully Automated Deep Learning Model to Detect Clinically Significant Prostate Cancer at MRI.",
+      "date": "2024 Aug",
+      "journal": "Radiology",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:35908102",
+      "title": "Tasks for artificial intelligence in prostate MRI.",
+      "date": "2022 Jul 31",
+      "journal": "European radiology experimental",
+      "pubtypes": [
+        "Journal Article",
+        "Review",
+        "Research Support, Non-U.S. Gov't",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:36661354",
+      "title": "Editorial for \"Deep-Learning Models for Detection and Localization of Visible Clinically Significant Prostate Cancer on Multi-Parametric MRI\".",
+      "date": "2023 Oct",
+      "journal": "Journal of magnetic resonance imaging : JMRI",
+      "pubtypes": [
+        "Editorial",
+        "Comment"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:38388243",
+      "title": "Deep learning model for the detection of prostate cancer and classification of clinically significant disease using multiparametric MRI in comparison to PI-RADs score.",
+      "date": "2024 May",
+      "journal": "Urologic oncology",
+      "pubtypes": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:40016318",
+      "title": "AI-powered prostate cancer detection: a multi-centre, multi-scanner validation study.",
+      "date": "2025 Aug",
+      "journal": "European radiology",
+      "pubtypes": [
+        "Journal Article",
+        "Multicenter Study",
+        "Validation Study"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:36334976",
+      "title": "Pulse Sequence Dependence of a Simple and Interpretable Deep Learning Method for Detection of Clinically Significant Prostate Cancer Using Multiparametric MRI.",
+      "date": "2023 May",
+      "journal": "Academic radiology",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:42152154",
+      "title": "The evolving PI-RADS paradigm.",
+      "date": "2026 May 18",
+      "journal": "Cancer imaging : the official publication of the International Cancer Imaging Society",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:34251481",
+      "title": "[MRI-guided minimally invasive treatment of prostate cancer].",
+      "date": "2021 Sep",
+      "journal": "Der Radiologe",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:36825823",
+      "title": "Deep-Learning Models for Detection and Localization of Visible Clinically Significant Prostate Cancer on Multi-Parametric MRI.",
+      "date": "2023 Oct",
+      "journal": "Journal of magnetic resonance imaging : JMRI",
+      "pubtypes": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:31802148",
+      "title": "[Artificial intelligence and radiomics in MRI-based prostate diagnostics].",
+      "date": "2020 Jan",
+      "journal": "Der Radiologe",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:42291630",
+      "title": "Next-generation imaging in prostate cancer.",
+      "date": "2026",
+      "journal": "Frontiers in urology",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:33773964",
+      "title": "Artificial Intelligence in Magnetic Resonance Imaging-based Prostate Cancer Diagnosis: Where Do We Stand in 2021?",
+      "date": "2022 Mar",
+      "journal": "European urology focus",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:40613800",
+      "title": "Enhancing Prostate Cancer Classification: A Comprehensive Review of Multiparametric MRI and Deep Learning Integration.",
+      "date": "2025 Dec",
+      "journal": "Journal of magnetic resonance imaging : JMRI",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:41158862",
+      "title": "Advances in imaging and artificial intelligence for precision diagnosis and biopsy guidance in prostate cancer.",
+      "date": "2025",
+      "journal": "Frontiers in oncology",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:41359160",
+      "title": "Evaluation of AI for prostate cancer detection in biparametric-MRI screening population data.",
+      "date": "2026 May",
+      "journal": "European radiology",
+      "pubtypes": [
+        "Comparative Study",
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:36240594",
+      "title": "Patient-level grading prediction of prostate cancer from mp-MRI via GMINet.",
+      "date": "2022 Nov",
+      "journal": "Computers in biology and medicine",
+      "pubtypes": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:38547000",
+      "title": "Mixed Supervision of Histopathology Improves Prostate Cancer Classification From MRI.",
+      "date": "2024 Jul",
+      "journal": "IEEE transactions on medical imaging",
+      "pubtypes": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:41394863",
+      "title": "Utilization of artificial intelligence in prostate cancer detection: a comprehensive review of innovations in screening and diagnosis.",
+      "date": "2025",
+      "journal": "Frontiers in immunology",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:33710363",
+      "title": "[Machine learning and multiparametric MRI for early diagnosis of prostate cancer].",
+      "date": "2021 May",
+      "journal": "Der Urologe. Ausg. A",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:34790581",
+      "title": "Radiomics for Identification and Prediction in Metastatic Prostate Cancer: A Review of Studies.",
+      "date": "2021",
+      "journal": "Frontiers in oncology",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:41220354",
+      "title": "AI-based detection of MRI-invisible prostate cancer with nnU-Net.",
+      "date": "2025 Oct 30",
+      "journal": "The Canadian journal of urology",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:40056148",
+      "title": "An overview of utilizing artificial intelligence in localized prostate cancer imaging.",
+      "date": "2025 Apr",
+      "journal": "Expert review of medical devices",
+      "pubtypes": [
+        "Journal Article",
+        "Review"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:36409317",
+      "title": "Predicting clinically significant prostate cancer with a deep learning approach: a multicentre retrospective study.",
+      "date": "2023 Feb",
+      "journal": "European journal of nuclear medicine and molecular imaging",
+      "pubtypes": [
+        "Multicenter Study",
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:37358061",
+      "title": "Prostate cancer detection and segmentation on MRI using non-local mask R-CNN with histopathological ground truth.",
+      "date": "2023 Dec",
+      "journal": "Medical physics",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "PMID:34786615",
+      "title": "Deep learning-assisted prostate cancer detection on bi-parametric MRI: minimum training data size requirements and effect of prior knowledge.",
+      "date": "2022 Apr",
+      "journal": "European radiology",
+      "pubtypes": [
+        "Journal Article"
+      ],
+      "source": "PubMed"
+    },
+    {
+      "identifier": "DOI:10.3389/fruro.2026.1829407",
+      "title": "Next-generation imaging in prostate cancer.",
+      "date": "2026-05-29",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1016/j.urolonc.2026.05.013",
+      "title": "Artificial intelligence in prostate cancer imaging: A mini-review of current applications and future directions.",
+      "date": "2026-06-05",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1186/s40644-026-01035-7",
+      "title": "The evolving PI-RADS paradigm.",
+      "date": "2026-05-18",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1007/s00330-026-12465-z",
+      "title": "Artificial-intelligence models vs. radiologists in the detection of clinically significant prostate cancer on mpMRI: a meta-analysis.",
+      "date": "2026-03-18",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.21037/tau-2026-0193",
+      "title": "PI-RADS v2.1 for prostate MRI: current applications, ongoing debates, and synergies with advanced technologies-a narrative review.",
+      "date": "2026-05-26",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2026.1763766",
+      "title": "Construction and validation of a multimodal MRI-based deep learning model for early differential diagnosis of prostate cancer in the PSA gray zone: a retrospective cohort study.",
+      "date": "2026-04-15",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.21037/gs-2025-aw-504",
+      "title": "Artificial intelligence for prostate cancer detection and risk stratification using transrectal ultrasound: a narrative review.",
+      "date": "2026-02-11",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1097/cu9.0000000000000326",
+      "title": "From prostate-specific antigen to precision: The future of prostate cancer diagnosis with artificial intelligence, biomarkers, and imaging.",
+      "date": "2026-01-29",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/curroncol33030151",
+      "title": "Artificial Intelligence in Prostate MRI: Comparison of an AI-Based Software and an Experienced Radiologist for Detecting Clinically Significant Prostate Cancer.",
+      "date": "2026-03-06",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers18030456",
+      "title": "Contemporary Preoperative Detection of Extraprostatic Extension in Prostate Cancer.",
+      "date": "2026-01-30",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/jcm15103856",
+      "title": "Advancing Genitourinary Cancer Surgery: The Role of Artificial Intelligence and Robotics.",
+      "date": "2026-05-17",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/jimaging11110390",
+      "title": "Next-Generation Advances in Prostate Cancer Imaging and Artificial Intelligence Applications.",
+      "date": "2025-11-03",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers18010028",
+      "title": "Using Artificial Intelligence as a Risk Prediction Model in Patients with Equivocal Multiparametric Prostate MRI Findings.",
+      "date": "2025-12-21",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers18111751",
+      "title": "Biomarkers for Precision Prognosis in Prostate Cancer: Imaging, Molecular, and Integrated Approaches.",
+      "date": "2026-05-27",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/curroncol33030166",
+      "title": "Current Applications and Future Directions of Artificial Intelligence in Prostate Cancer Diagnosis: A Narrative Review.",
+      "date": "2026-03-13",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2026.1763359",
+      "title": "Multimodal artificial intelligence in urologic precision oncology: from algorithm to translational medicine (a systemized narrative review).",
+      "date": "2026-04-13",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.7759/cureus.97160",
+      "title": "Artificial Intelligence in MRI for Urologic Oncology: A Systematic Review of Diagnostic Accuracy and Clinical Utility.",
+      "date": "2025-11-18",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.3390/diseases14060217",
+      "title": "Diagnosis of Prostate Cancer: A Comparative Evaluation of Biological Techniques.",
+      "date": "2026-06-17",
+      "journal": "",
+      "source": "Europe PMC"
+    },
+    {
+      "identifier": "DOI:10.1016/s1470-2045(24)00220-1",
+      "title": "Artificial intelligence and radiologists in prostate cancer detection on MRI (PI-CAI): an international, paired, non-inferiority, confirmatory study",
+      "date": "2024-06-12",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1109/access.2020.3001973",
+      "title": "Artificial Intelligence and COVID-19: Deep Learning Approaches for Diagnosis and Treatment",
+      "date": "2020-01-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41598-017-05728-9",
+      "title": "Deep Learning for Fully-Automated Localization and Segmentation of Rectal Cancer on Multiparametric MR",
+      "date": "2017-07-07",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s43856-022-00199-0",
+      "title": "Artificial intelligence and machine learning in cancer imaging",
+      "date": "2022-10-27",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1016/j.ejmp.2021.02.006",
+      "title": "AI applications to medical images: From machine learning to deep learning",
+      "date": "2021-03-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers14061524",
+      "title": "The Role of Artificial Intelligence in Early Cancer Diagnosis",
+      "date": "2022-03-16",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1109/jproc.2021.3054390",
+      "title": "A Review of Deep Learning in Medical Imaging: Imaging Traits, Technology Trends, Case Studies With Progress Highlights, and Future Promises",
+      "date": "2021-02-26",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s42256-020-0186-1",
+      "title": "Secure, privacy-preserving and federated machine learning in medical imaging",
+      "date": "2020-06-08",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1016/j.ejmp.2021.03.008",
+      "title": "The promise of artificial intelligence and deep learning in PET and SPECT imaging",
+      "date": "2021-03-01",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1038/s41598-019-55972-4",
+      "title": "Prostate Cancer Detection using Deep Convolutional Neural Networks",
+      "date": "2019-12-20",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1016/j.cell.2023.01.035",
+      "title": "From patterns to patients: Advances in clinical machine learning for cancer diagnosis, prognosis, and treatment",
+      "date": "2023-03-10",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1097/pas.0000000000001497",
+      "title": "The 2019 International Society of Urological Pathology (ISUP) Consensus Conference on Grading of Prostatic Carcinoma",
+      "date": "2020-05-26",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3390/diagnostics11020354",
+      "title": "Artificial Intelligence and Machine Learning in Prostate Cancer Patient Management—Current Trends and Future Perspectives",
+      "date": "2021-02-20",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3390/su13031224",
+      "title": "A Review of Deep-Learning-Based Medical Image Segmentation Methods",
+      "date": "2021-01-25",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers15143608",
+      "title": "Deep Learning for Medical Image-Based Cancer Diagnosis",
+      "date": "2023-07-13",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3390/cancers12071767",
+      "title": "Multiparametric MRI for Prostate Cancer Characterization: Combined Use of Radiomics Model with PI-RADS and Clinical Parameters",
+      "date": "2020-07-02",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1002/mp.13264",
+      "title": "Deep learning in medical imaging and radiation therapy",
+      "date": "2018-10-27",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2022.998222",
+      "title": "Artificial intelligence assists precision medicine in cancer treatment",
+      "date": "2023-01-04",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1186/s41747-019-0109-2",
+      "title": "Machine learning applications in prostate cancer magnetic resonance imaging",
+      "date": "2019-08-07",
+      "source": "OpenAlex"
+    },
+    {
+      "identifier": "DOI:10.1109/access.2021.3057654",
+      "title": "Prostate Cancer Detection Using Deep Learning and Traditional Techniques",
+      "date": "2021-01-01",
+      "source": "OpenAlex"
+    }
+  ]
+}

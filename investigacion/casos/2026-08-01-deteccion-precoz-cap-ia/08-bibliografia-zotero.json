@@ -1,0 +1,746 @@
+[
+  {
+    "id": "item-1",
+    "type": "article-journal",
+    "title": "Artificial intelligence and radiologists in prostate cancer detection on MRI (PI-CAI): an international, paired, non-inferiority, confirmatory study",
+    "DOI": "10.1016/s1470-2045(24)00220-1",
+    "PMID": "",
+    "container-title": "The Lancet Oncology",
+    "issued": {
+      "date-parts": [
+        [
+          2024
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-2",
+    "type": "article-journal",
+    "title": "Artificial-intelligence models vs. radiologists in the detection of clinically significant prostate cancer on mpMRI: a meta-analysis",
+    "DOI": "10.1007/s00330-026-12465-z",
+    "PMID": "",
+    "container-title": "European Radiology",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-3",
+    "type": "article-journal",
+    "title": "Artificial Intelligence in MRI for Urologic Oncology: A Systematic Review of Diagnostic Accuracy and Clinical Utility",
+    "DOI": "10.7759/cureus.97160",
+    "PMID": "",
+    "container-title": "Cureus",
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-4",
+    "type": "article-journal",
+    "title": "Fully Automated Deep Learning Model to Detect Clinically Significant Prostate Cancer at MRI.",
+    "DOI": "10.1148/radiol.232635",
+    "PMID": "39105640",
+    "container-title": "Radiology",
+    "issued": {
+      "date-parts": [
+        [
+          2024
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-5",
+    "type": "article-journal",
+    "title": "AI-powered prostate cancer detection: a multi-centre, multi-scanner validation study.",
+    "DOI": "10.1007/s00330-024-11323-0",
+    "PMID": "40016318",
+    "container-title": "Eur Radiol",
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-6",
+    "type": "article-journal",
+    "title": "Deep learning model for the detection of prostate cancer and classification of clinically significant disease using multiparametric MRI in comparison to PI-RADs score.",
+    "DOI": "10.1016/j.urolonc.2024.01.021",
+    "PMID": "38388243",
+    "container-title": "Urol Oncol",
+    "issued": {
+      "date-parts": [
+        [
+          2024
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-7",
+    "type": "article-journal",
+    "title": "Evaluation of AI for prostate cancer detection in biparametric-MRI screening population data.",
+    "DOI": "10.1007/s00330-025-12198-5",
+    "PMID": "41359160",
+    "container-title": "Eur Radiol",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-8",
+    "type": "article-journal",
+    "title": "Predicting clinically significant prostate cancer with a deep learning approach: a multicentre retrospective study.",
+    "DOI": "10.1007/s00259-022-06036-9",
+    "PMID": "36409317",
+    "container-title": "Eur J Nucl Med Mol Imaging",
+    "issued": {
+      "date-parts": [
+        [
+          2023
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-9",
+    "type": "article-journal",
+    "title": "Estudio PMID:36825823",
+    "DOI": "",
+    "PMID": "36825823",
+    "container-title": ""
+  },
+  {
+    "id": "item-10",
+    "type": "article-journal",
+    "title": "Deep learning-assisted prostate cancer detection on bi-parametric MRI: minimum training data size requirements and effect of prior knowledge.",
+    "DOI": "10.1007/s00330-021-08320-y",
+    "PMID": "34786615",
+    "container-title": "Eur Radiol",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-11",
+    "type": "article-journal",
+    "title": "Artificial Intelligence in Prostate MRI: Comparison of an AI-Based Software and an Experienced Radiologist for Detecting Clinically Significant Prostate Cancer",
+    "DOI": "10.3390/curroncol33030151",
+    "PMID": "",
+    "container-title": "Current Oncology",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-12",
+    "type": "article-journal",
+    "title": "Using Artificial Intelligence as a Risk Prediction Model in Patients with Equivocal Multiparametric Prostate MRI Findings",
+    "DOI": "10.3390/cancers18010028",
+    "PMID": "",
+    "container-title": "Cancers",
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-13",
+    "type": "article-journal",
+    "title": "Artificial Intelligence in Magnetic Resonance Imaging-based Prostate Cancer Diagnosis: Where Do We Stand in 2021?",
+    "DOI": "10.1016/j.euf.2021.03.020",
+    "PMID": "33773964",
+    "container-title": "Eur Urol Focus",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-14",
+    "type": "article-journal",
+    "title": "Enhancing Prostate Cancer Classification: A Comprehensive Review of Multiparametric MRI and Deep Learning Integration.",
+    "DOI": "10.1002/jmri.70004",
+    "PMID": "40613800",
+    "container-title": "J Magn Reson Imaging",
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-15",
+    "type": "article-journal",
+    "title": "A Novel Machine Learning-based Predictive Model of Clinically Significant Prostate Cancer and Online Risk Calculator.",
+    "DOI": "10.1016/j.urology.2024.11.001",
+    "PMID": "39537107",
+    "container-title": "Urology",
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-16",
+    "type": "article-journal",
+    "title": "Machine learning model for the prediction of prostate cancer in patients with low prostate-specific antigen levels: A multicenter retrospective analysis.",
+    "DOI": "10.3389/fonc.2022.985940",
+    "PMID": "36059701",
+    "container-title": "Front Oncol",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-17",
+    "type": "article-journal",
+    "title": "Estudio PMID:39905119",
+    "DOI": "",
+    "PMID": "39905119",
+    "container-title": ""
+  },
+  {
+    "id": "item-18",
+    "type": "article-journal",
+    "title": "Machine Learning-Based Models Enhance the Prediction of Prostate Cancer",
+    "DOI": "10.3389/fonc.2022.941349",
+    "PMID": "",
+    "container-title": "Frontiers in Oncology",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-19",
+    "type": "article-journal",
+    "title": "Development and validation of a clinical nomogram based on lasso-logistic regression for predicting prostate cancer with PSA 4-20.0 ng/mL: a retrospective study",
+    "DOI": "10.3389/fendo.2026.1757255",
+    "PMID": "",
+    "container-title": "Frontiers in Endocrinology",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-20",
+    "type": "article-journal",
+    "title": "Meta learning optimized TabNet for small sample repeat prostate biopsy prediction",
+    "DOI": "10.1007/s12672-026-04777-9",
+    "PMID": "",
+    "container-title": "Discover Oncology",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-21",
+    "type": "article-journal",
+    "title": "Identification of biomarkers for non-invasive diagnosis and risk stratification in prostate cancer using NMR-based metabolomics and machine learning",
+    "DOI": "10.1038/s41698-026-01406-0",
+    "PMID": "",
+    "container-title": "npj Precision Oncology",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-22",
+    "type": "article-journal",
+    "title": "Diagnostic utility of serum prostate-specific antigen and circulating inflammatory markers for differentiating prostate cancer from benign prostatic hyperplasia",
+    "DOI": "10.62347/qtaw5624",
+    "PMID": "",
+    "container-title": "American Journal of Cancer Research",
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-23",
+    "type": "article-journal",
+    "title": "Role of urinary leukocytes in the risk stratification of prostate cancer using nonlinear stacking learning strategy: a bi-cohort diagnostic study",
+    "DOI": "10.3389/fonc.2026.1762494",
+    "PMID": "",
+    "container-title": "Frontiers in Oncology",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-24",
+    "type": "article-journal",
+    "title": "Artificial Intelligence and Machine Learning in Prostate Cancer Patient Management—Current Trends and Future Perspectives",
+    "DOI": "10.3390/diagnostics11020354",
+    "PMID": "",
+    "container-title": "Diagnostics",
+    "issued": {
+      "date-parts": [
+        [
+          2021
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-25",
+    "type": "article-journal",
+    "title": "Artificial Intelligence Across the Prostate Cancer Pathway: Screening, Imaging, Pathology, and Biomarkers",
+    "DOI": "10.7759/cureus.96226",
+    "PMID": "",
+    "container-title": "Cureus",
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-26",
+    "type": "article-journal",
+    "title": "The 2019 International Society of Urological Pathology (ISUP) Consensus Conference on Grading of Prostatic Carcinoma",
+    "DOI": "10.1097/pas.0000000000001497",
+    "PMID": "",
+    "container-title": "American Journal of Surgical Pathology",
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-27",
+    "type": "article-journal",
+    "title": "Artificial intelligence for diagnosis and Gleason grading of prostate cancer: the PANDA challenge",
+    "DOI": "10.1038/s41591-021-01620-2",
+    "PMID": "",
+    "container-title": "Nature Medicine",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-28",
+    "type": "article-journal",
+    "title": "Development and validation of a deep learning algorithm for improving Gleason scoring of prostate cancer",
+    "DOI": "10.1038/s41746-019-0112-2",
+    "PMID": "",
+    "container-title": "npj Digital Medicine",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-29",
+    "type": "article-journal",
+    "title": "An independent assessment of an artificial intelligence system for prostate cancer detection shows strong diagnostic accuracy",
+    "DOI": "10.1038/s41379-021-00794-x",
+    "PMID": "",
+    "container-title": "Modern Pathology",
+    "issued": {
+      "date-parts": [
+        [
+          2021
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-30",
+    "type": "article-journal",
+    "title": "Deep Learning Methodologies Applied to Digital Pathology in Prostate Cancer: A Systematic Review.",
+    "DOI": "10.3390/diagnostics13162676",
+    "PMID": "37627935",
+    "container-title": "Diagnostics (Basel)",
+    "issued": {
+      "date-parts": [
+        [
+          2023
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-31",
+    "type": "article-journal",
+    "title": "Artificial intelligence for detection, grading, and prognostication in prostate cancer pathology: A scoping review.",
+    "DOI": "10.14670/HH-25-059",
+    "PMID": "41808601",
+    "container-title": "Histol Histopathol",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-32",
+    "type": "article-journal",
+    "title": "Development and retrospective validation of an artificial intelligence system for diagnostic assessment of prostate biopsies: study protocol.",
+    "DOI": "10.1136/bmjopen-2024-097591",
+    "PMID": "40623883",
+    "container-title": "BMJ Open",
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-33",
+    "type": "article-journal",
+    "title": "Estudio PMID:38438436",
+    "DOI": "",
+    "PMID": "38438436",
+    "container-title": ""
+  },
+  {
+    "id": "item-34",
+    "type": "article-journal",
+    "title": "The impact of tissue detection on diagnostic artificial intelligence algorithms in prostate digital pathology",
+    "DOI": "10.1038/s41598-026-52148-9",
+    "PMID": "",
+    "container-title": "Scientific Reports",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-35",
+    "type": "article-journal",
+    "title": "Finding Holes: Pathologist-Level Performance Using AI for Cribriform Morphology Detection in Prostate Cancer",
+    "DOI": "10.1016/j.euros.2026.03.016",
+    "PMID": "",
+    "container-title": "European Urology Open Science",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-36",
+    "type": "article-journal",
+    "title": "A selective CutMix approach improves generalizability of deep learning-based grading and risk assessment of prostate cancer.",
+    "DOI": "10.1016/j.jpi.2024.100381",
+    "PMID": "38953042",
+    "container-title": "J Pathol Inform",
+    "issued": {
+      "date-parts": [
+        [
+          2024
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-37",
+    "type": "article-journal",
+    "title": "Histologic tissue components provide major cues for machine learning-based prostate cancer detection and grading on prostatectomy specimens.",
+    "DOI": "10.1038/s41598-020-66849-2",
+    "PMID": "32555410",
+    "container-title": "Sci Rep",
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-38",
+    "type": "article-journal",
+    "title": "A pathology foundation model for cancer diagnosis and prognosis prediction",
+    "DOI": "10.1038/s41586-024-07894-z",
+    "PMID": "",
+    "container-title": "Nature",
+    "issued": {
+      "date-parts": [
+        [
+          2024
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-39",
+    "type": "article-journal",
+    "title": "Foundation models in computational pathology: methods, applications and clinical implications",
+    "DOI": "10.1136/bmjonc-2026-001102",
+    "PMID": "",
+    "container-title": "BMJ Oncology",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-40",
+    "type": "article-journal",
+    "title": "Improving Early Prostate Cancer Detection Through Artificial Intelligence: Evidence from a Systematic Review.",
+    "DOI": "10.3390/cancers17213503",
+    "PMID": "41228295",
+    "container-title": "Cancers (Basel)",
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-41",
+    "type": "article-journal",
+    "title": "AI in Prostate Cancer Screening &amp; Diagnosis: A Registry-Based Study of ClinicalTrials.gov Trials",
+    "DOI": "10.1177/00469580261457387",
+    "PMID": "",
+    "container-title": "INQUIRY: The Journal of Health Care Organization, Provision, and Financing",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-42",
+    "type": "article-journal",
+    "title": "AI‐enhanced micro‐ultrasound improves detection of clinically significant prostate cancer at biopsy",
+    "DOI": "10.1002/bco2.70133",
+    "PMID": "",
+    "container-title": "BJUI Compass",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-43",
+    "type": "article-journal",
+    "title": "Construction and validation of a multimodal MRI-based deep learning model for early differential diagnosis of prostate cancer in the PSA gray zone: a retrospective cohort study",
+    "DOI": "10.3389/fonc.2026.1763766",
+    "PMID": "",
+    "container-title": "Frontiers in Oncology",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-44",
+    "type": "article-journal",
+    "title": "Multi-institutional Clinical Tool for Predicting High-risk Lesions on 3Tesla Multiparametric Prostate Magnetic Resonance Imaging.",
+    "DOI": "10.1016/j.euo.2018.08.008",
+    "PMID": "31200839",
+    "container-title": "Eur Urol Oncol",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-45",
+    "type": "article-journal",
+    "title": "The Role of Artificial Intelligence in the Characterization and Outcome Prediction of Prostate Cancer: A Systematic Review",
+    "DOI": "10.3390/tomography12050062",
+    "PMID": "",
+    "container-title": "Tomography",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-46",
+    "type": "article-journal",
+    "title": "Current Applications and Future Directions of Artificial Intelligence in Prostate Cancer Diagnosis: A Narrative Review",
+    "DOI": "10.3390/curroncol33030166",
+    "PMID": "",
+    "container-title": "Current Oncology",
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-47",
+    "type": "article-journal",
+    "title": "Reporting guidelines for clinical trial reports for interventions involving artificial intelligence: the CONSORT-AI extension",
+    "DOI": "10.1038/s41591-020-1034-x",
+    "PMID": "",
+    "container-title": "Nature Medicine",
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-48",
+    "type": "article-journal",
+    "title": "Guidelines for clinical trial protocols for interventions involving artificial intelligence: the SPIRIT-AI extension",
+    "DOI": "10.1038/s41591-020-1037-7",
+    "PMID": "",
+    "container-title": "Nature Medicine",
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-49",
+    "type": "article-journal",
+    "title": "Reporting guideline for the early-stage clinical evaluation of decision support systems driven by artificial intelligence: DECIDE-AI",
+    "DOI": "10.1038/s41591-022-01772-9",
+    "PMID": "",
+    "container-title": "Nature Medicine",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-50",
+    "type": "article-journal",
+    "title": "The Lancet Commission on prostate cancer: planning for the surge in cases",
+    "DOI": "10.1016/s0140-6736(24)00651-2",
+    "PMID": "",
+    "container-title": "The Lancet",
+    "issued": {
+      "date-parts": [
+        [
+          2024
+        ]
+      ]
+    }
+  },
+  {
+    "id": "item-51",
+    "type": "article-journal",
+    "title": "Serum PSA-based early detection of prostate cancer in Europe and globally: past, present and future",
+    "DOI": "10.1038/s41585-022-00638-6",
+    "PMID": "",
+    "container-title": "Nature Reviews Urology",
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    }
+  }
+]

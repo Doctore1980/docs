@@ -1,0 +1,100 @@
+{
+  "faceta_id": "faceta-4",
+  "sintesis": "La evidencia disponible sobre IA en detección precoz de cáncer de próstata está dominada por revisiones (sistemáticas y narrativas) y estudios retrospectivos/observacionales; existe un vacío marcado de validación prospectiva y de ensayos aleatorizados con desenlaces poblacionales de cribado. Los estudios con dato clínico primario (p. ej. micro-ecografía asistida por IA en biopsia, o modelos de deep learning multimodal en la zona gris del PSA) son retrospectivos o de un único centro, con validación externa limitada, lo que expone a sesgo de selección y a problemas de generalización. Un estudio de registro sobre ClinicalTrials.gov confirma que el desarrollo se concentra en fases tempranas y que faltan ensayos prospectivos de impacto sobre el cribado. Existen marcos metodológicos consolidados para evaluar IA clínica (CONSORT-AI, SPIRIT-AI, DECIDE-AI) que aún se aplican poco en este dominio. En los candidatos NO se identifica ningún ensayo NCT específico de detección/cribado de CaP mediante IA: los NCT recuperados son de tratamiento farmacológico o radioterápico, reforzando el vacío de validación prospectiva.",
+  "herramientas_consultadas": ["Lectura directa del fichero de candidatos (PubMed, Europe PMC, OpenAlex, ClinicalTrials.gov ya recuperados)"],
+  "herramientas_no_disponibles": ["No se ejecutaron llamadas adicionales a Consensus, Elicit, PubMed, Scite ni ClinicalTrials MCP en esta pasada; selección basada en los candidatos ya verificados para no introducir identificadores externos no comprobados"],
+  "items": [
+    {
+      "identifier": "PMID:41228295",
+      "title": "Improving Early Prostate Cancer Detection Through Artificial Intelligence: Evidence from a Systematic Review",
+      "evidence_level": "revisión sistemática",
+      "fuente": "PubMed / Cancers (2025)",
+      "relevancia": "Revisión sistemática centrada explícitamente en la detección precoz de CaP con IA; sintetiza desempeño diagnóstico y señala limitaciones de la evidencia. Referencia nuclear de la faceta."
+    },
+    {
+      "identifier": "DOI:10.1177/00469580261457387",
+      "title": "AI in Prostate Cancer Screening & Diagnosis: A Registry-Based Study of ClinicalTrials.gov Trials",
+      "evidence_level": "observacional (estudio de registro)",
+      "fuente": "Europe PMC (2026)",
+      "relevancia": "Analiza el panorama de ensayos registrados de IA en cribado/diagnóstico de CaP; evidencia directa del estado (y escasez) de validación prospectiva en curso."
+    },
+    {
+      "identifier": "DOI:10.1002/bco2.70133",
+      "title": "AI-enhanced micro-ultrasound improves detection of clinically significant prostate cancer at biopsy",
+      "evidence_level": "observacional / estudio clínico diagnóstico",
+      "fuente": "Europe PMC (2026)",
+      "relevancia": "Dato clínico primario de desempeño diagnóstico de IA en detección de CaP clínicamente significativo; relevante para eficacia diagnóstica real, aunque con alcance limitado."
+    },
+    {
+      "identifier": "DOI:10.3389/fonc.2026.1763766",
+      "title": "Construction and validation of a multimodal MRI-based deep learning model for early differential diagnosis of prostate cancer in the PSA gray zone: a retrospective cohort study",
+      "evidence_level": "observacional (cohorte retrospectiva)",
+      "fuente": "Europe PMC (2026)",
+      "relevancia": "Modelo de deep learning validado internamente en la zona gris del PSA; ilustra el patrón de validación retrospectiva y el vacío de validación externa/prospectiva."
+    },
+    {
+      "identifier": "PMID:31200839",
+      "title": "Multi-institutional Clinical Tool for Predicting High-risk Lesions on 3Tesla Multiparametric Prostate MRI",
+      "evidence_level": "observacional (estudio multicéntrico)",
+      "fuente": "PubMed / European Urology Oncology (2019)",
+      "relevancia": "Herramienta multi-institucional de predicción sobre mpMRI; aporta evidencia de validación multicéntrica (mitiga parcialmente sesgo de un solo centro)."
+    },
+    {
+      "identifier": "DOI:10.3390/tomography12050062",
+      "title": "The Role of Artificial Intelligence in the Characterization and Outcome Prediction of Prostate Cancer: A Systematic Review",
+      "evidence_level": "revisión sistemática",
+      "fuente": "Europe PMC (2026)",
+      "relevancia": "RS sobre caracterización y predicción de desenlaces con IA en CaP; útil para el desempeño diagnóstico global y sus limitaciones de generalización."
+    },
+    {
+      "identifier": "DOI:10.7759/cureus.96226",
+      "title": "Artificial Intelligence Across the Prostate Cancer Pathway: Screening, Imaging, Pathology, and Biomarkers",
+      "evidence_level": "revisión narrativa",
+      "fuente": "Europe PMC (2025)",
+      "relevancia": "Panorámica de IA a lo largo de la ruta del CaP, incluyendo cribado; contextualiza el estado de la validación por dominios."
+    },
+    {
+      "identifier": "DOI:10.3390/curroncol33030166",
+      "title": "Current Applications and Future Directions of Artificial Intelligence in Prostate Cancer Diagnosis: A Narrative Review",
+      "evidence_level": "revisión narrativa",
+      "fuente": "Europe PMC (2026)",
+      "relevancia": "Revisión de aplicaciones actuales y direcciones futuras de IA en diagnóstico de CaP; discute retos de traslación clínica."
+    },
+    {
+      "identifier": "DOI:10.1038/s41591-020-1034-x",
+      "title": "Reporting guidelines for clinical trial reports for interventions involving artificial intelligence: the CONSORT-AI extension",
+      "evidence_level": "guía metodológica",
+      "fuente": "OpenAlex / Nature Medicine (2020)",
+      "relevancia": "Estándar para reportar ensayos de intervenciones con IA; marco de referencia para juzgar la calidad de la validación prospectiva."
+    },
+    {
+      "identifier": "DOI:10.1038/s41591-020-1037-7",
+      "title": "Guidelines for clinical trial protocols for interventions involving artificial intelligence: the SPIRIT-AI extension",
+      "evidence_level": "guía metodológica",
+      "fuente": "OpenAlex / Nature Medicine (2020)",
+      "relevancia": "Estándar para protocolos de ensayos de IA; complementa CONSORT-AI y orienta el diseño de la validación prospectiva ausente en este dominio."
+    },
+    {
+      "identifier": "DOI:10.1038/s41591-022-01772-9",
+      "title": "Reporting guideline for the early-stage clinical evaluation of decision support systems driven by artificial intelligence: DECIDE-AI",
+      "evidence_level": "guía metodológica",
+      "fuente": "OpenAlex / Nature Medicine (2022)",
+      "relevancia": "Marco para la evaluación clínica en fase temprana de sistemas de apoyo a la decisión con IA; pertinente dado que la mayoría de herramientas de detección de CaP están en fases pre-prospectivas."
+    },
+    {
+      "identifier": "DOI:10.1016/s0140-6736(24)00651-2",
+      "title": "The Lancet Commission on prostate cancer: planning for the surge in cases",
+      "evidence_level": "revisión / documento de consenso",
+      "fuente": "OpenAlex / The Lancet (2024)",
+      "relevancia": "Contexto poblacional y de cribado del CaP a escala global; encuadra el impacto potencial (y las necesidades) de la detección precoz asistida por IA."
+    },
+    {
+      "identifier": "DOI:10.1038/s41585-022-00638-6",
+      "title": "Serum PSA-based early detection of prostate cancer in Europe and globally: past, present and future",
+      "evidence_level": "revisión narrativa",
+      "fuente": "OpenAlex / Nature Reviews Urology (2022)",
+      "relevancia": "Base del cribado por PSA y sus limitaciones; comparador de referencia frente al que la IA debe demostrar valor añadido en detección precoz."
+    }
+  ],
+  "vacios_o_contradicciones": "Vacío principal: ausencia de validación prospectiva y de ensayos aleatorizados de impacto en cribado poblacional de CaP con IA. Entre los candidatos NO figura ningún ensayo NCT específico de detección/cribado por IA (todos los NCT recuperados son de tratamiento farmacológico o radioterápico), lo que confirma la falta de evidencia prospectiva dirigida. Los estudios con dato clínico son retrospectivos o de un solo centro, con validación externa escasa, riesgo de sesgo de selección y dudas de generalización a poblaciones y equipos distintos. Existen marcos metodológicos maduros (CONSORT-AI, SPIRIT-AI, DECIDE-AI) infrautilizados en este dominio. La evidencia es, por tanto, prometedora pero inmadura: predominan revisiones sobre resultados prospectivos de alto nivel."
+}

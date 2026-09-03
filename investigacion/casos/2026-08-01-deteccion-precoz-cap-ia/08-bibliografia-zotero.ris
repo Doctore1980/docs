@@ -1,0 +1,1401 @@
+TY  - JOUR
+TI  - Artificial intelligence and radiologists in prostate cancer detection on MRI (PI-CAI): an international, paired, non-inferiority, confirmatory study
+AU  - Saha, Anindo
+AU  - Bosma, Joeran S
+AU  - Twilt, Jasper J
+AU  - van Ginneken, Bram
+AU  - Bjartell, Anders
+AU  - Padhani, Anwar R
+AU  - Bonekamp, David
+AU  - Villeirs, Geert
+AU  - Salomon, Georg
+AU  - Giannarini, Gianluca
+AU  - Kalpathy-Cramer, Jayashree
+AU  - Barentsz, Jelle
+AU  - Maier-Hein, Klaus H
+AU  - Rusu, Mirabela
+AU  - Rouvière, Olivier
+AU  - van den Bergh, Roderick
+AU  - Panebianco, Valeria
+AU  - Kasivisvanathan, Veeru
+AU  - Obuchowski, Nancy A
+AU  - Yakar, Derya
+AU  - Elschot, Mattijs
+AU  - Veltman, Jeroen
+AU  - Fütterer, Jurgen J
+AU  - de Rooij, Maarten
+AU  - Huisman, Henkjan
+AU  - Saha, Anindo
+AU  - Bosma, Joeran S.
+AU  - Twilt, Jasper J.
+AU  - van Ginneken, Bram
+AU  - Noordman, Constant R.
+AU  - Slootweg, Ivan
+AU  - Roest, Christian
+AU  - Fransen, Stefan J.
+AU  - Sunoqrot, Mohammed R.S.
+AU  - Bathen, Tone F.
+AU  - Rouw, Dennis
+AU  - Immerzeel, Jos
+AU  - Geerdink, Jeroen
+AU  - van Run, Chris
+AU  - Groeneveld, Miriam
+AU  - Meakin, James
+AU  - Karagöz, Ahmet
+AU  - Bône, Alexandre
+AU  - Routier, Alexandre
+AU  - Marcoux, Arnaud
+AU  - Abi-Nader, Clément
+AU  - Li, Cynthia Xinran
+AU  - Feng, Dagan
+AU  - Alis, Deniz
+AU  - Karaarslan, Ercan
+AU  - Ahn, Euijoon
+AU  - Nicolas, François
+AU  - Sonn, Geoffrey A.
+AU  - Bhattacharya, Indrani
+AU  - Kim, Jinman
+AU  - Shi, Jun
+AU  - Jahanandish, Hassan
+AU  - An, Hong
+AU  - Kan, Hongyu
+AU  - Oksuz, Ilkay
+AU  - Qiao, Liang
+AU  - Rohé, Marc-Michel
+AU  - Yergin, Mert
+AU  - Khadra, Mohamed
+AU  - Şeker, Mustafa E.
+AU  - Kartal, Mustafa S.
+AU  - Debs, Noëlie
+AU  - Fan, Richard E.
+AU  - Saunders, Sara
+AU  - Soerensen, Simon J.C.
+AU  - Moroianu, Stefania
+AU  - Vesal, Sulaiman
+AU  - Yuan, Yuan
+AU  - Malakoti-Fard, Afsoun
+AU  - Mačiūnien, Agnė
+AU  - Kawashima, Akira
+AU  - de Sousa Machadov, Ana M.M. de M.G.
+AU  - Moreira, Ana Sofia L.
+AU  - Ponsiglione, Andrea
+AU  - Rappaport, Annelies
+AU  - Stanzione, Arnaldo
+AU  - Ciuvasovas, Arturas
+AU  - Turkbey, Baris
+AU  - de Keyzer, Bart
+AU  - Pedersen, Bodil G.
+AU  - Eijlers, Bram
+AU  - Chen, Christine
+AU  - Riccardo, Ciabattoni
+AU  - Alis, Deniz
+AU  - Courrech Staal, Ewout F.W.
+AU  - Jäderling, Fredrik
+AU  - Langkilde, Fredrik
+AU  - Aringhieri, Giacomo
+AU  - Brembilla, Giorgio
+AU  - Son, Hannah
+AU  - Vanderlelij, Hans
+AU  - Raat, Henricus P.J.
+AU  - Pikūnienė, Ingrida
+AU  - Macova, Iva
+AU  - Schoots, Ivo
+AU  - Caglic, Iztok
+AU  - Zawaideh, Jeries P.
+AU  - Wallström, Jonas
+AU  - Bittencourt, Leonardo K.
+AU  - Khurram, Misbah
+AU  - Choi, Moon H.
+AU  - Takahashi, Naoki
+AU  - Tan, Nelly
+AU  - Franco, Paolo N.
+AU  - Gutierrez, Patricia A.
+AU  - Thimansson, Per Erik
+AU  - Hanus, Pieter
+AU  - Puech, Philippe
+AU  - Rau, Philipp R.
+AU  - de Visschere, Pieter
+AU  - Guillaume, Ramette
+AU  - Cuocolo, Renato
+AU  - Falcão, Ricardo O.
+AU  - van Stiphout, Rogier S.A.
+AU  - Girometti, Rossano
+AU  - Briediene, Ruta
+AU  - Grigienė, Rūta
+AU  - Gitau, Samuel
+AU  - Withey, Samuel
+AU  - Ghai, Sangeet
+AU  - Penzkofer, Tobias
+AU  - Barrett, Tristan
+AU  - Tammisetti, Varaha S.
+AU  - Løgager, Vibeke B.
+AU  - Černý, Vladimír
+AU  - Venderink, Wulphert
+AU  - Law, Yan M.
+AU  - Lee, Young J.
+AU  - Bjartell, Anders
+AU  - Padhani, Anwar R.
+AU  - Bonekamp, David
+AU  - Villeirs, Geert
+AU  - Salomon, Georg
+AU  - Giannarini, Gianluca
+AU  - Kalpathy-Cramer, Jayashree
+AU  - Barentsz, Jelle
+AU  - Maier-Hein, Klaus H.
+AU  - Rusu, Mirabela
+AU  - Obuchowski, Nancy A.
+AU  - Rouvière, Olivier
+AU  - van den Bergh, Roderick
+AU  - Panebianco, Valeria
+AU  - Kasivisvanathan, Veeru
+AU  - Yakar, Derya
+AU  - Elschot, Mattijs
+AU  - Veltman, Jeroen
+AU  - Fütterer, Jurgen J.
+AU  - de Rooij, Maarten
+AU  - Huisman, Henkjan
+JO  - The Lancet Oncology
+PY  - 2024
+DO  - 10.1016/s1470-2045(24)00220-1
+ER  - 
+
+TY  - JOUR
+TI  - Artificial-intelligence models vs. radiologists in the detection of clinically significant prostate cancer on mpMRI: a meta-analysis
+AU  - Andrade, Marco Antonio
+AU  - Rodrigues, Henrique
+AU  - Colhado, Caio Hernandes
+AU  - Godinho, Nathan Joseph Silva
+AU  - Dos Santos, Rhuan Dorigueto
+AU  - de Andrade, Alexandre Leite
+AU  - Goodstein, Taylor
+JO  - European Radiology
+PY  - 2026
+DO  - 10.1007/s00330-026-12465-z
+ER  - 
+
+TY  - JOUR
+TI  - Artificial Intelligence in MRI for Urologic Oncology: A Systematic Review of Diagnostic Accuracy and Clinical Utility
+AU  - Khormi, Sameer A
+AU  - Algethami, Salman A
+AU  - Alshehri, Reem A
+AU  - Alhinti, Fares Y
+AU  - Alsalumi, Khalid A
+AU  - Al Shahrani, Saeed A
+AU  - Alwadani, Feras T
+AU  - Alsubhi, Ghaida R
+AU  - Alenezi, Ahmad B
+AU  - Alotaibi, Waleed T
+AU  - Alamer, Abdullah M
+JO  - Cureus
+PY  - 2025
+DO  - 10.7759/cureus.97160
+ER  - 
+
+TY  - JOUR
+TI  - Fully Automated Deep Learning Model to Detect Clinically Significant Prostate Cancer at MRI.
+AU  - Cai JC
+AU  - Nakai H
+AU  - Kuanar S
+AU  - Froemming AT
+AU  - Bolan CW
+AU  - Kawashima A
+AU  - Takahashi H
+AU  - Mynderse LA
+AU  - Dora CD
+AU  - Humphreys MR
+AU  - Korfiatis P
+AU  - Rouzrokh P
+AU  - Bratt AK
+AU  - Conte GM
+AU  - Erickson BJ
+AU  - Takahashi N
+JO  - Radiology
+PY  - 2024
+DO  - 10.1148/radiol.232635
+AN  - PMID:39105640
+ER  - 
+
+TY  - JOUR
+TI  - AI-powered prostate cancer detection: a multi-centre, multi-scanner validation study.
+AU  - Giganti F
+AU  - Moreira da Silva N
+AU  - Yeung M
+AU  - Davies L
+AU  - Frary A
+AU  - Ferrer Rodriguez M
+AU  - Sushentsev N
+AU  - Ashley N
+AU  - Andreou A
+AU  - Bradley A
+AU  - Wilson C
+AU  - Maskell G
+AU  - Brembilla G
+AU  - Caglic I
+AU  - Suchánek J
+AU  - Budd J
+AU  - Arya Z
+AU  - Aning J
+AU  - Hayes J
+AU  - De Bono M
+AU  - Vasdev N
+AU  - Sanmugalingam N
+AU  - Burn P
+AU  - Persad R
+AU  - Woitek R
+AU  - Hindley R
+AU  - Liyanage S
+AU  - Squire S
+AU  - Barrett T
+AU  - Barwick S
+AU  - Hinton M
+AU  - Padhani AR
+AU  - Rix A
+AU  - Shah A
+AU  - Sala E
+JO  - Eur Radiol
+PY  - 2025
+DO  - 10.1007/s00330-024-11323-0
+AN  - PMID:40016318
+ER  - 
+
+TY  - JOUR
+TI  - Deep learning model for the detection of prostate cancer and classification of clinically significant disease using multiparametric MRI in comparison to PI-RADs score.
+AU  - Yang C
+AU  - Li B
+AU  - Luan Y
+AU  - Wang S
+AU  - Bian Y
+AU  - Zhang J
+AU  - Wang Z
+AU  - Liu B
+AU  - Chen X
+AU  - Hacker M
+AU  - Li Z
+AU  - Li X
+AU  - Wang Z
+JO  - Urol Oncol
+PY  - 2024
+DO  - 10.1016/j.urolonc.2024.01.021
+AN  - PMID:38388243
+ER  - 
+
+TY  - JOUR
+TI  - Evaluation of AI for prostate cancer detection in biparametric-MRI screening population data.
+AU  - Langkilde F
+AU  - Gren M
+AU  - Wallström J
+AU  - Kuczera S
+AU  - Maier SE
+JO  - Eur Radiol
+PY  - 2026
+DO  - 10.1007/s00330-025-12198-5
+AN  - PMID:41359160
+ER  - 
+
+TY  - JOUR
+TI  - Predicting clinically significant prostate cancer with a deep learning approach: a multicentre retrospective study.
+AU  - Zhao L
+AU  - Bao J
+AU  - Qiao X
+AU  - Jin P
+AU  - Ji Y
+AU  - Li Z
+AU  - Zhang J
+AU  - Su Y
+AU  - Ji L
+AU  - Shen J
+AU  - Zhang Y
+AU  - Niu L
+AU  - Xie W
+AU  - Hu C
+AU  - Shen H
+AU  - Wang X
+AU  - Liu J
+AU  - Tian J
+JO  - Eur J Nucl Med Mol Imaging
+PY  - 2023
+DO  - 10.1007/s00259-022-06036-9
+AN  - PMID:36409317
+ER  - 
+
+TY  - JOUR
+TI  - Estudio PMID:36825823
+AN  - PMID:36825823
+ER  - 
+
+TY  - JOUR
+TI  - Deep learning-assisted prostate cancer detection on bi-parametric MRI: minimum training data size requirements and effect of prior knowledge.
+AU  - Hosseinzadeh M
+AU  - Saha A
+AU  - Brand P
+AU  - Slootweg IR
+AU  - de Rooij M
+AU  - Huisman H
+JO  - Eur Radiol
+PY  - 2022
+DO  - 10.1007/s00330-021-08320-y
+AN  - PMID:34786615
+ER  - 
+
+TY  - JOUR
+TI  - Artificial Intelligence in Prostate MRI: Comparison of an AI-Based Software and an Experienced Radiologist for Detecting Clinically Significant Prostate Cancer
+AU  - Castellana, Roberto
+AU  - Marzi, Simona
+AU  - Russo, Andrea
+AU  - Ferriero, Maria
+AU  - Terrenato, Irene
+AU  - Papaleo, Eugenia
+AU  - Navanteri, Giuseppe
+AU  - Vitale, Davide
+AU  - Pizzi, Giuseppe
+AU  - Vidiri, Antonello
+AU  - Bertini, Luca
+JO  - Current Oncology
+PY  - 2026
+DO  - 10.3390/curroncol33030151
+ER  - 
+
+TY  - JOUR
+TI  - Using Artificial Intelligence as a Risk Prediction Model in Patients with Equivocal Multiparametric Prostate MRI Findings
+AU  - Al-Khanaty, Abdullah
+AU  - Hennes, David
+AU  - Guduguntla, Arjun
+AU  - Guerrero, Pablo
+AU  - Delgado, Carlos
+AU  - Dinneen, Eoin
+AU  - Mazzone, Elio
+AU  - Appu, Sree
+AU  - Bolton, Damien
+AU  - Eapen, Renu S.
+AU  - Murphy, Declan G.
+AU  - Lawrentschuk, Nathan
+AU  - Perera, Marlon L.
+JO  - Cancers
+PY  - 2025
+DO  - 10.3390/cancers18010028
+ER  - 
+
+TY  - JOUR
+TI  - Artificial Intelligence in Magnetic Resonance Imaging-based Prostate Cancer Diagnosis: Where Do We Stand in 2021?
+AU  - Suarez-Ibarrola R
+AU  - Sigle A
+AU  - Eklund M
+AU  - Eberli D
+AU  - Miernik A
+AU  - Benndorf M
+AU  - Bamberg F
+AU  - Gratzke C
+JO  - Eur Urol Focus
+PY  - 2022
+DO  - 10.1016/j.euf.2021.03.020
+AN  - PMID:33773964
+ER  - 
+
+TY  - JOUR
+TI  - Enhancing Prostate Cancer Classification: A Comprehensive Review of Multiparametric MRI and Deep Learning Integration.
+AU  - Valizadeh G
+AU  - Morafegh M
+AU  - Fatemi F
+AU  - Ghafoori M
+AU  - Saligheh Rad H
+JO  - J Magn Reson Imaging
+PY  - 2025
+DO  - 10.1002/jmri.70004
+AN  - PMID:40613800
+ER  - 
+
+TY  - JOUR
+TI  - A Novel Machine Learning-based Predictive Model of Clinically Significant Prostate Cancer and Online Risk Calculator.
+AU  - Vasconcelos Ordones F
+AU  - Kawano PR
+AU  - Vermeulen L
+AU  - Hooshyari A
+AU  - Scholtz D
+AU  - Gilling PJ
+AU  - Foreman D
+AU  - Kaufmann B
+AU  - Poyet C
+AU  - Gorin M
+AU  - Barbosa AMP
+AU  - da Rocha NC
+AU  - de Andrade LGM
+JO  - Urology
+PY  - 2025
+DO  - 10.1016/j.urology.2024.11.001
+AN  - PMID:39537107
+ER  - 
+
+TY  - JOUR
+TI  - Machine learning model for the prediction of prostate cancer in patients with low prostate-specific antigen levels: A multicenter retrospective analysis.
+AU  - Deng X
+AU  - Li T
+AU  - Mo L
+AU  - Wang F
+AU  - Ji J
+AU  - He X
+AU  - Mohamud BH
+AU  - Pradhan S
+AU  - Cheng J
+JO  - Front Oncol
+PY  - 2022
+DO  - 10.3389/fonc.2022.985940
+AN  - PMID:36059701
+ER  - 
+
+TY  - JOUR
+TI  - Estudio PMID:39905119
+AN  - PMID:39905119
+ER  - 
+
+TY  - JOUR
+TI  - Machine Learning-Based Models Enhance the Prediction of Prostate Cancer
+AU  - Chen, Sunmeng
+AU  - Jian, Tengteng
+AU  - Chi, Changliang
+AU  - Liang, Yi
+AU  - Liang, Xiao
+AU  - Yu, Ying
+AU  - Jiang, Fengming
+AU  - Lu, Ji
+JO  - Frontiers in Oncology
+PY  - 2022
+DO  - 10.3389/fonc.2022.941349
+ER  - 
+
+TY  - JOUR
+TI  - Development and validation of a clinical nomogram based on lasso-logistic regression for predicting prostate cancer with PSA 4-20.0 ng/mL: a retrospective study
+AU  - Ying, Mengling
+AU  - Wang, Lijun
+AU  - Yang, Mengge
+AU  - Ke, Mang
+AU  - Sun, Liangxue
+JO  - Frontiers in Endocrinology
+PY  - 2026
+DO  - 10.3389/fendo.2026.1757255
+ER  - 
+
+TY  - JOUR
+TI  - Meta learning optimized TabNet for small sample repeat prostate biopsy prediction
+AU  - Lou, Jienv
+AU  - Xu, Jiahan
+AU  - Mao, Dan
+AU  - Zhao, Yiting
+AU  - Ye, Fanghe
+AU  - Wu, Meng
+JO  - Discover Oncology
+PY  - 2026
+DO  - 10.1007/s12672-026-04777-9
+ER  - 
+
+TY  - JOUR
+TI  - Identification of biomarkers for non-invasive diagnosis and risk stratification in prostate cancer using NMR-based metabolomics and machine learning
+AU  - Zhang, Xi
+AU  - Chen, Minjiang
+AU  - Xia, Binbin
+AU  - Liu, Binrui
+AU  - Lin, Xiaoya
+AU  - Tao, Hanyang
+AU  - Wang, He
+AU  - Gu, Tengfei
+AU  - Li, Jie
+AU  - Dong, Baijun
+AU  - Gao, Hongchang
+JO  - npj Precision Oncology
+PY  - 2026
+DO  - 10.1038/s41698-026-01406-0
+ER  - 
+
+TY  - JOUR
+TI  - Diagnostic utility of serum prostate-specific antigen and circulating inflammatory markers for differentiating prostate cancer from benign prostatic hyperplasia
+AU  - Luo, Dawei
+JO  - American Journal of Cancer Research
+PY  - 2025
+DO  - 10.62347/qtaw5624
+ER  - 
+
+TY  - JOUR
+TI  - Role of urinary leukocytes in the risk stratification of prostate cancer using nonlinear stacking learning strategy: a bi-cohort diagnostic study
+AU  - Xia, Shou
+AU  - Ran, Zhenchun
+AU  - Cheng, Mengzhe
+AU  - Zhu, Hao
+AU  - Yang, Chunguang
+AU  - Wu, Xinglong
+JO  - Frontiers in Oncology
+PY  - 2026
+DO  - 10.3389/fonc.2026.1762494
+ER  - 
+
+TY  - JOUR
+TI  - Artificial Intelligence and Machine Learning in Prostate Cancer Patient Management—Current Trends and Future Perspectives
+AU  - Tătaru, Octavian Sabin
+AU  - Vartolomei, Mihai Dorin
+AU  - Rassweiler, Jens J.
+AU  - Virgil, Oșan
+AU  - Lucarelli, Giuseppe
+AU  - Porpiglia, Francesco
+AU  - Amparore, Daniele
+AU  - Manfredi, Matteo
+AU  - Carrieri, Giuseppe
+AU  - Falagario, Ugo
+AU  - Terracciano, Daniela
+AU  - de Cobelli, Ottavio
+AU  - Busetto, Gian Maria
+AU  - Giudice, Francesco Del
+AU  - Ferro, Matteo
+JO  - Diagnostics
+PY  - 2021
+DO  - 10.3390/diagnostics11020354
+ER  - 
+
+TY  - JOUR
+TI  - Artificial Intelligence Across the Prostate Cancer Pathway: Screening, Imaging, Pathology, and Biomarkers
+AU  - Hasan, Muhammad Rakib
+AU  - Ibraheem, Nazeer
+AU  - Rahman, Mohammad Ekhlasur
+AU  - Tamanna, Rezuana
+JO  - Cureus
+PY  - 2025
+DO  - 10.7759/cureus.96226
+ER  - 
+
+TY  - JOUR
+TI  - The 2019 International Society of Urological Pathology (ISUP) Consensus Conference on Grading of Prostatic Carcinoma
+AU  - van Leenders, Geert J.L.H.
+AU  - van der Kwast, Theodorus H.
+AU  - Grignon, David J.
+AU  - Evans, Andrew J.
+AU  - Kristiansen, Glen
+AU  - Kweldam, Charlotte F.
+AU  - Litjens, Geert
+AU  - McKenney, Jesse K.
+AU  - Melamed, Jonathan
+AU  - Mottet, Nicholas
+AU  - Paner, Gladell P.
+AU  - Samaratunga, Hemamali
+AU  - Schoots, Ivo G.
+AU  - Simko, Jeffry P.
+AU  - Tsuzuki, Toyonori
+AU  - Varma, Murali
+AU  - Warren, Anne Y.
+AU  - Wheeler, Thomas M.
+AU  - Williamson, Sean R.
+AU  - Iczkowski, Kenneth A.
+JO  - American Journal of Surgical Pathology
+PY  - 2020
+DO  - 10.1097/pas.0000000000001497
+ER  - 
+
+TY  - JOUR
+TI  - Artificial intelligence for diagnosis and Gleason grading of prostate cancer: the PANDA challenge
+AU  - Bulten, Wouter
+AU  - Kartasalo, Kimmo
+AU  - Chen, Po-Hsuan Cameron
+AU  - Ström, Peter
+AU  - Pinckaers, Hans
+AU  - Nagpal, Kunal
+AU  - Cai, Yuannan
+AU  - Steiner, David F.
+AU  - van Boven, Hester
+AU  - Vink, Robert
+AU  - Hulsbergen-van de Kaa, Christina
+AU  - van der Laak, Jeroen
+AU  - Amin, Mahul B.
+AU  - Evans, Andrew J.
+AU  - van der Kwast, Theodorus
+AU  - Allan, Robert
+AU  - Humphrey, Peter A.
+AU  - Grönberg, Henrik
+AU  - Samaratunga, Hemamali
+AU  - Delahunt, Brett
+AU  - Tsuzuki, Toyonori
+AU  - Häkkinen, Tomi
+AU  - Egevad, Lars
+AU  - Demkin, Maggie
+AU  - Dane, Sohier
+AU  - Tan, Fraser
+AU  - Valkonen, Masi
+AU  - Corrado, Greg S.
+AU  - Peng, Lily
+AU  - Mermel, Craig H.
+AU  - Ruusuvuori, Pekka
+AU  - Litjens, Geert
+AU  - Eklund, Martin
+AU  - 
+AU  - Brilhante, Américo
+AU  - Çakır, Aslı
+AU  - Farré, Xavier
+AU  - Geronatsiou, Katerina
+AU  - Molinié, Vincent
+AU  - Pereira, Guilherme
+AU  - Roy, Paromita
+AU  - Saile, Günter
+AU  - Salles, Paulo G. O.
+AU  - Schaafsma, Ewout
+AU  - Tschui, Joëlle
+AU  - Billoch-Lima, Jorge
+AU  - Pereira, Emíio M.
+AU  - Zhou, Ming
+AU  - He, Shujun
+AU  - Song, Sejun
+AU  - Sun, Qing
+AU  - Yoshihara, Hiroshi
+AU  - Yamaguchi, Taiki
+AU  - Ono, Kosaku
+AU  - Shen, Tao
+AU  - Ji, Jianyi
+AU  - Roussel, Arnaud
+AU  - Zhou, Kairong
+AU  - Chai, Tianrui
+AU  - Weng, Nina
+AU  - Grechka, Dmitry
+AU  - Shugaev, Maxim V.
+AU  - Kiminya, Raphael
+AU  - Kovalev, Vassili
+AU  - Voynov, Dmitry
+AU  - Malyshev, Valery
+AU  - Lapo, Elizabeth
+AU  - Campos, Manuel
+AU  - Ota, Noriaki
+AU  - Yamaoka, Shinsuke
+AU  - Fujimoto, Yusuke
+AU  - Yoshioka, Kentaro
+AU  - Juvonen, Joni
+AU  - Tukiainen, Mikko
+AU  - Karlsson, Antti
+AU  - Guo, Rui
+AU  - Hsieh, Chia-Lun
+AU  - Zubarev, Igor
+AU  - Bukhar, Habib S. T.
+AU  - Li, Wenyuan
+AU  - Li, Jiayun
+AU  - Speier, William
+AU  - Arnold, Corey
+AU  - Kim, Kyungdoc
+AU  - Bae, Byeonguk
+AU  - Kim, Yeong Won
+AU  - Lee, Hong-Seok
+AU  - Park, Jeonghyuk
+JO  - Nature Medicine
+PY  - 2022
+DO  - 10.1038/s41591-021-01620-2
+ER  - 
+
+TY  - JOUR
+TI  - Development and validation of a deep learning algorithm for improving Gleason scoring of prostate cancer
+AU  - Nagpal, Kunal
+AU  - Foote, Davis
+AU  - Liu, Yun
+AU  - Chen, Po-Hsuan Cameron
+AU  - Wulczyn, Ellery
+AU  - Tan, Fraser
+AU  - Olson, Niels
+AU  - Smith, Jenny L.
+AU  - Mohtashamian, Arash
+AU  - Wren, James H.
+AU  - Corrado, Greg S.
+AU  - MacDonald, Robert
+AU  - Peng, Lily H.
+AU  - Amin, Mahul B.
+AU  - Evans, Andrew J.
+AU  - Sangoi, Ankur R.
+AU  - Mermel, Craig H.
+AU  - Hipp, Jason D.
+AU  - Stumpe, Martin C.
+JO  - npj Digital Medicine
+PY  - 2019
+DO  - 10.1038/s41746-019-0112-2
+ER  - 
+
+TY  - JOUR
+TI  - An independent assessment of an artificial intelligence system for prostate cancer detection shows strong diagnostic accuracy
+AU  - Perincheri, Sudhir
+AU  - Levi, Angelique Wolf
+AU  - Celli, Romulo
+AU  - Gershkovich, Peter
+AU  - Rimm, David
+AU  - Morrow, Jon Stanley
+AU  - Rothrock, Brandon
+AU  - Raciti, Patricia
+AU  - Klimstra, David
+AU  - Sinard, John
+JO  - Modern Pathology
+PY  - 2021
+DO  - 10.1038/s41379-021-00794-x
+ER  - 
+
+TY  - JOUR
+TI  - Deep Learning Methodologies Applied to Digital Pathology in Prostate Cancer: A Systematic Review.
+AU  - Rabilloud N
+AU  - Allaume P
+AU  - Acosta O
+AU  - De Crevoisier R
+AU  - Bourgade R
+AU  - Loussouarn D
+AU  - Rioux-Leclercq N
+AU  - Khene ZE
+AU  - Mathieu R
+AU  - Bensalah K
+AU  - Pecot T
+AU  - Kammerer-Jacquet SF
+JO  - Diagnostics (Basel)
+PY  - 2023
+DO  - 10.3390/diagnostics13162676
+AN  - PMID:37627935
+ER  - 
+
+TY  - JOUR
+TI  - Artificial intelligence for detection, grading, and prognostication in prostate cancer pathology: A scoping review.
+AU  - Pratap Nair R
+AU  - Du W
+AU  - Mei L
+AU  - Koga S
+JO  - Histol Histopathol
+PY  - 2026
+DO  - 10.14670/HH-25-059
+AN  - PMID:41808601
+ER  - 
+
+TY  - JOUR
+TI  - Development and retrospective validation of an artificial intelligence system for diagnostic assessment of prostate biopsies: study protocol.
+AU  - Mulliqi N
+AU  - Blilie A
+AU  - Ji X
+AU  - Szolnoky K
+AU  - Olsson H
+AU  - Titus M
+AU  - Martinez Gonzalez G
+AU  - Boman SE
+AU  - Valkonen M
+AU  - Gudlaugsson E
+AU  - Kjosavik SR
+AU  - Asenjo J
+AU  - Gambacorta M
+AU  - Libretti P
+AU  - Braun M
+AU  - Kordek R
+AU  - Łowicki R
+AU  - Hotakainen K
+AU  - Väre P
+AU  - Pedersen BG
+AU  - Sørensen KD
+AU  - Ulhøi BP
+AU  - Rantalainen M
+AU  - Ruusuvuori P
+AU  - Delahunt B
+AU  - Samaratunga H
+AU  - Tsuzuki T
+AU  - Janssen EAM
+AU  - Egevad L
+AU  - Kartasalo K
+AU  - Eklund M
+JO  - BMJ Open
+PY  - 2025
+DO  - 10.1136/bmjopen-2024-097591
+AN  - PMID:40623883
+ER  - 
+
+TY  - JOUR
+TI  - Estudio PMID:38438436
+AN  - PMID:38438436
+ER  - 
+
+TY  - JOUR
+TI  - The impact of tissue detection on diagnostic artificial intelligence algorithms in prostate digital pathology
+AU  - Boman, Sol Erika
+AU  - Mulliqi, Nita
+AU  - Blilie, Anders
+AU  - Ji, Xiaoyi
+AU  - Szolnoky, Kelvin
+AU  - Gudlaugsson, Einar
+AU  - Janssen, Emiel A.M.
+AU  - Kjosavik, Svein R.
+AU  - Asenjo, José
+AU  - Gambacorta, Marcello
+AU  - Libretti, Paolo
+AU  - Braun, Marcin
+AU  - Kordek, Radzislaw
+AU  - Łowicki, Roman
+AU  - Hotakainen, Kristina
+AU  - Väre, Päivi
+AU  - Pedersen, Bodil Ginnerup
+AU  - Sørensen, Karina Dalsgaard
+AU  - Ulhøi, Benedicte Parm
+AU  - Egevad, Lars
+AU  - Kartasalo, Kimmo
+JO  - Scientific Reports
+PY  - 2026
+DO  - 10.1038/s41598-026-52148-9
+ER  - 
+
+TY  - JOUR
+TI  - Finding Holes: Pathologist-Level Performance Using AI for Cribriform Morphology Detection in Prostate Cancer
+AU  - Szolnoky, Kelvin
+AU  - Blilie, Anders
+AU  - Mulliqi, Nita
+AU  - Tsuzuki, Toyonori
+AU  - Samaratunga, Hemamali
+AU  - Titus, Matteo
+AU  - Ji, Xiaoyi
+AU  - Boman, Sol Erika
+AU  - Gudlaugsson, Einar
+AU  - Kjosavik, Svein Reidar
+AU  - Asenjo, José
+AU  - Gambacorta, Marcello
+AU  - Libretti, Paolo
+AU  - Braun, Marcin
+AU  - Kordek, Radzisław
+AU  - Łowicki, Roman
+AU  - Delahunt, Brett
+AU  - Iczkowski, Kenneth A.
+AU  - van der Kwast, Theo
+AU  - van Leenders, Geert J.L.H.
+AU  - Leite, Katia R.M.
+AU  - Pan, Chin-Chen
+AU  - Maria Janssen, Emiel Adrianus
+AU  - Eklund, Martin
+AU  - Egevad, Lars
+AU  - Kartasalo, Kimmo
+JO  - European Urology Open Science
+PY  - 2026
+DO  - 10.1016/j.euros.2026.03.016
+ER  - 
+
+TY  - JOUR
+TI  - A selective CutMix approach improves generalizability of deep learning-based grading and risk assessment of prostate cancer.
+AU  - Patkar S
+AU  - Harmon S
+AU  - Sesterhenn I
+AU  - Lis R
+AU  - Merino M
+AU  - Young D
+AU  - Brown GT
+AU  - Greenfield KM
+AU  - McGeeney JD
+AU  - Elsamanoudi S
+AU  - Tan SH
+AU  - Schafer C
+AU  - Jiang J
+AU  - Petrovics G
+AU  - Dobi A
+AU  - Rentas FJ
+AU  - Pinto PA
+AU  - Chesnut GT
+AU  - Choyke P
+AU  - Turkbey B
+AU  - Moncur JT
+JO  - J Pathol Inform
+PY  - 2024
+DO  - 10.1016/j.jpi.2024.100381
+AN  - PMID:38953042
+ER  - 
+
+TY  - JOUR
+TI  - Histologic tissue components provide major cues for machine learning-based prostate cancer detection and grading on prostatectomy specimens.
+AU  - Han W
+AU  - Johnson C
+AU  - Gaed M
+AU  - Gómez JA
+AU  - Moussa M
+AU  - Chin JL
+AU  - Pautler S
+AU  - Bauman GS
+AU  - Ward AD
+JO  - Sci Rep
+PY  - 2020
+DO  - 10.1038/s41598-020-66849-2
+AN  - PMID:32555410
+ER  - 
+
+TY  - JOUR
+TI  - A pathology foundation model for cancer diagnosis and prognosis prediction
+AU  - Wang, Xiyue
+AU  - Zhao, Junhan
+AU  - Marostica, Eliana
+AU  - Yuan, Wei
+AU  - Jin, Jietian
+AU  - Zhang, Jiayu
+AU  - Li, Ruijiang
+AU  - Tang, Hongping
+AU  - Wang, Kanran
+AU  - Li, Yu
+AU  - Wang, Fang
+AU  - Peng, Yulong
+AU  - Zhu, Junyou
+AU  - Zhang, Jing
+AU  - Jackson, Christopher R.
+AU  - Zhang, Jun
+AU  - Dillon, Deborah
+AU  - Lin, Nancy U.
+AU  - Sholl, Lynette
+AU  - Denize, Thomas
+AU  - Meredith, David
+AU  - Ligon, Keith L.
+AU  - Signoretti, Sabina
+AU  - Ogino, Shuji
+AU  - Golden, Jeffrey A.
+AU  - Nasrallah, MacLean P.
+AU  - Han, Xiao
+AU  - Yang, Sen
+AU  - Yu, Kun-Hsing
+JO  - Nature
+PY  - 2024
+DO  - 10.1038/s41586-024-07894-z
+ER  - 
+
+TY  - JOUR
+TI  - Foundation models in computational pathology: methods, applications and clinical implications
+AU  - Sali, Rasoul
+AU  - Aschenaki, Yodit
+AU  - Leveillee, Raymond
+AU  - Baba, Firas
+AU  - Tessema, Liya
+AU  - Dixon, Christopher
+AU  - Bachhamba, Khaireddine
+AU  - Zhang, David Y
+JO  - BMJ Oncology
+PY  - 2026
+DO  - 10.1136/bmjonc-2026-001102
+ER  - 
+
+TY  - JOUR
+TI  - Improving Early Prostate Cancer Detection Through Artificial Intelligence: Evidence from a Systematic Review.
+AU  - Ciccone V
+AU  - Garofano M
+AU  - Del Sorbo R
+AU  - Mongelli G
+AU  - Izzo M
+AU  - Negri F
+AU  - Buonocore R
+AU  - Salerno F
+AU  - Gnazzo R
+AU  - Ungaro G
+AU  - Bramanti A
+JO  - Cancers (Basel)
+PY  - 2025
+DO  - 10.3390/cancers17213503
+AN  - PMID:41228295
+ER  - 
+
+TY  - JOUR
+TI  - AI in Prostate Cancer Screening &amp; Diagnosis: A Registry-Based Study of ClinicalTrials.gov Trials
+AU  - Hareeri, Rawan H.
+AU  - Aldurdunji, Mohammed M.
+JO  - INQUIRY: The Journal of Health Care Organization, Provision, and Financing
+PY  - 2026
+DO  - 10.1177/00469580261457387
+ER  - 
+
+TY  - JOUR
+TI  - AI‐enhanced micro‐ultrasound improves detection of clinically significant prostate cancer at biopsy
+AU  - Imran, Muhammad
+AU  - Brisbane, Wayne G.
+AU  - Su, Li‐Ming
+AU  - Joseph, Jason P.
+AU  - Shao, Wei
+JO  - BJUI Compass
+PY  - 2026
+DO  - 10.1002/bco2.70133
+ER  - 
+
+TY  - JOUR
+TI  - Construction and validation of a multimodal MRI-based deep learning model for early differential diagnosis of prostate cancer in the PSA gray zone: a retrospective cohort study
+AU  - Xu, Zuliang
+AU  - Ren, Dabin
+AU  - Wang, Guoyu
+AU  - Liu, Hongyu
+AU  - Zhou, Ying
+AU  - Zhu, Xiaojun
+JO  - Frontiers in Oncology
+PY  - 2026
+DO  - 10.3389/fonc.2026.1763766
+ER  - 
+
+TY  - JOUR
+TI  - Multi-institutional Clinical Tool for Predicting High-risk Lesions on 3Tesla Multiparametric Prostate Magnetic Resonance Imaging.
+AU  - Truong M
+AU  - Baack Kukreja JE
+AU  - Rais-Bahrami S
+AU  - Barashi NS
+AU  - Wang B
+AU  - Nuffer Z
+AU  - Park JH
+AU  - Lam K
+AU  - Frye TP
+AU  - Nix JW
+AU  - Thomas JV
+AU  - Feng C
+AU  - Chapin BF
+AU  - Davis JW
+AU  - Hollenberg G
+AU  - Oto A
+AU  - Eggener SE
+AU  - Joseph JV
+AU  - Weinberg E
+AU  - Messing EM
+JO  - Eur Urol Oncol
+PY  - 2019
+DO  - 10.1016/j.euo.2018.08.008
+AN  - PMID:31200839
+ER  - 
+
+TY  - JOUR
+TI  - The Role of Artificial Intelligence in the Characterization and Outcome Prediction of Prostate Cancer: A Systematic Review
+AU  - Aljoudi, Shahd
+AU  - Khan, Aasiya
+AU  - Dajani, Iman
+AU  - Al-Ani, Minatullah
+AU  - Mina, Michael
+AU  - Baroudi, Dounia
+AU  - Al-Saffar, Sama
+AU  - Aouadi, Souha
+AU  - Torfeh, Tarraf
+AU  - Hammoud, Rabih
+AU  - Al Hammadi, Noora
+AU  - Yousef, Mohammad S.
+JO  - Tomography
+PY  - 2026
+DO  - 10.3390/tomography12050062
+ER  - 
+
+TY  - JOUR
+TI  - Current Applications and Future Directions of Artificial Intelligence in Prostate Cancer Diagnosis: A Narrative Review
+AU  - Zhu, Cong-Yi
+AU  - Qu, Rui
+AU  - Dai, Yi
+AU  - Yang, Luo
+JO  - Current Oncology
+PY  - 2026
+DO  - 10.3390/curroncol33030166
+ER  - 
+
+TY  - JOUR
+TI  - Reporting guidelines for clinical trial reports for interventions involving artificial intelligence: the CONSORT-AI extension
+AU  - Liu, Xiaoxuan
+AU  - Cruz Rivera, Samantha
+AU  - Moher, David
+AU  - Calvert, Melanie J.
+AU  - Denniston, Alastair K.
+AU  - 
+AU  - 
+AU  - Chan, An-Wen
+AU  - Darzi, Ara
+AU  - Holmes, Christopher
+AU  - Yau, Christopher
+AU  - Ashrafian, Hutan
+AU  - Deeks, Jonathan J.
+AU  - Ferrante di Ruffano, Lavinia
+AU  - Faes, Livia
+AU  - Keane, Pearse A.
+AU  - Vollmer, Sebastian J.
+AU  - 
+AU  - Lee, Aaron Y.
+AU  - Jonas, Adrian
+AU  - Esteva, Andre
+AU  - Beam, Andrew L.
+AU  - Chan, An-Wen
+AU  - Panico, Maria Beatrice
+AU  - Lee, Cecilia S.
+AU  - Haug, Charlotte
+AU  - Kelly, Christopher J.
+AU  - Yau, Christopher
+AU  - Mulrow, Cynthia
+AU  - Espinoza, Cyrus
+AU  - Fletcher, John
+AU  - Paltoo, Dina
+AU  - Manna, Elaine
+AU  - Price, Gary
+AU  - Collins, Gary S.
+AU  - Harvey, Hugh
+AU  - Matcham, James
+AU  - Monteiro, Joao
+AU  - ElZarrad, M. Khair
+AU  - Ferrante di Ruffano, Lavinia
+AU  - Oakden-Rayner, Luke
+AU  - McCradden, Melissa
+AU  - Keane, Pearse A.
+AU  - Savage, Richard
+AU  - Golub, Robert
+AU  - Sarkar, Rupa
+AU  - Rowley, Samuel
+JO  - Nature Medicine
+PY  - 2020
+DO  - 10.1038/s41591-020-1034-x
+ER  - 
+
+TY  - JOUR
+TI  - Guidelines for clinical trial protocols for interventions involving artificial intelligence: the SPIRIT-AI extension
+AU  - Cruz Rivera, Samantha
+AU  - Liu, Xiaoxuan
+AU  - Chan, An-Wen
+AU  - Denniston, Alastair K.
+AU  - Calvert, Melanie J.
+AU  - 
+AU  - 
+AU  - Darzi, Ara
+AU  - Holmes, Christopher
+AU  - Yau, Christopher
+AU  - Moher, David
+AU  - Ashrafian, Hutan
+AU  - Deeks, Jonathan J.
+AU  - Ferrante di Ruffano, Lavinia
+AU  - Faes, Livia
+AU  - Keane, Pearse A.
+AU  - Vollmer, Sebastian J.
+AU  - 
+AU  - Lee, Aaron Y.
+AU  - Jonas, Adrian
+AU  - Esteva, Andre
+AU  - Beam, Andrew L.
+AU  - Panico, Maria Beatrice
+AU  - Lee, Cecilia S.
+AU  - Haug, Charlotte
+AU  - Kelly, Christophe J.
+AU  - Yau, Christopher
+AU  - Mulrow, Cynthia
+AU  - Espinoza, Cyrus
+AU  - Fletcher, John
+AU  - Moher, David
+AU  - Paltoo, Dina
+AU  - Manna, Elaine
+AU  - Price, Gary
+AU  - Collins, Gary S.
+AU  - Harvey, Hugh
+AU  - Matcham, James
+AU  - Monteiro, Joao
+AU  - ElZarrad, M. Khair
+AU  - Ferrante di Ruffano, Lavinia
+AU  - Oakden-Rayner, Luke
+AU  - McCradden, Melissa
+AU  - Keane, Pearse A.
+AU  - Savage, Richard
+AU  - Golub, Robert
+AU  - Sarkar, Rupa
+AU  - Rowley, Samuel
+JO  - Nature Medicine
+PY  - 2020
+DO  - 10.1038/s41591-020-1037-7
+ER  - 
+
+TY  - JOUR
+TI  - Reporting guideline for the early-stage clinical evaluation of decision support systems driven by artificial intelligence: DECIDE-AI
+AU  - Vasey, Baptiste
+AU  - Nagendran, Myura
+AU  - Campbell, Bruce
+AU  - Clifton, David A.
+AU  - Collins, Gary S.
+AU  - Denaxas, Spiros
+AU  - Denniston, Alastair K.
+AU  - Faes, Livia
+AU  - Geerts, Bart
+AU  - Ibrahim, Mudathir
+AU  - Liu, Xiaoxuan
+AU  - Mateen, Bilal A.
+AU  - Mathur, Piyush
+AU  - McCradden, Melissa D.
+AU  - Morgan, Lauren
+AU  - Ordish, Johan
+AU  - Rogers, Campbell
+AU  - Saria, Suchi
+AU  - Ting, Daniel S. W.
+AU  - Watkinson, Peter
+AU  - Weber, Wim
+AU  - Wheatstone, Peter
+AU  - McCulloch, Peter
+AU  - 
+AU  - Lee, Aaron Y.
+AU  - Fraser, Alan G.
+AU  - Connell, Ali
+AU  - Vira, Alykhan
+AU  - Esteva, Andre
+AU  - Althouse, Andrew D.
+AU  - Beam, Andrew L.
+AU  - de Hond, Anne
+AU  - Boulesteix, Anne-Laure
+AU  - Bradlow, Anthony
+AU  - Ercole, Ari
+AU  - Paez, Arsenio
+AU  - Tsanas, Athanasios
+AU  - Kirby, Barry
+AU  - Glocker, Ben
+AU  - Velardo, Carmelo
+AU  - Park, Chang Min
+AU  - Hehakaya, Charisma
+AU  - Baber, Chris
+AU  - Paton, Chris
+AU  - Johner, Christian
+AU  - Kelly, Christopher J.
+AU  - Vincent, Christopher J.
+AU  - Yau, Christopher
+AU  - McGenity, Clare
+AU  - Gatsonis, Constantine
+AU  - Faivre-Finn, Corinne
+AU  - Simon, Crispin
+AU  - Sent, Danielle
+AU  - Bzdok, Danilo
+AU  - Treanor, Darren
+AU  - Wong, David C.
+AU  - Steiner, David F.
+AU  - Higgins, David
+AU  - Benson, Dawn
+AU  - O’Regan, Declan P.
+AU  - Gunasekaran, Dinesh V.
+AU  - Danks, Dominic
+AU  - Neri, Emanuele
+AU  - Kyrimi, Evangelia
+AU  - Schwendicke, Falk
+AU  - Magrabi, Farah
+AU  - Ives, Frances
+AU  - Rademakers, Frank E.
+AU  - Fowler, George E.
+AU  - Frau, Giuseppe
+AU  - Hogg, H. D. Jeffry
+AU  - Marcus, Hani J.
+AU  - Chan, Heang-Ping
+AU  - Xiang, Henry
+AU  - McIntyre, Hugh F.
+AU  - Harvey, Hugh
+AU  - Kim, Hyungjin
+AU  - Habli, Ibrahim
+AU  - Fackler, James C.
+AU  - Shaw, James
+AU  - Higham, Janet
+AU  - Wohlgemut, Jared M.
+AU  - Chong, Jaron
+AU  - Bibault, Jean-Emmanuel
+AU  - Cohen, Jérémie F.
+AU  - Kers, Jesper
+AU  - Morley, Jessica
+AU  - Krois, Joachim
+AU  - Monteiro, Joao
+AU  - Horovitz, Joel
+AU  - Fletcher, John
+AU  - Taylor, Jonathan
+AU  - Yoon, Jung Hyun
+AU  - Singh, Karandeep
+AU  - Moons, Karel G. M.
+AU  - Karpathakis, Kassandra
+AU  - Catchpole, Ken
+AU  - Hood, Kerenza
+AU  - Balaskas, Konstantinos
+AU  - Kamnitsas, Konstantinos
+AU  - Militello, Laura
+AU  - Wynants, Laure
+AU  - Oakden-Rayner, Lauren
+AU  - Lovat, Laurence B.
+AU  - Smits, Luc J. M.
+AU  - Hinske, Ludwig C.
+AU  - ElZarrad, M. Khair
+AU  - van Smeden, Maarten
+AU  - Giavina-Bianchi, Mara
+AU  - Daley, Mark
+AU  - Sendak, Mark P.
+AU  - Sujan, Mark
+AU  - Rovers, Maroeska
+AU  - DeCamp, Matthew
+AU  - Woodward, Matthew
+AU  - Komorowski, Matthieu
+AU  - Marsden, Max
+AU  - Mackintosh, Maxine
+AU  - Abramoff, Michael D.
+AU  - de la Hoz, Miguel Ángel Armengol
+AU  - Hambidge, Neale
+AU  - Daly, Neil
+AU  - Peek, Niels
+AU  - Redfern, Oliver
+AU  - Ahmad, Omer F.
+AU  - Bossuyt, Patrick M.
+AU  - Keane, Pearse A.
+AU  - Ferreira, Pedro N. P.
+AU  - Schnell-Inderst, Petra
+AU  - Mascagni, Pietro
+AU  - Dasgupta, Prokar
+AU  - Guan, Pujun
+AU  - Barnett, Rachel
+AU  - Kader, Rawen
+AU  - Chopra, Reena
+AU  - Mann, Ritse M.
+AU  - Sarkar, Rupa
+AU  - Mäenpää, Saana M.
+AU  - Finlayson, Samuel G.
+AU  - Vollam, Sarah
+AU  - Vollmer, Sebastian J.
+AU  - Park, Seong Ho
+AU  - Laher, Shakir
+AU  - Joshi, Shalmali
+AU  - van der Meijden, Siri L.
+AU  - Shelmerdine, Susan C.
+AU  - Tan, Tien-En
+AU  - Stocker, Tom J. W.
+AU  - Giannini, Valentina
+AU  - Madai, Vince I.
+AU  - Newcombe, Virginia
+AU  - Ng, Wei Yan
+AU  - Rogers, Wendy A.
+AU  - Ogallo, William
+AU  - Park, Yoonyoung
+AU  - Perkins, Zane B.
+JO  - Nature Medicine
+PY  - 2022
+DO  - 10.1038/s41591-022-01772-9
+ER  - 
+
+TY  - JOUR
+TI  - The Lancet Commission on prostate cancer: planning for the surge in cases
+AU  - James, Nicholas D
+AU  - Tannock, Ian
+AU  - N'Dow, James
+AU  - Feng, Felix
+AU  - Gillessen, Silke
+AU  - Ali, Syed Adnan
+AU  - Trujillo, Blanca
+AU  - Al-Lazikani, Bissan
+AU  - Attard, Gerhardt
+AU  - Bray, Freddie
+AU  - Compérat, Eva
+AU  - Eeles, Ros
+AU  - Fatiregun, Omolara
+AU  - Grist, Emily
+AU  - Halabi, Susan
+AU  - Haran, Áine
+AU  - Herchenhorn, Daniel
+AU  - Hofman, Michael S
+AU  - Jalloh, Mohamed
+AU  - Loeb, Stacy
+AU  - MacNair, Archie
+AU  - Mahal, Brandon
+AU  - Mendes, Larissa
+AU  - Moghul, Masood
+AU  - Moore, Caroline
+AU  - Morgans, Alicia
+AU  - Morris, Michael
+AU  - Murphy, Declan
+AU  - Murthy, Vedang
+AU  - Nguyen, Paul L
+AU  - Padhani, Anwar
+AU  - Parker, Charles
+AU  - Rush, Hannah
+AU  - Sculpher, Mark
+AU  - Soule, Howard
+AU  - Sydes, Matthew R
+AU  - Tilki, Derya
+AU  - Tunariu, Nina
+AU  - Villanti, Paul
+AU  - Xie, Li-Ping
+JO  - The Lancet
+PY  - 2024
+DO  - 10.1016/s0140-6736(24)00651-2
+ER  - 
+
+TY  - JOUR
+TI  - Serum PSA-based early detection of prostate cancer in Europe and globally: past, present and future
+AU  - Van Poppel, Hendrik
+AU  - Albreht, Tit
+AU  - Basu, Partha
+AU  - Hogenhout, Renée
+AU  - Collen, Sarah
+AU  - Roobol, Monique
+JO  - Nature Reviews Urology
+PY  - 2022
+DO  - 10.1038/s41585-022-00638-6
+ER  - 
