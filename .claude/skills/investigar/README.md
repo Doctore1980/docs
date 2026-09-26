@@ -84,6 +84,16 @@ python3 -m venv .venv
 ./.venv/bin/pip install -r requirements.txt
 ```
 
+Claves opcionales (gratuitas) para las fuentes semánticas. Sin ellas, OpenAlex y
+Semantic Scholar usan un cupo compartido que a menudo está agotado (HTTP 429); la
+búsqueda sigue con PubMed, Europe PMC y ClinicalTrials.gov y lo indica en el campo
+`fuentes` de la salida:
+
+```bash
+export OPENALEX_API_KEY=...            # https://help.openalex.org/api/authentication/
+export SEMANTIC_SCHOLAR_API_KEY=...    # https://www.semanticscholar.org/product/api#api-key-form
+```
+
 ## Estructura
 
 ```

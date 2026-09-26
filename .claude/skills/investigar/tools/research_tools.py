@@ -19,6 +19,7 @@ La salida siempre es JSON en stdout, para que la skill la lea sin ambiguedad.
 
 from __future__ import annotations
 
+import os
 import re
 import html
 import sys
@@ -44,11 +45,13 @@ HTTP_HEADERS = {
 # Red resiliente
 # ---------------------------------------------------------------------
 
-def safe_get(url: str, params: dict | None = None, timeout: int = 30, retries: int = 2) -> requests.Response | None:
+def safe_get(url: str, params: dict | None = None, timeout: int = 30, retries: int = 2,
+             headers: dict | None = None) -> requests.Response | None:
     """GET con User-Agent polite, reintentos y tolerancia a rate-limiting."""
     for attempt in range(retries + 1):
         try:
-            resp = requests.get(url, params=params, headers=HTTP_HEADERS, timeout=timeout)
+            resp = requests.get(url, params=params, headers={**HTTP_HEADERS, **(headers or {})},
+                                timeout=timeout)
             if resp.status_code == 200:
                 return resp
             if resp.status_code in (429, 502, 503, 504) and attempt < retries:
@@ -61,6 +64,22 @@ def safe_get(url: str, params: dict | None = None, timeout: int = 30, retries: i
                 continue
             return None
     return None
+
+
+# Estado de cada fuente en la ultima busqueda. Una fuente caida o sin cuota
+# devuelve 0 candidatos: sin este registro el expediente no distingue "no hay
+# nada" de "no se pudo buscar".
+FUENTES_ESTADO: dict[str, str] = {}
+
+
+def _fallo(fuente: str, resp: requests.Response | None) -> list:
+    if resp is None:
+        FUENTES_ESTADO[fuente] = "sin respuesta (red)"
+    elif resp.status_code == 429:
+        FUENTES_ESTADO[fuente] = "HTTP 429: limite de peticiones o cuota agotada (ver claves API en README)"
+    else:
+        FUENTES_ESTADO[fuente] = f"HTTP {resp.status_code}"
+    return []
 
 
 # ---------------------------------------------------------------------
@@ -102,7 +121,7 @@ def fetch_pubmed(query: str, days: int | None = 3650, retmax: int = 25) -> list[
         params={"db": "pubmed", "term": term, "retmode": "json", "retmax": retmax, "sort": "relevance"},
     )
     if not resp or resp.status_code != 200:
-        return []
+        return _fallo("PubMed", resp)
     try:
         ids = resp.json().get("esearchresult", {}).get("idlist", [])
     except Exception:
@@ -115,7 +134,7 @@ def fetch_pubmed(query: str, days: int | None = 3650, retmax: int = 25) -> list[
         params={"db": "pubmed", "id": ",".join(ids), "retmode": "json"},
     )
     if not resp_sum or resp_sum.status_code != 200:
-        return []
+        return _fallo("PubMed", resp_sum)
     try:
         result = resp_sum.json().get("result", {})
     except Exception:
@@ -143,7 +162,7 @@ def fetch_clinicaltrials(condition: str, page_size: int = 15) -> list[dict]:
         params={"query.cond": condition, "pageSize": page_size, "sort": "LastUpdatePostDate:desc"},
     )
     if not resp or resp.status_code != 200:
-        return []
+        return _fallo("ClinicalTrials.gov", resp)
     try:
         studies = resp.json().get("studies", [])
     except Exception:
@@ -171,7 +190,7 @@ def fetch_europepmc(query: str, page_size: int = 20) -> list[dict]:
         params={"query": query, "format": "json", "pageSize": page_size, "resultType": "core"},
     )
     if not resp or resp.status_code != 200:
-        return []
+        return _fallo("Europe PMC", resp)
     try:
         results = resp.json().get("resultList", {}).get("result", [])
     except Exception:
@@ -196,9 +215,12 @@ def fetch_semantic_scholar(query: str, limit: int = 20) -> list[dict]:
     resp = safe_get(
         "https://api.semanticscholar.org/graph/v1/paper/search",
         params={"query": query, "limit": limit, "fields": "title,externalIds,year,venue,abstract"},
+        # Sin clave se comparte un cupo global que suele estar agotado (429).
+        headers={"x-api-key": os.environ["SEMANTIC_SCHOLAR_API_KEY"]}
+        if os.environ.get("SEMANTIC_SCHOLAR_API_KEY") else None,
     )
     if not resp or resp.status_code != 200:
-        return []
+        return _fallo("Semantic Scholar", resp)
     try:
         data = resp.json().get("data", [])
     except Exception:
@@ -223,10 +245,12 @@ def fetch_semantic_scholar(query: str, limit: int = 20) -> list[dict]:
 def fetch_openalex(query: str, per_page: int = 20) -> list[dict]:
     resp = safe_get(
         "https://api.openalex.org/works",
-        params={"search": query, "per_page": per_page},
+        # Sin clave, OpenAlex usa un presupuesto diario compartido por la IP de salida.
+        params={"search": query, "per_page": per_page,
+                **({"api_key": os.environ["OPENALEX_API_KEY"]} if os.environ.get("OPENALEX_API_KEY") else {})},
     )
     if not resp or resp.status_code != 200:
-        return []
+        return _fallo("OpenAlex", resp)
     try:
         results = resp.json().get("results", [])
     except Exception:
@@ -312,13 +336,20 @@ def search_all(query: str, condition: str | None = None, days: int | None = 3650
     los motores semanticos (Europe PMC, Semantic Scholar, OpenAlex) siguen con
     `query` en texto libre, que es donde mejor rinden. Carril doble.
     """
-    candidatos: list[dict] = []
-    candidatos += fetch_pubmed(pubmed_query or query, days=days)
-    candidatos += fetch_europepmc(query)
-    candidatos += fetch_semantic_scholar(query)
-    candidatos += fetch_openalex(query)
+    FUENTES_ESTADO.clear()
+    llamadas = [
+        ("PubMed", lambda: fetch_pubmed(pubmed_query or query, days=days)),
+        ("Europe PMC", lambda: fetch_europepmc(query)),
+        ("Semantic Scholar", lambda: fetch_semantic_scholar(query)),
+        ("OpenAlex", lambda: fetch_openalex(query)),
+    ]
     if condition:
-        candidatos += fetch_clinicaltrials(condition)
+        llamadas.append(("ClinicalTrials.gov", lambda: fetch_clinicaltrials(condition)))
+    candidatos: list[dict] = []
+    for fuente, llamada in llamadas:
+        res = llamada()
+        FUENTES_ESTADO.setdefault(fuente, f"ok ({len(res)} resultados)")
+        candidatos += res
 
     vistos: set[str] = set()
     unicos: list[dict] = []
@@ -690,7 +721,7 @@ def main() -> None:
         result = search_all(args.query, condition=args.condition, days=days,
                             with_abstracts=args.with_abstracts, pubmed_query=args.pubmed_query)
         json.dump({"query": args.query, "pubmed_query": args.pubmed_query,
-                   "n": len(result), "candidatos": result},
+                   "fuentes": dict(FUENTES_ESTADO), "n": len(result), "candidatos": result},
                   sys.stdout, ensure_ascii=False, indent=2)
     elif args.cmd == "build-query":
         pico = json.load(open(args.pico, encoding="utf-8"))

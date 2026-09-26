@@ -52,7 +52,9 @@ Para cada faceta:
 2. Recupera candidatos reales con abstract:
    `PY SKILL_DIR/tools/research_tools.py search --query "<query_semantica>" --pubmed-query '<booleana>' --with-abstracts`
    (añade la condición de ClinicalTrials si la faceta la tiene). Guarda la
-   salida en `_candidatos-brutos/faceta-N.json`.
+   salida en `_candidatos-brutos/faceta-N.json`. Su campo `fuentes` dice qué
+   fuentes respondieron: una fuente con error (p. ej. HTTP 429, cuota
+   agotada) no aportó candidatos y se anota en el resumen final.
 
 ## Fase 3 — Investigadores (subagentes en PARALELO)
 
@@ -128,7 +130,8 @@ o fallan, el subagente continúa y lo anota. Guarda cada salida JSON en
    (fecha, pregunta, nivel, veredicto, ruta).
 4. Entrega al usuario `07-resultado-final.md` y un resumen de: nivel
    aplicado, nº de facetas, citas VÁLIDAS / RETRACTADAS / INVENTADAS
-   detectadas, y herramientas MCP que no estuvieron disponibles.
+   detectadas, y fuentes de búsqueda y herramientas MCP que no estuvieron
+   disponibles.
 
 ## Principios inviolables
 
