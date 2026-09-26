@@ -416,8 +416,13 @@ def build_pubmed_query(concepts: list[dict], validate: bool = True) -> dict:
 # Verificacion determinista: existencia + retractacion
 # ---------------------------------------------------------------------
 
-def _pubmed_retracted_set(pmids: list[str]) -> set[str]:
-    """Devuelve el subconjunto de PMIDs marcados como 'Retracted Publication' en PubMed."""
+def _pubmed_retracted_set(pmids: list[str]) -> set[str] | None:
+    """Devuelve el subconjunto de PMIDs marcados como 'Retracted Publication' en PubMed.
+
+    None => PubMed no respondio: la retractacion NO se pudo evaluar. Nunca se
+    devuelve un conjunto vacio en caso de fallo, porque eso haria pasar un
+    articulo retractado como VALIDO.
+    """
     if not pmids:
         return set()
     resp = safe_get(
@@ -425,7 +430,7 @@ def _pubmed_retracted_set(pmids: list[str]) -> set[str]:
         params={"db": "pubmed", "id": ",".join(pmids), "rettype": "xml", "retmode": "xml"},
     )
     if not resp or resp.status_code != 200:
-        return set()
+        return None
     xml = resp.text
     retracted: set[str] = set()
     # Cada <PubmedArticle> contiene su PMID y su PublicationTypeList.
@@ -437,6 +442,32 @@ def _pubmed_retracted_set(pmids: list[str]) -> set[str]:
         if re.search(r"Retracted Publication", block, re.IGNORECASE):
             retracted.add(pmid)
     return retracted
+
+
+def _pubmed_existing(pmids: list[str]) -> dict[str, bool] | None:
+    """Existencia de PMIDs con una sola llamada ESummary por lote (evita el 429 de NCBI).
+
+    PubMed devuelve una entrada con campo "error" para PMIDs inexistentes: la
+    presencia de la clave NO basta. None => PubMed no respondio (no evaluable).
+    """
+    out: dict[str, bool] = {}
+    for i in range(0, len(pmids), 200):
+        chunk = pmids[i:i + 200]
+        r = safe_get(
+            "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi",
+            params={"db": "pubmed", "id": ",".join(chunk), "retmode": "json"}, timeout=30,
+        )
+        if not r or r.status_code != 200:
+            return None
+        try:
+            result = r.json().get("result", {})
+        except ValueError:
+            return None
+        for pmid in chunk:
+            doc = result.get(pmid, {})
+            out[pmid] = bool(doc) and "error" not in doc
+        time.sleep(0.4)
+    return out
 
 
 # Tipos de "update" de Crossref que invalidan un trabajo como apoyo de una
@@ -475,47 +506,69 @@ def _crossref_retraction_check(doi: str) -> bool | None:
 def verify_identifiers(identifiers: list[str]) -> dict[str, dict]:
     """Comprueba existencia y retractacion de cada identificador.
 
-    Devuelve {identificador_normalizado: {"exists": bool, "retracted": bool|None,
-    "checked_against": str}}. Retractacion: PMIDs contra PubMed ("Retracted
-    Publication") y DOIs contra Crossref (notas de retractacion via
-    `filter=updates:`). retracted=None => no se pudo evaluar (p.ej. NCT, o la
-    API fallo; usar Scite MCP como cruce adicional).
+    Devuelve {identificador_normalizado: {"exists": bool|None, "retracted":
+    bool|None, "checked_against": str}}.
+    - exists: True (resuelve), False (la API responde que no existe) o None (la
+      API no respondio: NO evaluable; repetir `verify`, nunca tratarlo como
+      INVENTADO ni como VALIDO).
+    - retracted: PMIDs contra PubMed ("Retracted Publication") y DOIs contra
+      Crossref (notas de retractacion via `filter=updates:`). None => no se pudo
+      evaluar (NCT, DOI fuera de Crossref o API caida; usar Scite como cruce).
     """
     norm = [normalize_identifier(i) for i in identifiers if i]
     norm = list(dict.fromkeys([n for n in norm if n and ":" in n]))  # dedup preservando orden
 
     pmids = [n.split(":", 1)[1] for n in norm if n.startswith("PMID:")]
-    retracted_pmids = _pubmed_retracted_set(pmids)
+    existing_pmids = _pubmed_existing(pmids) if pmids else {}
+    retracted_pmids = _pubmed_retracted_set(pmids) if pmids else set()
 
     out: dict[str, dict] = {}
     for ident in norm:
         kind, value = ident.split(":", 1)
-        exists = False
+        exists: bool | None = None
         retracted: bool | None = None
         checked = ""
         try:
             if kind == "PMID":
                 checked = "PubMed E-utilities"
-                r = safe_get(
-                    "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi",
-                    params={"db": "pubmed", "id": value, "retmode": "json"}, timeout=15,
-                )
-                # PubMed devuelve una entrada con campo "error" para PMIDs inexistentes:
-                # la presencia de la clave NO basta, hay que exigir que no tenga error.
-                doc = r.json().get("result", {}).get(value, {}) if (r and r.status_code == 200) else {}
-                exists = bool(doc) and "error" not in doc
-                retracted = value in retracted_pmids if exists else None
+                exists = None if existing_pmids is None else existing_pmids.get(value, False)
+                if exists and retracted_pmids is not None:
+                    retracted = value in retracted_pmids
+                if exists is None or (exists and retracted_pmids is None):
+                    checked = "PubMed E-utilities (sin respuesta: repetir verify)"
             elif kind == "NCT":
                 checked = "ClinicalTrials.gov API v2"
                 r = safe_get(f"https://clinicaltrials.gov/api/v2/studies/{value}", timeout=15)
-                exists = bool(r and r.status_code == 200)
+                if r is not None and r.status_code in (200, 404):
+                    exists = r.status_code == 200
             elif kind == "DOI":
                 checked = "Crossref (existencia + notas de retractacion)"
                 r = safe_get(f"https://api.crossref.org/works/{value}", timeout=15)
-                exists = bool(r and r.status_code == 200)
-                retracted = _crossref_retraction_check(value) if exists else None
+                if r is not None and r.status_code == 200:
+                    exists = True
+                    retracted = _crossref_retraction_check(value)
+                else:
+                    # No todos los DOI estan en Crossref (DataCite, mEDRA, algunas
+                    # revistas regionales): antes de declararlo inexistente se
+                    # consulta el registro de handles de doi.org. Sin Crossref no
+                    # hay notas de retractacion que consultar -> retracted=None.
+                    h = safe_get(f"https://doi.org/api/handles/{value}", timeout=15)
+                    code = None
+                    if h is not None and h.status_code in (200, 404):
+                        try:
+                            code = h.json().get("responseCode")
+                        except ValueError:
+                            code = None
+                    if code == 1:
+                        exists = True
+                        checked = "doi.org handle (no registrado en Crossref; retractacion no evaluable)"
+                    elif code == 100 and r is not None and r.status_code == 404:
+                        exists = False
+                    else:
+                        checked = "Crossref/doi.org (sin respuesta: repetir verify)"
         except Exception:
-            exists = False
+            exists = None
+            checked = f"{checked} (error: repetir verify)"
         out[ident] = {"exists": exists, "retracted": retracted, "checked_against": checked}
         time.sleep(0.1)
     return out
