@@ -126,4 +126,5 @@ investigacion/                # en la raíz del repo
 La versión original disparaba el pipeline por GitHub Actions y llamaba a `claude` por
 subprocess. Se ha sustituido por orquestación nativa (subagentes reales + tus MCPs), que
 elimina la fragilidad del CLI y aprovecha tus conectores autenticados. El código antiguo se
-conserva en `investigacion/legacy/` por si quieres consultarlo.
+conserva en `investigacion/legacy/` solo como referencia histórica: ya no se ejecuta con los
+prompts y herramientas actuales (módulos renombrados y formato PICO del Orquestador).
