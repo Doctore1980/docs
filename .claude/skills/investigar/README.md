@@ -94,6 +94,17 @@ export OPENALEX_API_KEY=...            # https://help.openalex.org/api/authentic
 export SEMANTIC_SCHOLAR_API_KEY=...    # https://www.semanticscholar.org/product/api#api-key-form
 ```
 
+## Pruebas
+
+Pruebas sin red (las APIs se simulan) de `verify`, `audit-figures`, `corpus`, la búsqueda,
+el export a Zotero y las diapositivas. Cada una fija un fallo que ya ocurrió en un
+expediente real:
+
+```bash
+cd .claude/skills/investigar
+./.venv/bin/python -m unittest discover -s tests -v
+```
+
 ## Estructura
 
 ```
@@ -105,6 +116,7 @@ export SEMANTIC_SCHOLAR_API_KEY=...    # https://www.semanticscholar.org/product
 │   └── slide_generator.py    # (opcional) diapositivas Marp para nivel "completo"
 ├── prompts/                  # rúbricas de cada rol del pipeline
 ├── skills/                   # regla citation-verifier
+├── tests/                    # pruebas sin red de tools/
 └── .venv/                    # (local, no versionado)
 
 investigacion/                # en la raíz del repo

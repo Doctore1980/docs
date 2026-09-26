@@ -732,10 +732,13 @@ def main() -> None:
         result = verify_identifiers(args.identifiers)
         json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     elif args.cmd == "corpus":
-        validos = [normalize_identifier(i) for i in json.load(open(args.validos, encoding="utf-8"))]
+        with open(args.validos, encoding="utf-8") as f:
+            validos = [normalize_identifier(i) for i in json.load(f)]
         known: dict[str, str] = {}
         for path in args.candidatos:
-            for c in json.load(open(path, encoding="utf-8")).get("candidatos", []):
+            with open(path, encoding="utf-8") as f:
+                cands = json.load(f).get("candidatos", [])
+            for c in cands:
                 ident = normalize_identifier(c.get("identifier", ""))
                 if ident and (c.get("abstract") or "").strip():
                     known[ident] = c["abstract"]

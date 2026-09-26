@@ -107,7 +107,8 @@ o fallan, el subagente continúa y lo anota. Guarda cada salida JSON en
 2. Subagente Verificador 2 (`prompts/verificador2_system_prompt.md`) con el
    borrador + auditoría → `07-resultado-final.md`. No altera hechos ni citas.
 3. Nivel `completo`: opcionalmente diapositivas Marp con
-   `generate_advanced_presentation_artifacts(expediente_dir, encargo, plan, resultado_final, validos)`
+   `generate_advanced_presentation_artifacts(expediente_dir, encargo, plan, resultado_final, validos, fuentes)`
+   (`fuentes`: las que respondieron según el campo `fuentes` de la búsqueda)
    de `tools/slide_generator.py` (módulo sin CLI: impórtalo con
    `cd SKILL_DIR/tools && PY -c "from slide_generator import …"`).
 

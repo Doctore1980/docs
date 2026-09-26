@@ -9,9 +9,30 @@ import re
 import time
 import requests
 
-HTTP_HEADERS = {
-    "User-Agent": "investigacion-agentica/1.0 (https://github.com/investigacion-agentica; mailto:investigacion@agente.local)"
-}
+# Reintentos y pausa ante 429 de NCBI/Crossref: sin ellos, un lote de PMIDs
+# seguidos acababa con registros "METADATOS NO RECUPERADOS" que si existen.
+from research_tools import safe_get
+
+
+def _ris_author(name: str) -> str:
+    """PubMed da 'Apellido Iniciales'; RIS espera 'Apellido, Iniciales'."""
+    if "," in name:
+        return name
+    parts = name.rsplit(" ", 1)
+    return f"{parts[0]}, {parts[1]}" if len(parts) == 2 and parts[1].isupper() else name
+
+
+def _doi_org_csl(doi: str) -> dict | None:
+    """Metadatos CSL-JSON por negociacion de contenido en doi.org: cubre los DOI
+    registrados fuera de Crossref (DataCite, mEDRA, revistas regionales)."""
+    r = safe_get(f"https://doi.org/{doi}", timeout=20,
+                 headers={"Accept": "application/vnd.citationstyles.csl+json"})
+    if not r or r.status_code != 200:
+        return None
+    try:
+        return r.json()
+    except ValueError:
+        return None
 
 
 def fetch_item_metadata(identifier: str) -> dict:
@@ -36,13 +57,12 @@ def fetch_item_metadata(identifier: str) -> dict:
 
     try:
         if kind == "PMID":
-            r = requests.get(
+            r = safe_get(
                 "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi",
                 params={"db": "pubmed", "id": val, "retmode": "json"},
-                headers=HTTP_HEADERS,
                 timeout=15,
             )
-            if r.status_code == 200:
+            if r is not None and r.status_code == 200:
                 doc = r.json().get("result", {}).get(val, {})
                 if doc.get("title") and "error" not in doc:
                     meta["title"] = doc["title"]
@@ -51,21 +71,23 @@ def fetch_item_metadata(identifier: str) -> dict:
                 pubdate = doc.get("pubdate", "")
                 meta["year"] = pubdate.split()[0] if pubdate else ""
                 authors = doc.get("authors", [])
-                meta["authors"] = [a.get("name", "") for a in authors if isinstance(a, dict)]
+                meta["authors"] = [_ris_author(a.get("name", "")) for a in authors if isinstance(a, dict)]
                 for articleid in doc.get("articleids", []):
                     if articleid.get("idtype") == "doi":
                         meta["doi"] = articleid.get("value", "")
 
         elif kind == "DOI":
-            r = requests.get(f"https://api.crossref.org/works/{val}", headers=HTTP_HEADERS, timeout=15)
-            if r.status_code == 200:
-                item = r.json().get("message", {})
+            r = safe_get(f"https://api.crossref.org/works/{val}", timeout=15)
+            item = r.json().get("message", {}) if (r is not None and r.status_code == 200) else _doi_org_csl(val)
+            if item:
+                # Crossref da listas; el CSL-JSON de doi.org puede dar cadenas.
                 title = item.get("title", [])
+                title = title[0] if isinstance(title, list) and title else title
                 if title:
-                    meta["title"] = title[0]
+                    meta["title"] = title
                     meta["complete"] = True
                 container = item.get("container-title", [])
-                meta["journal"] = container[0] if container else ""
+                meta["journal"] = (container[0] if container else "") if isinstance(container, list) else container
                 issued = item.get("issued", {}).get("date-parts", [[]])
                 if issued and issued[0]:
                     meta["year"] = str(issued[0][0])
@@ -73,8 +95,8 @@ def fetch_item_metadata(identifier: str) -> dict:
                 meta["authors"] = [f"{a.get('family', '')}, {a.get('given', '')}".strip(", ") for a in authors]
 
         elif kind == "NCT":
-            r = requests.get(f"https://clinicaltrials.gov/api/v2/studies/{val}", headers=HTTP_HEADERS, timeout=15)
-            if r.status_code == 200:
+            r = safe_get(f"https://clinicaltrials.gov/api/v2/studies/{val}", timeout=15)
+            if r is not None and r.status_code == 200:
                 study = r.json()
                 ident = study.get("protocolSection", {}).get("identificationModule", {})
                 status = study.get("protocolSection", {}).get("statusModule", {})
@@ -168,8 +190,11 @@ def sync_to_zotero_api(items: list[dict], collection_name: str) -> bool:
                 "extra": f"PMID: {item.get('pmid', '')}" if item.get('pmid') else "",
                 "collections": [col_key] if col_key else [],
             })
-        if zotero_payload:
-            requests.post(items_url, headers=headers, json=zotero_payload, timeout=15)
+        # La API de Zotero admite como maximo 50 items por peticion.
+        for i in range(0, len(zotero_payload), 50):
+            resp = requests.post(items_url, headers=headers, json=zotero_payload[i:i + 50], timeout=30)
+            if resp.status_code not in (200, 201):
+                return False
         return True
     except Exception:
         return False
@@ -177,7 +202,10 @@ def sync_to_zotero_api(items: list[dict], collection_name: str) -> bool:
 
 def export_zotero_bibliografia(expediente_dir: str, valid_identifiers: list[str], expediente_title: str = "Expediente") -> tuple[str, str]:
     """Genera los archivos .ris y .json dentro del expediente."""
-    items = [fetch_item_metadata(ident) for ident in valid_identifiers]
+    items = []
+    for ident in valid_identifiers:
+        items.append(fetch_item_metadata(ident))
+        time.sleep(0.34)  # NCBI admite ~3 peticiones/s sin clave
 
     ris_content = generate_ris(items)
     ris_path = f"{expediente_dir}/08-bibliografia-zotero.ris"
