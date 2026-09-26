@@ -8,7 +8,7 @@ Recibirás:
 4. La lista de estudios verificados como reales.
 
 Directrices según el nivel:
-- Nivel "rapido": Respuesta clínica directa (300-500 palabras), enfocada a responder la duda con la evidencia clave citada explícitamente (ej: [PMID:12345678]).
+- Nivel "rapido": Respuesta clínica directa, de la extensión que la duda requiera (lectura de un par de minutos), enfocada a responder la duda con la evidencia clave citada explícitamente (ej: [PMID:12345678]).
 - Nivel "medio": Informe de investigación estructurado (Introducción, Evidencia Actual por Ejes, Limitaciones/Vacíos, Conclusiones y Referencias Verificadas).
 - Nivel "completo": Borrador para comunicación/ponencia de congreso:
   - Estructura del informe completo.

@@ -55,7 +55,8 @@ o vuelca la nota al **vault de Obsidian** (respetando ISO 690 / RMmp / PEEL).
 # Verificar existencia + retractación
 ./.venv/bin/python tools/research_tools.py verify PMID:9500320 DOI:10.1056/NEJMoa1910038
 
-# Auditar cifras del documento final contra los abstracts citados
+# Construir el corpus {identificador: abstract} de los VÁLIDOS y auditar cifras contra él
+./.venv/bin/python tools/research_tools.py corpus --validos _validos.json --candidatos _candidatos-brutos/*.json > corpus.json
 ./.venv/bin/python tools/research_tools.py audit-figures --doc 07-resultado-final.md --corpus corpus.json
 ```
 
@@ -63,11 +64,17 @@ La búsqueda parte de un **PICO** (el Orquestador propone conceptos con descript
 sinónimos); un paso determinista **valida cada MeSH contra NCBI** y arma una query booleana
 reproducible que queda guardada en el expediente (transparencia tipo PRISMA).
 
-`verify` distingue tres estados: **VÁLIDO** (existe, no retractado), **RETRACTADO**
-(existe pero retractado — nunca se usa como apoyo) e **INVENTADO** (no existe — señal de
-alucinación). Solo los VÁLIDOS pueden citarse en el documento final. La retractación se
-comprueba en doble vía: PMIDs contra PubMed ("Retracted Publication") y DOIs contra
-Crossref (notas de retractación registradas vía `filter=updates:`).
+`verify` devuelve, por identificador, `exists` y `retracted`, que dan cuatro estados:
+**VÁLIDO** (existe, no retractado), **RETRACTADO** (existe pero retractado — nunca se usa
+como apoyo), **INVENTADO** (la API responde que no existe — señal de alucinación) y
+**NO EVALUABLE** (`exists: null`: la API no respondió; se repite `verify`, nunca se
+trata como válido ni como inventado). Solo los VÁLIDOS pueden citarse en el documento
+final. La retractación se comprueba en doble vía: PMIDs contra PubMed ("Retracted
+Publication") y DOIs contra Crossref (notas de retractación registradas vía
+`filter=updates:`); si esa consulta falla, `retracted` queda en `null`, nunca en `false`.
+Los DOI no registrados en Crossref se confirman contra el registro de handles de doi.org
+(retractación no evaluable). Los PMID se consultan por lotes para no chocar con el
+límite de peticiones de NCBI.
 
 ## Instalación (una vez, la skill la hace sola si falta)
 

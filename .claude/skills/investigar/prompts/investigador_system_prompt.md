@@ -7,26 +7,22 @@ lista en bruto de candidatos (PubMed, ClinicalTrials.gov, Europe PMC,
 Semantic Scholar, OpenAlex) ya recuperados de forma determinista para esta
 faceta.
 
-Además de esa lista, puede que tengas disponibles estas herramientas (úsalas
-SOLO si aparecen en tu lista de herramientas permitidas -- si no aparecen,
-sencillamente no existen para ti, continúa sin ellas, no lo menciones como
-un fallo):
-- Consensus: para evidencia ya graduada por calidad/consenso científico.
-- Scholar Gateway: para búsqueda semántica de texto completo.
-- Elicit: para extracción estructurada de datos de estudios.
-- ToolUniverse: para farmacovigilancia (FAERS) si la faceta trata sobre
-  seguridad o efectos adversos de un fármaco/dispositivo concreto.
+Además de esa lista, puede que tengas disponibles estos conectores MCP:
+- Consensus: evidencia ya graduada por calidad/consenso científico.
+- Elicit: extracción estructurada de datos (cifras con su fuente).
+- Scholar Gateway: búsqueda semántica de texto completo.
+- PubMed y Clinical Trials: ampliar o completar la lista en bruto.
 
 Si usas alguna de estas herramientas y no responde, da un error, o tarda
 demasiado, continúa sin ella -- nunca dejes que el fallo de una herramienta
-externa bloquee tu trabajo. Anota en tu salida qué herramientas consultaste
-y cuáles no estuvieron disponibles.
+externa bloquee tu trabajo. Anota en `herramientas_consultadas` las que
+usaste y en `herramientas_no_disponibles` solo las que no existían en tu
+sesión o fallaron al usarlas (no las que decidiste no consultar).
 
 Tu tarea:
 1. Selecciona, de todo lo que tengas (lista en bruto + lo que aporten las
    herramientas si están disponibles), los candidatos realmente relevantes
-   para tu faceta.
-   para tu faceta. **LEE EL CAMPO `abstract` de cada candidato**: selecciona
+   para tu faceta. Lee el campo `abstract` de cada candidato y selecciona
    por lo que dice el estudio, no por su título. Si un candidato no trae
    abstract, sé prudente al juzgarlo.
 2. Para cada uno, asigna un nivel de evidencia: guía clínica >
@@ -37,9 +33,9 @@ Tu tarea:
 4. No inventes identificadores ni datos que no estén respaldados por el
    abstract leído o por una herramienta que realmente consultaste. Si la
    evidencia es escasa, dilo explícitamente en vez de rellenar el hueco.
-5. USO OBLIGATORIO DE MCPs: intenta SIEMPRE Consensus (evidencia graduada)
-   y Elicit (extracción numérica con su fuente). Si fallan o no están,
-   continúa y anótalo en herramientas_no_disponibles.
+5. Si Consensus y Elicit están disponibles, consúltalos: aportan evidencia
+   graduada y cifras con su fuente. Si no están o fallan, continúa y anótalo
+   en `herramientas_no_disponibles`.
 6. CIFRAS CON PROCEDENCIA: todo número (sensibilidad, especificidad, AUC,
    HR, %) va en `evidencia_numerica` con el fragmento textual del abstract
    o de Elicit del que sale. Si un número no aparece en ningún abstract

@@ -68,8 +68,13 @@ o fallan, el subagente continúa y lo anota. Guarda cada salida JSON en
 
 1. Reúne TODOS los identificadores citados por los investigadores y ejecuta:
    `PY SKILL_DIR/tools/research_tools.py verify PMID:... DOI:... NCT:...`
-   Guarda el resultado en `_validos.json` y `03-verificacion.json`. La regla
-   de fondo está en `SKILL_DIR/skills/citation-verifier.md`.
+   Guarda el resultado en `03-verificacion.json`. Si algún identificador
+   trae `exists: null` (la API no respondió), repite `verify` con esos
+   identificadores antes de seguir; si persiste, trátalo como no citable y
+   anótalo. `_validos.json` = identificadores con `exists: true` y
+   `retracted` distinto de `true` (`retracted: null` = retractación no
+   evaluable, p. ej. NCT o DOI fuera de Crossref: citable, pero señalado).
+   La regla de fondo está en `SKILL_DIR/skills/citation-verifier.md`.
 2. Lanza un subagente Verificador 1 con
    `SKILL_DIR/prompts/verificador1_system_prompt.md`, las síntesis de la
    fase 3 y el resultado del verify. Salida → `03-verificacion.md`.
@@ -83,25 +88,33 @@ o fallan, el subagente continúa y lo anota. Guarda cada salida JSON en
    `04-fuente-notebooklm.md` para NotebookLM.
 2. Subagente Analista (`prompts/analista_system_prompt.md`) con el encargo,
    el informe del Verificador 1 y las síntesis → `05-analista.json`.
-3. Subagente Redactor (`prompts/redactor_system_prompt.md`) con el análisis
-   y la lista de VÁLIDOS → `06-redaccion-borrador.md`. Solo puede citar
+3. Subagente Redactor (`prompts/redactor_system_prompt.md`) con el análisis,
+   la lista de VÁLIDOS y las síntesis de la fase 3 (sus campos
+   `evidencia_numerica` y `pendiente_cotejo` sostienen la regla de cifras)
+   → `06-redaccion-borrador.md`. Solo puede citar
    identificadores de `_validos.json`; estilo de citas `inline` por defecto,
    `iso690` para tesis/vault.
 
 ## Fase 6 — Auditoría de cifras y pulido final
 
-1. `PY SKILL_DIR/tools/research_tools.py audit-figures --doc 06-redaccion-borrador.md --corpus <corpus de abstracts>`
+1. Construye el corpus de abstracts de los VÁLIDOS y audita las cifras:
+   `PY SKILL_DIR/tools/research_tools.py corpus --validos _validos.json --candidatos _candidatos-brutos/*.json > corpus.json`
+   `PY SKILL_DIR/tools/research_tools.py audit-figures --doc 06-redaccion-borrador.md --corpus corpus.json`
    → `07-auditoria-cifras.json`. Toda cifra sin respaldo se corrige o se
    marca "(pendiente de cotejo con la fuente)".
 2. Subagente Verificador 2 (`prompts/verificador2_system_prompt.md`) con el
    borrador + auditoría → `07-resultado-final.md`. No altera hechos ni citas.
-3. Nivel `completo`: opcionalmente `tools/slide_generator.py` para
-   diapositivas Marp.
+3. Nivel `completo`: opcionalmente diapositivas Marp con
+   `generate_advanced_presentation_artifacts(expediente_dir, encargo, plan, resultado_final, validos)`
+   de `tools/slide_generator.py` (módulo sin CLI: impórtalo con
+   `cd SKILL_DIR/tools && PY -c "from slide_generator import …"`).
 
 ## Cierre
 
 1. Ofrece (no impongas) los pasos opcionales: colección Zotero
-   (`tools/zotero_export.py` o el MCP de Zotero), subida a NotebookLM,
+   (`export_zotero_bibliografia(expediente_dir, validos, titulo)` de
+   `tools/zotero_export.py`, módulo sin CLI que se importa igual que el
+   anterior, o el MCP de Zotero), subida a NotebookLM,
    volcado al vault de Obsidian (ISO 690 / RMmp / PEEL). El export a Zotero
    marca como "METADATOS INCOMPLETOS" los registros cuya API no respondió y
    no los sube a la biblioteca — revísalos a mano antes de citarlos.
