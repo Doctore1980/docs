@@ -55,7 +55,8 @@ o vuelca la nota al **vault de Obsidian** (respetando ISO 690 / RMmp / PEEL).
 # Verificar existencia + retractación
 ./.venv/bin/python tools/research_tools.py verify PMID:9500320 DOI:10.1056/NEJMoa1910038
 
-# Auditar cifras del documento final contra los abstracts citados
+# Construir el corpus {identificador: abstract} de los VÁLIDOS y auditar cifras contra él
+./.venv/bin/python tools/research_tools.py corpus --validos _validos.json --candidatos _candidatos-brutos/*.json > corpus.json
 ./.venv/bin/python tools/research_tools.py audit-figures --doc 07-resultado-final.md --corpus corpus.json
 ```
 
@@ -63,11 +64,17 @@ La búsqueda parte de un **PICO** (el Orquestador propone conceptos con descript
 sinónimos); un paso determinista **valida cada MeSH contra NCBI** y arma una query booleana
 reproducible que queda guardada en el expediente (transparencia tipo PRISMA).
 
-`verify` distingue tres estados: **VÁLIDO** (existe, no retractado), **RETRACTADO**
-(existe pero retractado — nunca se usa como apoyo) e **INVENTADO** (no existe — señal de
-alucinación). Solo los VÁLIDOS pueden citarse en el documento final. La retractación se
-comprueba en doble vía: PMIDs contra PubMed ("Retracted Publication") y DOIs contra
-Crossref (notas de retractación registradas vía `filter=updates:`).
+`verify` devuelve, por identificador, `exists` y `retracted`, que dan cuatro estados:
+**VÁLIDO** (existe, no retractado), **RETRACTADO** (existe pero retractado — nunca se usa
+como apoyo), **INVENTADO** (la API responde que no existe — señal de alucinación) y
+**NO EVALUABLE** (`exists: null`: la API no respondió; se repite `verify`, nunca se
+trata como válido ni como inventado). Solo los VÁLIDOS pueden citarse en el documento
+final. La retractación se comprueba en doble vía: PMIDs contra PubMed ("Retracted
+Publication") y DOIs contra Crossref (notas de retractación registradas vía
+`filter=updates:`); si esa consulta falla, `retracted` queda en `null`, nunca en `false`.
+Los DOI no registrados en Crossref se confirman contra el registro de handles de doi.org
+(retractación no evaluable). Los PMID se consultan por lotes para no chocar con el
+límite de peticiones de NCBI.
 
 ## Instalación (una vez, la skill la hace sola si falta)
 
@@ -75,6 +82,27 @@ Crossref (notas de retractación registradas vía `filter=updates:`).
 cd .claude/skills/investigar
 python3 -m venv .venv
 ./.venv/bin/pip install -r requirements.txt
+```
+
+Claves opcionales (gratuitas) para las fuentes semánticas. Sin ellas, OpenAlex y
+Semantic Scholar usan un cupo compartido que a menudo está agotado (HTTP 429); la
+búsqueda sigue con PubMed, Europe PMC y ClinicalTrials.gov y lo indica en el campo
+`fuentes` de la salida:
+
+```bash
+export OPENALEX_API_KEY=...            # https://help.openalex.org/api/authentication/
+export SEMANTIC_SCHOLAR_API_KEY=...    # https://www.semanticscholar.org/product/api#api-key-form
+```
+
+## Pruebas
+
+Pruebas sin red (las APIs se simulan) de `verify`, `audit-figures`, `corpus`, la búsqueda,
+el export a Zotero y las diapositivas. Cada una fija un fallo que ya ocurrió en un
+expediente real:
+
+```bash
+cd .claude/skills/investigar
+./.venv/bin/python -m unittest discover -s tests -v
 ```
 
 ## Estructura
@@ -88,6 +116,7 @@ python3 -m venv .venv
 │   └── slide_generator.py    # (opcional) diapositivas Marp para nivel "completo"
 ├── prompts/                  # rúbricas de cada rol del pipeline
 ├── skills/                   # regla citation-verifier
+├── tests/                    # pruebas sin red de tools/
 └── .venv/                    # (local, no versionado)
 
 investigacion/                # en la raíz del repo
@@ -109,4 +138,5 @@ investigacion/                # en la raíz del repo
 La versión original disparaba el pipeline por GitHub Actions y llamaba a `claude` por
 subprocess. Se ha sustituido por orquestación nativa (subagentes reales + tus MCPs), que
 elimina la fragilidad del CLI y aprovecha tus conectores autenticados. El código antiguo se
-conserva en `investigacion/legacy/` por si quieres consultarlo.
+conserva en `investigacion/legacy/` solo como referencia histórica: ya no se ejecuta con los
+prompts y herramientas actuales (módulos renombrados y formato PICO del Orquestador).

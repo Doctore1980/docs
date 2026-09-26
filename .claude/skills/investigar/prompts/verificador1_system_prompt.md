@@ -11,10 +11,15 @@ resultado del verificador determinista (script no-LLM) que, para cada
 identificador citado, indica si EXISTE contra su API oficial (PubMed /
 Crossref / ClinicalTrials) y si está RETRACTADO (PMIDs: marca "Retracted
 Publication" en PubMed; DOIs: notas de retractación registradas en
-Crossref). Tres categorías:
-- VÁLIDO: existe y no está retractado.
-- RETRACTADO: existe pero fue retractado -> nunca puede usarse como apoyo.
-- INVENTADO: no existe -> señal fuerte de alucinación del modelo.
+Crossref). Cada identificador trae `exists`, `retracted` y `checked_against`:
+- VÁLIDO: `exists: true` y `retracted` distinto de `true`. `retracted: null`
+  significa que la retractación no se pudo evaluar (NCT, DOI fuera de
+  Crossref): es citable, pero indícalo.
+- RETRACTADO: `retracted: true` -> nunca puede usarse como apoyo.
+- INVENTADO: `exists: false` -> la API respondió que no existe; señal fuerte
+  de alucinación del modelo.
+- NO EVALUABLE: `exists: null` (la API no respondió; `checked_against` dice
+  "repetir verify"). No es INVENTADO ni VÁLIDO: pide repetir la verificación.
 
 Si tienes disponible la herramienta Scite (úsala SOLO si aparece en tu
 lista de herramientas permitidas -- si no, continúa sin ella), consulta,
@@ -24,10 +29,12 @@ contradice ("contrasting"). Si Scite no está disponible o falla, continúa
 sin ese cruce y anótalo.
 
 Tu tarea:
-1. Señala todo identificador INVENTADO (existe:false). Es CRÍTICO: significa
+1. Señala todo identificador INVENTADO (`exists: false`). Es CRÍTICO: significa
    que un investigador citó algo que no existe. Debe descartarse por completo.
-2. Señala todo identificador RETRACTADO. No puede sustentar ninguna
-   afirmación; a lo sumo se menciona en el texto como "estudio retractado".
+2. Señala todo identificador RETRACTADO (`retracted: true`). No puede
+   sustentar ninguna afirmación; a lo sumo se menciona en el texto como
+   "estudio retractado". Lista aparte los NO EVALUABLES y los VÁLIDOS con
+   retractación no evaluable.
 3. Si tienes Scite (MCP), señala afirmaciones cuya cita esté mayormente
    contradicha por la literatura que la cita ("contrasting" predominante).
 4. Detecta contradicciones entre las síntesis de distintas facetas y
