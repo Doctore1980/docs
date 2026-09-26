@@ -20,6 +20,7 @@ La salida siempre es JSON en stdout, para que la skill la lea sin ambiguedad.
 from __future__ import annotations
 
 import re
+import html
 import sys
 import json
 import time
@@ -276,7 +277,9 @@ def fetch_pubmed_abstracts(pmids: list[str]) -> dict[str, str]:
                 continue
             pmid = m.group(1)
             parts = re.findall(r"<AbstractText[^>]*>(.*?)</AbstractText>", block, re.DOTALL)
-            text = " ".join(re.sub(r"<[^>]+>", "", p) for p in parts).strip()
+            # efetch devuelve XML: hay que decodificar entidades (&lt; -> <, &#xb7; -> ·)
+            # o las cifras ("p&lt;0.001", "0&#xb7;73") no coinciden con el documento.
+            text = html.unescape(" ".join(re.sub(r"<[^>]+>", "", p) for p in parts)).strip()
             text = re.sub(r"\s+", " ", text)
             if text:
                 out[pmid] = text[:ABSTRACT_MAX_CHARS]
@@ -591,6 +594,9 @@ def verify_identifiers(identifiers: list[str]) -> dict[str, dict]:
 _NUM_RE = re.compile(r"(?<![\w.])\d{1,3}(?:[.,]\d+)?\s?%|(?<![\w.])0[.,]\d+|(?<![\w])\d{3,}(?![\w.])")
 
 
+_CITA_RE = re.compile(r"\[((?:PMID|DOI|NCT):[^\]]+)\]")
+
+
 def _norm_num(tok: str) -> str:
     return tok.replace(" ", "").replace(",", ".").rstrip("%")
 
@@ -611,15 +617,19 @@ def audit_figures(doc: str, corpus: dict[str, str]) -> dict:
     frases = [ln for ln in doc.split("\n") if ln.strip()]
     flagged: list[dict] = []
     for frase in frases:
-        ids = [normalize_identifier(m) for m in re.findall(r"\[(PMID:\d+|DOI:[^\]]+|NCT:[^\]]+)\]", frase)]
-        # Elimina los bloques de cita [PMID:..]/[DOI:..]/[NCT:..] antes de buscar cifras,
-        # para no confundir los dígitos del propio identificador con un dato.
-        frase_limpia = re.sub(r"\[(?:PMID:\d+|DOI:[^\]]+|NCT:[^\]]+)\]", " ", frase)
+        # Bloques de cita: [PMID:1], y también agrupados, [PMID:1; PMID:2] o [PMID:1, DOI:10.x/y].
+        bloques = _CITA_RE.findall(frase)
+        ids = [normalize_identifier(m.strip()) for b in bloques
+               for m in re.split(r"\s*[;,]\s*(?=(?:PMID|DOI|NCT):)", b)]
+        # Elimina los bloques de cita antes de buscar cifras, para no confundir los
+        # dígitos del propio identificador con un dato.
+        frase_limpia = _CITA_RE.sub(" ", frase)
         nums = [m.group(0) for m in _NUM_RE.finditer(frase_limpia)]
         if not nums:
             continue
         # abstracts disponibles para las citas de esta frase
-        respaldo = " ".join(corpus_norm.get(i, "") for i in ids)
+        # El punto medio (p=0·73, estilo Lancet) es un separador decimal.
+        respaldo = " ".join(corpus_norm.get(i, "") for i in ids).replace("\u00b7", ".")
         for tok in nums:
             n = _norm_num(tok)
             # ignora años sueltos y números triviales de estructura
