@@ -126,6 +126,15 @@ class AuditFiguresTests(unittest.TestCase):
                "**Tabla.** Pendiente [PMID:1]:\n\n| Grupo | Valor |\n|---|---|\n| Sin DM | 1,29 (0,73-1,85) |\n")
         self.assertEqual(rt.audit_figures(doc, corpus)["n_cifras_sin_respaldo"], 0)
 
+    def test_vineta_terminada_en_dos_puntos_introduce_tabla(self):
+        doc = ("- Otra cosa.\n- Por causa [PMID:1]:\n\n  | Causa | HR |\n  |---|---|\n  | GN | 0,43 (0,26-0,71) |\n")
+        self.assertEqual(rt.audit_figures(doc, {"PMID:1": "HR 0.43 (0.26-0.71)"})["n_cifras_sin_respaldo"], 0)
+
+    def test_cifra_ya_marcada_no_bloquea_el_ok(self):
+        res = rt.audit_figures("Tasa ~86,7 % (pendiente de cotejo con la fuente) [PMID:1].", {"PMID:1": ""})
+        self.assertEqual(res["veredicto"], "OK")
+        self.assertEqual(res["marcadas_pendiente_cotejo"], ["86,7 %"])
+
     def test_herencia_no_tapa_cifras_falsas(self):
         res = rt.audit_figures("- Global [PMID:1].\n  - Inventada: 0,99.", {"PMID:1": "HR 0.51"})
         self.assertEqual([c["cifra"] for c in res["cifras_a_cotejar"]], ["0,99"])

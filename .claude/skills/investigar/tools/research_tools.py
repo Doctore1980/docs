@@ -676,6 +676,7 @@ def audit_figures(doc: str, corpus: dict[str, str]) -> dict:
         elif bloques_doc[-1]:
             bloques_doc.append([])
     flagged: list[dict] = []
+    marcadas: list[str] = []
     prev_intro: list[str] = []
     for bloque in bloques_doc:
         ids_bloque = [i for ln in bloque for i in _ids_en(ln)]
@@ -685,13 +686,21 @@ def audit_figures(doc: str, corpus: dict[str, str]) -> dict:
             if not ids and not frase.lstrip().startswith("#"):
                 ids = ids_bloque or prev_intro
                 heredadas = bool(ids)
-            _auditar_linea(frase, ids, heredadas, corpus_norm, flagged)
-        es_intro = len(bloque) == 1 and not re.match(r"\s*(?:[-*+]\s|#|\||\d+\.\s)", bloque[0])
-        prev_intro = ids_bloque if es_intro else []
+            _auditar_linea(frase, ids, heredadas, corpus_norm, flagged, marcadas)
+        # Introduce lo que sigue: un parrafo de una sola linea, o una linea (p. ej. la
+        # ultima vineta de una lista) que termina en ":".
+        if bloque and bloque[-1].rstrip().endswith(":"):
+            prev_intro = _ids_en(bloque[-1])
+        elif len(bloque) == 1 and not re.match(r"\s*(?:[-*+]\s|#|\||\d+\.\s)", bloque[0]):
+            prev_intro = ids_bloque
+        else:
+            prev_intro = []
     return {
         "n_cifras_sin_respaldo": len(flagged),
         "veredicto": "OK" if not flagged else "REVISAR: cifras sin respaldo en los abstracts citados",
         "cifras_a_cotejar": flagged,
+        "n_marcadas_pendiente_cotejo": len(marcadas),
+        "marcadas_pendiente_cotejo": marcadas,
     }
 
 
@@ -702,22 +711,27 @@ def _ids_en(linea: str) -> list[str]:
 
 
 def _auditar_linea(frase: str, ids: list[str], heredadas: bool, corpus_norm: dict[str, str],
-                   flagged: list[dict]) -> None:
+                   flagged: list[dict], marcadas: list[str]) -> None:
     """Añade a `flagged` las cifras de `frase` que no aparecen en el abstract de `ids`."""
     # Elimina los bloques de cita antes de buscar cifras, para no confundir los
     # dígitos del propio identificador con un dato.
     frase_limpia = _CITA_RE.sub(" ", frase)
-    nums = [m.group(0) for m in _NUM_RE.finditer(frase_limpia)]
-    if not nums:
+    if not _NUM_RE.search(frase_limpia):
         return
     # El punto medio (p=0·73, estilo Lancet) es un separador decimal.
     respaldo = " ".join(corpus_norm.get(i, "") for i in ids).replace("\u00b7", ".")
-    for tok in nums:
+    for m in _NUM_RE.finditer(frase_limpia):
+        tok = m.group(0)
         n = _norm_num(tok)
         # ignora años sueltos y números triviales de estructura
         if re.fullmatch(r"(19|20)\d{2}", n):
             continue
         if n in respaldo.replace(",", ".") or tok in respaldo:
+            continue
+        # Cifra ya señalada como "(pendiente de cotejo con la fuente)": no es un
+        # hallazgo nuevo, se cuenta aparte para que el documento final pueda dar OK.
+        if "pendiente de cotejo" in frase_limpia[m.end():m.end() + 60].lower():
+            marcadas.append(tok)
             continue
         flagged.append({
             "cifra": tok,
