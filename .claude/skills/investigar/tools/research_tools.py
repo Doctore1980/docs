@@ -311,6 +311,25 @@ def fetch_pubmed_abstracts(pmids: list[str]) -> dict[str, str]:
     return out
 
 
+def fetch_abstract_by_doi(doi: str) -> str:
+    """Abstract de un DOI via Europe PMC (cubre DOIs llegados por MCP sin abstract)."""
+    resp = safe_get(
+        "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+        params={"query": f'DOI:"{doi}"', "format": "json", "pageSize": 1, "resultType": "core"},
+    )
+    if not resp or resp.status_code != 200:
+        return ""
+    try:
+        results = resp.json().get("resultList", {}).get("result", [])
+    except ValueError:
+        return ""
+    if not results or (results[0].get("doi") or "").lower() != doi.lower():
+        return ""
+    # Quitar etiquetas ANTES de decodificar: "p &lt; 0.05 ... &gt; 5" decodificado primero
+    # se tomaria por una etiqueta y se borraria texto real.
+    return html.unescape(re.sub(r"<[^>]+>", " ", results[0].get("abstractText") or "")).strip()[:ABSTRACT_MAX_CHARS]
+
+
 def enrich_abstracts(candidates: list[dict]) -> list[dict]:
     """Rellena el campo 'abstract' de cada candidato que no lo tenga (PMID vía efetch)."""
     faltan_pmid = [c["identifier"].split(":", 1)[1]
@@ -633,8 +652,9 @@ def _norm_num(tok: str) -> str:
 
 
 def audit_figures(doc: str, corpus: dict[str, str]) -> dict:
-    """Recorre el documento frase a frase y marca las cifras cuantitativas que NO
-    aparecen en el abstract de ninguna de las citas de esa misma frase.
+    """Recorre el documento linea a linea y marca las cifras cuantitativas que NO
+    aparecen en el abstract de ninguna de las citas de su linea (o de su bloque,
+    si la linea no cita).
 
     corpus: {identificador_normalizado: abstract}. Devuelve las cifras a cotejar a
     mano. Es un guardarrail determinista contra atribuir números no leídos.
@@ -645,40 +665,67 @@ def audit_figures(doc: str, corpus: dict[str, str]) -> dict:
     # Asocia cada cifra con las citas de su MISMA LÍNEA. En markdown, cada párrafo o
     # viñeta es una línea, y la cita suele acompañar a la cifra ahí mismo; esto evita
     # que las abreviaturas con punto ("sens.", "espec.") separen la cifra de su cita.
-    frases = [ln for ln in doc.split("\n") if ln.strip()]
+    # Si una linea no cita, hereda las citas de su bloque (lineas contiguas: una
+    # lista o una tabla) o, si el bloque no cita, las del parrafo de una linea que
+    # lo introduce ("... [PMID:x]:" seguido de la tabla). La cifra debe seguir
+    # apareciendo en el abstract de alguna de esas citas.
+    bloques_doc: list[list[str]] = [[]]
+    for ln in doc.split("\n"):
+        if ln.strip():
+            bloques_doc[-1].append(ln)
+        elif bloques_doc[-1]:
+            bloques_doc.append([])
     flagged: list[dict] = []
-    for frase in frases:
-        # Bloques de cita: [PMID:1], y también agrupados, [PMID:1; PMID:2] o [PMID:1, DOI:10.x/y].
-        bloques = _CITA_RE.findall(frase)
-        ids = [normalize_identifier(m.strip()) for b in bloques
-               for m in re.split(r"\s*[;,]\s*(?=(?:PMID|DOI|NCT):)", b)]
-        # Elimina los bloques de cita antes de buscar cifras, para no confundir los
-        # dígitos del propio identificador con un dato.
-        frase_limpia = _CITA_RE.sub(" ", frase)
-        nums = [m.group(0) for m in _NUM_RE.finditer(frase_limpia)]
-        if not nums:
-            continue
-        # abstracts disponibles para las citas de esta frase
-        # El punto medio (p=0·73, estilo Lancet) es un separador decimal.
-        respaldo = " ".join(corpus_norm.get(i, "") for i in ids).replace("\u00b7", ".")
-        for tok in nums:
-            n = _norm_num(tok)
-            # ignora años sueltos y números triviales de estructura
-            if re.fullmatch(r"(19|20)\d{2}", n):
-                continue
-            encontrado = n in respaldo.replace(",", ".") or tok in respaldo
-            if not encontrado:
-                flagged.append({
-                    "cifra": tok,
-                    "citas_en_frase": ids or ["(sin cita en la frase)"],
-                    "respaldo_en_abstract": encontrado,
-                    "frase": frase.strip()[:200],
-                })
+    prev_intro: list[str] = []
+    for bloque in bloques_doc:
+        ids_bloque = [i for ln in bloque for i in _ids_en(ln)]
+        for frase in bloque:
+            ids = _ids_en(frase)
+            heredadas = False
+            if not ids and not frase.lstrip().startswith("#"):
+                ids = ids_bloque or prev_intro
+                heredadas = bool(ids)
+            _auditar_linea(frase, ids, heredadas, corpus_norm, flagged)
+        es_intro = len(bloque) == 1 and not re.match(r"\s*(?:[-*+]\s|#|\||\d+\.\s)", bloque[0])
+        prev_intro = ids_bloque if es_intro else []
     return {
         "n_cifras_sin_respaldo": len(flagged),
         "veredicto": "OK" if not flagged else "REVISAR: cifras sin respaldo en los abstracts citados",
         "cifras_a_cotejar": flagged,
     }
+
+
+def _ids_en(linea: str) -> list[str]:
+    # Bloques de cita: [PMID:1], y también agrupados, [PMID:1; PMID:2] o [PMID:1, DOI:10.x/y].
+    return [normalize_identifier(m.strip()) for b in _CITA_RE.findall(linea)
+            for m in re.split(r"\s*[;,]\s*(?=(?:PMID|DOI|NCT):)", b)]
+
+
+def _auditar_linea(frase: str, ids: list[str], heredadas: bool, corpus_norm: dict[str, str],
+                   flagged: list[dict]) -> None:
+    """Añade a `flagged` las cifras de `frase` que no aparecen en el abstract de `ids`."""
+    # Elimina los bloques de cita antes de buscar cifras, para no confundir los
+    # dígitos del propio identificador con un dato.
+    frase_limpia = _CITA_RE.sub(" ", frase)
+    nums = [m.group(0) for m in _NUM_RE.finditer(frase_limpia)]
+    if not nums:
+        return
+    # El punto medio (p=0·73, estilo Lancet) es un separador decimal.
+    respaldo = " ".join(corpus_norm.get(i, "") for i in ids).replace("\u00b7", ".")
+    for tok in nums:
+        n = _norm_num(tok)
+        # ignora años sueltos y números triviales de estructura
+        if re.fullmatch(r"(19|20)\d{2}", n):
+            continue
+        if n in respaldo.replace(",", ".") or tok in respaldo:
+            continue
+        flagged.append({
+            "cifra": tok,
+            "citas_en_frase": (ids or ["(sin cita en la frase)"])
+            + (["(heredadas del bloque)"] if heredadas else []),
+            "respaldo_en_abstract": False,
+            "frase": frase.strip()[:200],
+        })
 
 
 # ---------------------------------------------------------------------
@@ -749,6 +796,8 @@ def main() -> None:
         for i in validos:  # un PMID sin efetch puede tener abstract en los candidatos
             if not corpus[i]:
                 corpus[i] = known.get(i, "")
+            if not corpus[i] and i.startswith("DOI:"):
+                corpus[i] = fetch_abstract_by_doi(i.split(":", 1)[1])
         json.dump(corpus, sys.stdout, ensure_ascii=False, indent=2)
     elif args.cmd == "audit-figures":
         doc = open(args.doc, encoding="utf-8").read()

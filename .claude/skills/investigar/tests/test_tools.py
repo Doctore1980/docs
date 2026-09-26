@@ -120,7 +120,31 @@ class AuditFiguresTests(unittest.TestCase):
         self.assertEqual([c["cifra"] for c in res["cifras_a_cotejar"]], ["99 %", "77 %"])
 
 
+    def test_hereda_citas_de_bloque_y_de_parrafo_introductorio(self):
+        corpus = {"PMID:1": "HR 0.51 (0.34-0.75) and 1.29 (0.73-1.85)"}
+        doc = ("- Global [PMID:1].\n  - Subgrupo: HR 0,51 (0,34-0,75).\n\n"
+               "**Tabla.** Pendiente [PMID:1]:\n\n| Grupo | Valor |\n|---|---|\n| Sin DM | 1,29 (0,73-1,85) |\n")
+        self.assertEqual(rt.audit_figures(doc, corpus)["n_cifras_sin_respaldo"], 0)
+
+    def test_herencia_no_tapa_cifras_falsas(self):
+        res = rt.audit_figures("- Global [PMID:1].\n  - Inventada: 0,99.", {"PMID:1": "HR 0.51"})
+        self.assertEqual([c["cifra"] for c in res["cifras_a_cotejar"]], ["0,99"])
+        self.assertIn("(heredadas del bloque)", res["cifras_a_cotejar"][0]["citas_en_frase"])
+
+
 class AbstractsTests(unittest.TestCase):
+    def test_abstract_por_doi_en_europe_pmc(self):
+        ok = Resp(payload={"resultList": {"result": [{
+            "doi": "10.2337/DC21-0300",
+            "abstractText": "<h4>Results</h4>HR 0.62, p &lt; 0.05 and eGFR &gt; 25"}]}})
+        with mock.patch.object(rt, "safe_get", return_value=ok):
+            txt = rt.fetch_abstract_by_doi("10.2337/dc21-0300")
+        self.assertIn("HR 0.62, p < 0.05 and eGFR > 25", txt)
+        self.assertNotIn("<h4>", txt)
+        otro = Resp(payload={"resultList": {"result": [{"doi": "10.9/otro", "abstractText": "x"}]}})
+        with mock.patch.object(rt, "safe_get", return_value=otro):
+            self.assertEqual(rt.fetch_abstract_by_doi("10.2337/dc21-0300"), "")
+
     def test_entidades_y_sin_truncar_a_1800(self):
         largo = "x " * 1500
         xml = (f"<PubmedArticle><PMID>1</PMID><AbstractText>p=0&#xb7;73 y p&lt;0.001 {largo}"
