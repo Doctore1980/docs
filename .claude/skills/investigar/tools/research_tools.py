@@ -28,6 +28,12 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 
+# Longitud maxima de abstract que se conserva. Los abstracts estructurados
+# largos superan los 3000 caracteres y sus resultados (subgrupos, cifras) van
+# al final: un corte corto hace que el Investigador no los vea y que
+# audit-figures marque como "sin respaldo" cifras que si estan en la fuente.
+ABSTRACT_MAX_CHARS = 6000
+
 HTTP_HEADERS = {
     "User-Agent": "investigacion-agentica/2.0 (research assistant; mailto:investigacion@agente.local)"
 }
@@ -179,7 +185,7 @@ def fetch_europepmc(query: str, page_size: int = 20) -> list[dict]:
                 "title": item.get("title", ""),
                 "date": item.get("firstPublicationDate", ""),
                 "journal": item.get("journalTitle", ""),
-                "abstract": (item.get("abstractText") or "")[:1800],
+                "abstract": (item.get("abstractText") or "")[:ABSTRACT_MAX_CHARS],
                 "source": "Europe PMC",
             })
     return out
@@ -207,7 +213,7 @@ def fetch_semantic_scholar(query: str, limit: int = 20) -> list[dict]:
                 "title": item.get("title", ""),
                 "date": str(item.get("year", "")),
                 "journal": item.get("venue", ""),
-                "abstract": (item.get("abstract") or "")[:1800],
+                "abstract": (item.get("abstract") or "")[:ABSTRACT_MAX_CHARS],
                 "source": "Semantic Scholar",
             })
     return out
@@ -232,7 +238,7 @@ def fetch_openalex(query: str, per_page: int = 20) -> list[dict]:
                 "identifier": normalize_identifier(doi_url),
                 "title": item.get("title", ""),
                 "date": item.get("publication_date", ""),
-                "abstract": _openalex_abstract(item.get("abstract_inverted_index"))[:1800],
+                "abstract": _openalex_abstract(item.get("abstract_inverted_index"))[:ABSTRACT_MAX_CHARS],
                 "source": "OpenAlex",
             })
     return out
@@ -273,7 +279,7 @@ def fetch_pubmed_abstracts(pmids: list[str]) -> dict[str, str]:
             text = " ".join(re.sub(r"<[^>]+>", "", p) for p in parts).strip()
             text = re.sub(r"\s+", " ", text)
             if text:
-                out[pmid] = text[:1800]
+                out[pmid] = text[:ABSTRACT_MAX_CHARS]
         time.sleep(0.34)
     return out
 
@@ -658,6 +664,11 @@ def main() -> None:
     p_verify = sub.add_parser("verify", help="Verificar existencia + retractacion")
     p_verify.add_argument("identifiers", nargs="+")
 
+    p_corpus = sub.add_parser("corpus", help="Construye {identificador: abstract} para audit-figures")
+    p_corpus.add_argument("--validos", required=True, help="JSON con la lista de identificadores VALIDOS")
+    p_corpus.add_argument("--candidatos", nargs="*", default=[],
+                          help="JSON de _candidatos-brutos/ (aportan abstracts de DOIs/NCTs)")
+
     p_audit = sub.add_parser("audit-figures", help="Marca cifras del documento no respaldadas por los abstracts")
     p_audit.add_argument("--doc", required=True, help="Ruta del markdown a auditar")
     p_audit.add_argument("--corpus", required=True, help="JSON {identificador: abstract} de respaldo")
@@ -679,6 +690,22 @@ def main() -> None:
     elif args.cmd == "verify":
         result = verify_identifiers(args.identifiers)
         json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
+    elif args.cmd == "corpus":
+        validos = [normalize_identifier(i) for i in json.load(open(args.validos, encoding="utf-8"))]
+        known: dict[str, str] = {}
+        for path in args.candidatos:
+            for c in json.load(open(path, encoding="utf-8")).get("candidatos", []):
+                ident = normalize_identifier(c.get("identifier", ""))
+                if ident and (c.get("abstract") or "").strip():
+                    known[ident] = c["abstract"]
+        pmids = [i.split(":", 1)[1] for i in validos if i.startswith("PMID:")]
+        fetched = fetch_pubmed_abstracts(pmids)
+        corpus = {i: fetched.get(i.split(":", 1)[1], "") if i.startswith("PMID:") else known.get(i, "")
+                  for i in validos}
+        for i in validos:  # un PMID sin efetch puede tener abstract en los candidatos
+            if not corpus[i]:
+                corpus[i] = known.get(i, "")
+        json.dump(corpus, sys.stdout, ensure_ascii=False, indent=2)
     elif args.cmd == "audit-figures":
         doc = open(args.doc, encoding="utf-8").read()
         corpus = json.load(open(args.corpus, encoding="utf-8"))
