@@ -11,30 +11,32 @@ Uso como CLI (lo invoca la skill /investigar):
   python tools/research_tools.py search --query "PSMA PET biochemical recurrence prostate cancer" \
       --condition "Prostate Cancer" --days 3650
 
-  # Verificar existencia + retractacion de una lista de identificadores
-  python tools/research_tools.py verify PMID:29565221 DOI:10.1056/nejmoa1910038 NCT:NCT02043678
+  # Puerta de verificacion de un expediente (lee los identificadores de sus JSON)
+  python tools/research_tools.py gate --caso casos/2026-10-03-ejemplo
+
+  # Citas del documento contra la lista de VALIDOS, y auditoria de cifras
+  python tools/research_tools.py check-citations --doc DOC.md --validos _validos.json
+  python tools/research_tools.py audit-figures --doc DOC.md --caso casos/2026-10-03-ejemplo
+
+  # Comprobacion suelta de identificadores
+  python tools/research_tools.py verify PMID:29565221 NCT:NCT02043678
 
 La salida siempre es JSON en stdout, para que la skill la lea sin ambiguedad.
 """
 
 from __future__ import annotations
 
-import os
 import re
-import html
 import sys
 import json
 import time
 import argparse
+import glob
+import os
+from urllib.parse import quote
 from datetime import datetime, timedelta, timezone
 
 import requests
-
-# Longitud maxima de abstract que se conserva. Los abstracts estructurados
-# largos superan los 3000 caracteres y sus resultados (subgrupos, cifras) van
-# al final: un corte corto hace que el Investigador no los vea y que
-# audit-figures marque como "sin respaldo" cifras que si estan en la fuente.
-ABSTRACT_MAX_CHARS = 6000
 
 HTTP_HEADERS = {
     "User-Agent": "investigacion-agentica/2.0 (research assistant; mailto:investigacion@agente.local)"
@@ -45,13 +47,11 @@ HTTP_HEADERS = {
 # Red resiliente
 # ---------------------------------------------------------------------
 
-def safe_get(url: str, params: dict | None = None, timeout: int = 30, retries: int = 2,
-             headers: dict | None = None) -> requests.Response | None:
+def safe_get(url: str, params: dict | None = None, timeout: int = 30, retries: int = 2) -> requests.Response | None:
     """GET con User-Agent polite, reintentos y tolerancia a rate-limiting."""
     for attempt in range(retries + 1):
         try:
-            resp = requests.get(url, params=params, headers={**HTTP_HEADERS, **(headers or {})},
-                                timeout=timeout)
+            resp = requests.get(url, params=params, headers=HTTP_HEADERS, timeout=timeout)
             if resp.status_code == 200:
                 return resp
             if resp.status_code in (429, 502, 503, 504) and attempt < retries:
@@ -64,22 +64,6 @@ def safe_get(url: str, params: dict | None = None, timeout: int = 30, retries: i
                 continue
             return None
     return None
-
-
-# Estado de cada fuente en la ultima busqueda. Una fuente caida o sin cuota
-# devuelve 0 candidatos: sin este registro el expediente no distingue "no hay
-# nada" de "no se pudo buscar".
-FUENTES_ESTADO: dict[str, str] = {}
-
-
-def _fallo(fuente: str, resp: requests.Response | None) -> list:
-    if resp is None:
-        FUENTES_ESTADO[fuente] = "sin respuesta (red)"
-    elif resp.status_code == 429:
-        FUENTES_ESTADO[fuente] = "HTTP 429: limite de peticiones o cuota agotada (ver claves API en README)"
-    else:
-        FUENTES_ESTADO[fuente] = f"HTTP {resp.status_code}"
-    return []
 
 
 # ---------------------------------------------------------------------
@@ -121,7 +105,7 @@ def fetch_pubmed(query: str, days: int | None = 3650, retmax: int = 25) -> list[
         params={"db": "pubmed", "term": term, "retmode": "json", "retmax": retmax, "sort": "relevance"},
     )
     if not resp or resp.status_code != 200:
-        return _fallo("PubMed", resp)
+        return []
     try:
         ids = resp.json().get("esearchresult", {}).get("idlist", [])
     except Exception:
@@ -134,7 +118,7 @@ def fetch_pubmed(query: str, days: int | None = 3650, retmax: int = 25) -> list[
         params={"db": "pubmed", "id": ",".join(ids), "retmode": "json"},
     )
     if not resp_sum or resp_sum.status_code != 200:
-        return _fallo("PubMed", resp_sum)
+        return []
     try:
         result = resp_sum.json().get("result", {})
     except Exception:
@@ -162,7 +146,7 @@ def fetch_clinicaltrials(condition: str, page_size: int = 15) -> list[dict]:
         params={"query.cond": condition, "pageSize": page_size, "sort": "LastUpdatePostDate:desc"},
     )
     if not resp or resp.status_code != 200:
-        return _fallo("ClinicalTrials.gov", resp)
+        return []
     try:
         studies = resp.json().get("studies", [])
     except Exception:
@@ -190,7 +174,7 @@ def fetch_europepmc(query: str, page_size: int = 20) -> list[dict]:
         params={"query": query, "format": "json", "pageSize": page_size, "resultType": "core"},
     )
     if not resp or resp.status_code != 200:
-        return _fallo("Europe PMC", resp)
+        return []
     try:
         results = resp.json().get("resultList", {}).get("result", [])
     except Exception:
@@ -205,7 +189,7 @@ def fetch_europepmc(query: str, page_size: int = 20) -> list[dict]:
                 "title": item.get("title", ""),
                 "date": item.get("firstPublicationDate", ""),
                 "journal": item.get("journalTitle", ""),
-                "abstract": (item.get("abstractText") or "")[:ABSTRACT_MAX_CHARS],
+                "abstract": (item.get("abstractText") or "")[:6000],
                 "source": "Europe PMC",
             })
     return out
@@ -215,12 +199,9 @@ def fetch_semantic_scholar(query: str, limit: int = 20) -> list[dict]:
     resp = safe_get(
         "https://api.semanticscholar.org/graph/v1/paper/search",
         params={"query": query, "limit": limit, "fields": "title,externalIds,year,venue,abstract"},
-        # Sin clave se comparte un cupo global que suele estar agotado (429).
-        headers={"x-api-key": os.environ["SEMANTIC_SCHOLAR_API_KEY"]}
-        if os.environ.get("SEMANTIC_SCHOLAR_API_KEY") else None,
     )
     if not resp or resp.status_code != 200:
-        return _fallo("Semantic Scholar", resp)
+        return []
     try:
         data = resp.json().get("data", [])
     except Exception:
@@ -236,7 +217,7 @@ def fetch_semantic_scholar(query: str, limit: int = 20) -> list[dict]:
                 "title": item.get("title", ""),
                 "date": str(item.get("year", "")),
                 "journal": item.get("venue", ""),
-                "abstract": (item.get("abstract") or "")[:ABSTRACT_MAX_CHARS],
+                "abstract": (item.get("abstract") or "")[:6000],
                 "source": "Semantic Scholar",
             })
     return out
@@ -245,12 +226,10 @@ def fetch_semantic_scholar(query: str, limit: int = 20) -> list[dict]:
 def fetch_openalex(query: str, per_page: int = 20) -> list[dict]:
     resp = safe_get(
         "https://api.openalex.org/works",
-        # Sin clave, OpenAlex usa un presupuesto diario compartido por la IP de salida.
-        params={"search": query, "per_page": per_page,
-                **({"api_key": os.environ["OPENALEX_API_KEY"]} if os.environ.get("OPENALEX_API_KEY") else {})},
+        params={"search": query, "per_page": per_page},
     )
     if not resp or resp.status_code != 200:
-        return _fallo("OpenAlex", resp)
+        return []
     try:
         results = resp.json().get("results", [])
     except Exception:
@@ -263,7 +242,7 @@ def fetch_openalex(query: str, per_page: int = 20) -> list[dict]:
                 "identifier": normalize_identifier(doi_url),
                 "title": item.get("title", ""),
                 "date": item.get("publication_date", ""),
-                "abstract": _openalex_abstract(item.get("abstract_inverted_index"))[:ABSTRACT_MAX_CHARS],
+                "abstract": _openalex_abstract(item.get("abstract_inverted_index"))[:6000],
                 "source": "OpenAlex",
             })
     return out
@@ -301,33 +280,12 @@ def fetch_pubmed_abstracts(pmids: list[str]) -> dict[str, str]:
                 continue
             pmid = m.group(1)
             parts = re.findall(r"<AbstractText[^>]*>(.*?)</AbstractText>", block, re.DOTALL)
-            # efetch devuelve XML: hay que decodificar entidades (&lt; -> <, &#xb7; -> ·)
-            # o las cifras ("p&lt;0.001", "0&#xb7;73") no coinciden con el documento.
-            text = html.unescape(" ".join(re.sub(r"<[^>]+>", "", p) for p in parts)).strip()
+            text = " ".join(re.sub(r"<[^>]+>", "", p) for p in parts).strip()
             text = re.sub(r"\s+", " ", text)
             if text:
-                out[pmid] = text[:ABSTRACT_MAX_CHARS]
+                out[pmid] = text[:6000]
         time.sleep(0.34)
     return out
-
-
-def fetch_abstract_by_doi(doi: str) -> str:
-    """Abstract de un DOI via Europe PMC (cubre DOIs llegados por MCP sin abstract)."""
-    resp = safe_get(
-        "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
-        params={"query": f'DOI:"{doi}"', "format": "json", "pageSize": 1, "resultType": "core"},
-    )
-    if not resp or resp.status_code != 200:
-        return ""
-    try:
-        results = resp.json().get("resultList", {}).get("result", [])
-    except ValueError:
-        return ""
-    if not results or (results[0].get("doi") or "").lower() != doi.lower():
-        return ""
-    # Quitar etiquetas ANTES de decodificar: "p &lt; 0.05 ... &gt; 5" decodificado primero
-    # se tomaria por una etiqueta y se borraria texto real.
-    return html.unescape(re.sub(r"<[^>]+>", " ", results[0].get("abstractText") or "")).strip()[:ABSTRACT_MAX_CHARS]
 
 
 def enrich_abstracts(candidates: list[dict]) -> list[dict]:
@@ -355,20 +313,13 @@ def search_all(query: str, condition: str | None = None, days: int | None = 3650
     los motores semanticos (Europe PMC, Semantic Scholar, OpenAlex) siguen con
     `query` en texto libre, que es donde mejor rinden. Carril doble.
     """
-    FUENTES_ESTADO.clear()
-    llamadas = [
-        ("PubMed", lambda: fetch_pubmed(pubmed_query or query, days=days)),
-        ("Europe PMC", lambda: fetch_europepmc(query)),
-        ("Semantic Scholar", lambda: fetch_semantic_scholar(query)),
-        ("OpenAlex", lambda: fetch_openalex(query)),
-    ]
-    if condition:
-        llamadas.append(("ClinicalTrials.gov", lambda: fetch_clinicaltrials(condition)))
     candidatos: list[dict] = []
-    for fuente, llamada in llamadas:
-        res = llamada()
-        FUENTES_ESTADO.setdefault(fuente, f"ok ({len(res)} resultados)")
-        candidatos += res
+    candidatos += fetch_pubmed(pubmed_query or query, days=days)
+    candidatos += fetch_europepmc(query)
+    candidatos += fetch_semantic_scholar(query)
+    candidatos += fetch_openalex(query)
+    if condition:
+        candidatos += fetch_clinicaltrials(condition)
 
     vistos: set[str] = set()
     unicos: list[dict] = []
@@ -473,273 +424,472 @@ def build_pubmed_query(concepts: list[dict], validate: bool = True) -> dict:
 
 # ---------------------------------------------------------------------
 # Verificacion determinista: existencia + retractacion
+#
+# Estados (unica definicion del sistema; SKILL.md y prompts la citan, no la
+# redefinen). Solo VALIDO es citable.
+#   VALIDO         existe y no consta retractacion en las fuentes consultadas
+#   RETRACTADO     existe y consta retractado
+#   NO_ENCONTRADO  la fuente oficial respondio que no existe
+#   INCONCLUSO     no se pudo comprobar (red, limite de API, fuente caida o
+#                  retractacion no evaluable). NO equivale a cita inventada.
+#   MAL_FORMADO    el identificador no tiene forma valida; no se consulto nada
 # ---------------------------------------------------------------------
 
-def _pubmed_retracted_set(pmids: list[str]) -> set[str] | None:
-    """Devuelve el subconjunto de PMIDs marcados como 'Retracted Publication' en PubMed.
+EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 
-    None => PubMed no respondio: la retractacion NO se pudo evaluar. Nunca se
-    devuelve un conjunto vacio en caso de fallo, porque eso haria pasar un
-    articulo retractado como VALIDO.
+_ID_FORMATS = {
+    "PMID": re.compile(r"^\d{1,9}$"),
+    "NCT": re.compile(r"^NCT\d{8}$"),
+    "DOI": re.compile(r"^10\.\d{4,9}/\S+$"),
+}
+
+# Tipos de "update" de Crossref que invalidan un trabajo como apoyo de una
+# afirmación. Las expressions of concern no invalidan.
+_CROSSREF_RETRACTION_TYPES = {"retraction", "removal", "withdrawal", "partial_retraction"}
+
+
+def coerce_identifier(raw: str) -> str:
+    """Normaliza y, si falta el prefijo, lo infiere de la forma del identificador."""
+    s = (raw or "").strip()
+    if re.match(r"^https?://(?:dx\.)?doi\.org/", s, re.IGNORECASE) or re.match(r"^(PMID|NCT|DOI)\s*:", s, re.IGNORECASE):
+        return normalize_identifier(s)
+    if re.fullmatch(r"NCT\d{8}", s, re.IGNORECASE):
+        return f"NCT:{s.upper()}"
+    if s.startswith("10."):
+        return f"DOI:{s.lower()}"
+    if re.fullmatch(r"\d{1,9}", s):
+        return f"PMID:{s}"
+    return s
+
+
+def _well_formed(ident: str) -> bool:
+    if ":" not in ident:
+        return False
+    kind, value = ident.split(":", 1)
+    pat = _ID_FORMATS.get(kind)
+    return bool(pat and pat.match(value))
+
+
+def _http(resp) -> str:
+    return "sin conexion" if resp is None else f"HTTP {resp.status_code}"
+
+
+def _pubmed_check(pmids: list[str]) -> dict[str, tuple]:
+    """Devuelve {pmid: (exists, retractacion, detalle)} consultando PubMed por lotes.
+
+    exists: True / False (PubMed dice que no existe) / None (no se pudo saber).
+    retractacion: 'retractado' / 'no_encontrada' / 'inconclusa'. Un PMID que no
+    aparece en la respuesta de efetch queda 'inconclusa', nunca 'no_encontrada'.
     """
-    if not pmids:
-        return set()
-    resp = safe_get(
-        "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
-        params={"db": "pubmed", "id": ",".join(pmids), "rettype": "xml", "retmode": "xml"},
-    )
-    if not resp or resp.status_code != 200:
-        return None
-    xml = resp.text
-    retracted: set[str] = set()
-    # Cada <PubmedArticle> contiene su PMID y su PublicationTypeList.
-    for block in re.split(r"<PubmedArticle>", xml)[1:]:
-        m = re.search(r"<PMID[^>]*>(\d+)</PMID>", block)
-        if not m:
-            continue
-        pmid = m.group(1)
-        if re.search(r"Retracted Publication", block, re.IGNORECASE):
-            retracted.add(pmid)
-    return retracted
-
-
-def _pubmed_existing(pmids: list[str]) -> dict[str, bool] | None:
-    """Existencia de PMIDs con una sola llamada ESummary por lote (evita el 429 de NCBI).
-
-    PubMed devuelve una entrada con campo "error" para PMIDs inexistentes: la
-    presencia de la clave NO basta. None => PubMed no respondio (no evaluable).
-    """
-    out: dict[str, bool] = {}
-    for i in range(0, len(pmids), 200):
-        chunk = pmids[i:i + 200]
-        r = safe_get(
-            "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi",
-            params={"db": "pubmed", "id": ",".join(chunk), "retmode": "json"}, timeout=30,
-        )
-        if not r or r.status_code != 200:
-            return None
-        try:
-            result = r.json().get("result", {})
-        except ValueError:
-            return None
-        for pmid in chunk:
-            doc = result.get(pmid, {})
-            out[pmid] = bool(doc) and "error" not in doc
-        time.sleep(0.4)
+    out: dict[str, tuple] = {}
+    for i in range(0, len(pmids), 100):
+        batch = pmids[i:i + 100]
+        exists: dict[str, bool | None] = {p: None for p in batch}
+        detalle = {p: "" for p in batch}
+        r = safe_get(f"{EUTILS}/esummary.fcgi",
+                     params={"db": "pubmed", "id": ",".join(batch), "retmode": "json"}, timeout=20)
+        result = None
+        if r is not None and r.status_code == 200:
+            try:
+                result = r.json().get("result")
+            except Exception:
+                result = None
+        for p in batch:
+            doc = result.get(p) if isinstance(result, dict) else None
+            if doc is None:
+                detalle[p] = f"esummary de PubMed sin respuesta util ({_http(r)})"
+            elif "error" in doc:
+                # PubMed devuelve una entrada con campo "error" para PMIDs inexistentes.
+                exists[p] = False
+                detalle[p] = "PubMed: " + str(doc.get("error"))
+            else:
+                exists[p] = True
+        time.sleep(0.34)
+        retr = {p: "inconclusa" for p in batch}
+        vivos = [p for p in batch if exists[p]]
+        if vivos:
+            r2 = safe_get(f"{EUTILS}/efetch.fcgi",
+                          params={"db": "pubmed", "id": ",".join(vivos), "retmode": "xml"}, timeout=30)
+            if r2 is not None and r2.status_code == 200:
+                for block in re.split(r"<PubmedArticle>|<PubmedBookArticle>", r2.text)[1:]:
+                    m = re.search(r"<PMID[^>]*>(\d+)</PMID>", block)
+                    if not m:
+                        continue
+                    retractado = bool(
+                        re.search(r"<PublicationType[^>]*>Retracted Publication</PublicationType>", block)
+                        or re.search(r'RefType="RetractionIn"', block)
+                    )
+                    retr[m.group(1)] = "retractado" if retractado else "no_encontrada"
+            for p in vivos:
+                if retr[p] == "inconclusa":
+                    detalle[p] = f"efetch de PubMed no devolvio el registro ({_http(r2)}): retractacion sin comprobar"
+            time.sleep(0.34)
+        for p in batch:
+            out[p] = (exists[p], retr[p], detalle[p])
     return out
 
 
-# Tipos de "update" de Crossref que invalidan un trabajo como apoyo de una
-# afirmación. Las expressions of concern no invalidan pero se señalan aparte.
-_CROSSREF_RETRACTION_TYPES = {"retraction", "retracion", "removal", "withdrawal", "partial_retraction"}
-
-
-def _crossref_retraction_check(doi: str) -> bool | None:
-    """Comprueba en Crossref si existe una nota de retractacion que actualice este DOI.
+def _crossref_retraction(doi: str) -> str:
+    """'retractado' / 'no_encontrada' / 'inconclusa' segun las notas que actualizan el DOI.
 
     Crossref registra las retractaciones como trabajos con campo `update-to`
-    apuntando al DOI original; `filter=updates:{doi}` los recupera. Devuelve
-    True (retractado), False (sin retractacion registrada) o None (no evaluable
-    porque la API fallo).
+    apuntando al DOI original; `filter=updates:{doi}` los recupera.
     """
-    resp = safe_get(
-        "https://api.crossref.org/works",
-        params={"filter": f"updates:{doi}", "rows": 10},
-        timeout=15,
-    )
-    if not resp or resp.status_code != 200:
-        return None
+    resp = safe_get("https://api.crossref.org/works",
+                    params={"filter": f"updates:{doi}", "rows": 20}, timeout=15)
+    if resp is None or resp.status_code != 200:
+        return "inconclusa"
     try:
         items = resp.json().get("message", {}).get("items", [])
     except Exception:
-        return None
-    doi_lower = doi.lower()
+        return "inconclusa"
     for item in items:
-        for upd in item.get("update-to", []):
-            if upd.get("DOI", "").lower() == doi_lower and \
-                    upd.get("type", "").lower() in _CROSSREF_RETRACTION_TYPES:
-                return True
-    return False
+        for upd in item.get("update-to", []) or []:
+            if (upd.get("DOI") or "").lower() == doi.lower() and \
+                    (upd.get("type") or "").lower() in _CROSSREF_RETRACTION_TYPES:
+                return "retractado"
+    return "no_encontrada"
 
 
-def verify_identifiers(identifiers: list[str]) -> dict[str, dict]:
-    """Comprueba existencia y retractacion de cada identificador.
+def _doi_check(doi: str) -> tuple:
+    """Devuelve (exists, retractacion, checked_against, detalle, reintentable)."""
+    path = quote(doi, safe="/")
+    r = safe_get(f"https://api.crossref.org/works/{path}", timeout=15)
+    if r is not None and r.status_code == 200:
+        try:
+            msg = r.json().get("message", {})
+        except Exception:
+            return None, "inconclusa", "Crossref", "respuesta ilegible de Crossref", True
+        for upd in msg.get("updated-by", []) or []:
+            if (upd.get("type") or "").lower() in _CROSSREF_RETRACTION_TYPES:
+                return True, "retractado", "Crossref (updated-by)", "", False
+        retr = _crossref_retraction(doi)
+        detalle = "" if retr != "inconclusa" else "Crossref no respondio a la consulta de retractacion"
+        return True, retr, "Crossref (existencia + notas de retractacion)", detalle, retr == "inconclusa"
+    if r is not None and r.status_code == 404:
+        # Crossref no es el unico registro de DOI (DataCite: preprints, datasets).
+        h = safe_get(f"https://doi.org/api/handles/{path}", timeout=15)
+        if h is not None and h.status_code == 200:
+            return (True, "inconclusa", "doi.org (DOI ajeno a Crossref)",
+                    "existe pero no esta en Crossref: retractacion no evaluable por script", False)
+        if h is not None and h.status_code == 404:
+            return False, "inconclusa", "Crossref + doi.org", "no resuelve en Crossref ni en doi.org", False
+        return None, "inconclusa", "Crossref + doi.org", f"Crossref 404 y doi.org sin respuesta util ({_http(h)})", True
+    return None, "inconclusa", "Crossref", f"sin respuesta util ({_http(r)})", True
 
-    Devuelve {identificador_normalizado: {"exists": bool|None, "retracted":
-    bool|None, "checked_against": str}}.
-    - exists: True (resuelve), False (la API responde que no existe) o None (la
-      API no respondio: NO evaluable; repetir `verify`, nunca tratarlo como
-      INVENTADO ni como VALIDO).
-    - retracted: PMIDs contra PubMed ("Retracted Publication") y DOIs contra
-      Crossref (notas de retractacion via `filter=updates:`). None => no se pudo
-      evaluar (NCT, DOI fuera de Crossref o API caida; usar Scite como cruce).
-    """
-    norm = [normalize_identifier(i) for i in identifiers if i]
-    norm = list(dict.fromkeys([n for n in norm if n and ":" in n]))  # dedup preservando orden
 
-    pmids = [n.split(":", 1)[1] for n in norm if n.startswith("PMID:")]
-    existing_pmids = _pubmed_existing(pmids) if pmids else {}
-    retracted_pmids = _pubmed_retracted_set(pmids) if pmids else set()
+def _entry(exists, retr: str, checked: str, detalle: str, reintentable: bool) -> dict:
+    if exists is False:
+        estado = "NO_ENCONTRADO"
+    elif exists is None:
+        estado = "INCONCLUSO"
+    elif retr == "retractado":
+        estado = "RETRACTADO"
+    elif retr == "inconclusa":
+        estado = "INCONCLUSO"
+    else:
+        estado = "VALIDO"
+    retracted = None
+    if exists:
+        retracted = {"retractado": True, "no_encontrada": False, "no_aplica": False}.get(retr)
+    return {
+        "estado": estado,
+        "exists": exists,
+        "retracted": retracted,
+        "retractacion": retr if exists else "sin_comprobar",
+        "checked_against": checked,
+        "checked_at": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+        "detalle": detalle,
+        "reintentable": bool(reintentable) and estado == "INCONCLUSO",
+    }
 
+
+def _verify_once(norm: list[str]) -> dict[str, dict]:
+    pmids = [n.split(":", 1)[1] for n in norm if n.startswith("PMID:") and _well_formed(n)]
+    pm = _pubmed_check(pmids) if pmids else {}
     out: dict[str, dict] = {}
     for ident in norm:
+        if not _well_formed(ident):
+            out[ident] = {
+                "estado": "MAL_FORMADO", "exists": None, "retracted": None,
+                "retractacion": "sin_comprobar", "checked_against": "",
+                "checked_at": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                "detalle": "no tiene forma de PMID, NCT ni DOI; no se consulto ninguna fuente",
+                "reintentable": False,
+            }
+            continue
         kind, value = ident.split(":", 1)
-        exists: bool | None = None
-        retracted: bool | None = None
-        checked = ""
-        try:
-            if kind == "PMID":
-                checked = "PubMed E-utilities"
-                exists = None if existing_pmids is None else existing_pmids.get(value, False)
-                if exists and retracted_pmids is not None:
-                    retracted = value in retracted_pmids
-                if exists is None or (exists and retracted_pmids is None):
-                    checked = "PubMed E-utilities (sin respuesta: repetir verify)"
-            elif kind == "NCT":
-                checked = "ClinicalTrials.gov API v2"
-                r = safe_get(f"https://clinicaltrials.gov/api/v2/studies/{value}", timeout=15)
-                if r is not None and r.status_code in (200, 404):
-                    exists = r.status_code == 200
-            elif kind == "DOI":
-                checked = "Crossref (existencia + notas de retractacion)"
-                r = safe_get(f"https://api.crossref.org/works/{value}", timeout=15)
-                if r is not None and r.status_code == 200:
-                    exists = True
-                    retracted = _crossref_retraction_check(value)
-                else:
-                    # No todos los DOI estan en Crossref (DataCite, mEDRA, algunas
-                    # revistas regionales): antes de declararlo inexistente se
-                    # consulta el registro de handles de doi.org. Sin Crossref no
-                    # hay notas de retractacion que consultar -> retracted=None.
-                    h = safe_get(f"https://doi.org/api/handles/{value}", timeout=15)
-                    code = None
-                    if h is not None and h.status_code in (200, 404):
-                        try:
-                            code = h.json().get("responseCode")
-                        except ValueError:
-                            code = None
-                    if code == 1:
-                        exists = True
-                        checked = "doi.org handle (no registrado en Crossref; retractacion no evaluable)"
-                    elif code == 100 and r is not None and r.status_code == 404:
-                        exists = False
-                    else:
-                        checked = "Crossref/doi.org (sin respuesta: repetir verify)"
-        except Exception:
-            exists = None
-            checked = f"{checked} (error: repetir verify)"
-        out[ident] = {"exists": exists, "retracted": retracted, "checked_against": checked}
-        time.sleep(0.1)
+        if kind == "PMID":
+            exists, retr, detalle = pm[value]
+            out[ident] = _entry(exists, retr, "PubMed E-utilities (esummary + efetch)", detalle, True)
+        elif kind == "NCT":
+            r = safe_get(f"https://clinicaltrials.gov/api/v2/studies/{value}", timeout=15)
+            if r is not None and r.status_code == 200:
+                out[ident] = _entry(True, "no_aplica", "ClinicalTrials.gov API v2", "", False)
+            elif r is not None and r.status_code == 404:
+                out[ident] = _entry(False, "inconclusa", "ClinicalTrials.gov API v2", "ClinicalTrials.gov: 404", False)
+            else:
+                out[ident] = _entry(None, "inconclusa", "ClinicalTrials.gov API v2",
+                                    f"sin respuesta util ({_http(r)})", True)
+            time.sleep(0.1)
+        else:
+            out[ident] = _entry(*_doi_check(value))
+            time.sleep(0.1)
+    return out
+
+
+def verify_identifiers(identifiers: list[str], reintentos: int = 1) -> dict[str, dict]:
+    """Comprueba existencia y retractacion de cada identificador.
+
+    Devuelve {identificador_normalizado: {estado, exists, retracted, retractacion,
+    checked_against, checked_at, detalle, reintentable}}. Los INCONCLUSO por
+    fallo tecnico se reintentan `reintentos` veces antes de darlos por tales.
+    """
+    norm = list(dict.fromkeys(coerce_identifier(i) for i in identifiers if i and i.strip()))
+    out = _verify_once(norm)
+    for _ in range(reintentos):
+        pend = [k for k, v in out.items() if v["reintentable"]]
+        if not pend:
+            break
+        time.sleep(3)
+        out.update(_verify_once(pend))
     return out
 
 
 # ---------------------------------------------------------------------
-# Auditoria de cifras: toda cifra cuantitativa debe estar respaldada por
-# el abstract de alguna de las citas de su misma frase.
+# Puerta de verificacion sobre un expediente: lee los identificadores de los
+# JSON (nunca de la linea de comandos), verifica y deja la lista citable.
+# ---------------------------------------------------------------------
+
+def _load_json(path: str):
+    try:
+        with open(path, encoding="utf-8") as fh:
+            return json.load(fh)
+    except Exception:
+        return None
+
+
+def _walk_identifiers(obj):
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            if k == "identifier" and isinstance(v, str) and v.strip():
+                yield v
+            else:
+                yield from _walk_identifiers(v)
+    elif isinstance(obj, list):
+        for x in obj:
+            yield from _walk_identifiers(x)
+
+
+def run_gate(caso: str) -> tuple[dict, int]:
+    """Verifica todo identificador citado en el expediente (investigadores + deep research).
+
+    Escribe 03-verificacion.json y _validos.json. Devuelve (resumen, codigo):
+    0 continuar, 2 detener (no encontrados, mal formados o nada que verificar),
+    3 fallo tecnico (quedan INCONCLUSO tras reintentar).
+    """
+    fuentes = sorted(glob.glob(os.path.join(caso, "02-investigador", "*.json")))
+    deep = os.path.join(caso, "02b-deepresearch.json")
+    if os.path.exists(deep):
+        fuentes.append(deep)
+    citados: list[str] = []
+    ilegibles: list[str] = []
+    for f in fuentes:
+        data = _load_json(f)
+        if data is None:
+            ilegibles.append(f)
+            continue
+        citados += list(_walk_identifiers(data))
+    candidatos: set[str] = set()
+    for f in glob.glob(os.path.join(caso, "_candidatos*", "*.json")):
+        candidatos |= {coerce_identifier(i) for i in _walk_identifiers(_load_json(f) or {})}
+
+    res = verify_identifiers(citados)
+    por_estado: dict[str, list[str]] = {}
+    for ident, v in res.items():
+        v["origen"] = "candidatos" if ident in candidatos else "fuera_de_candidatos"
+        por_estado.setdefault(v["estado"], []).append(ident)
+    validos = por_estado.get("VALIDO", [])
+
+    with open(os.path.join(caso, "03-verificacion.json"), "w", encoding="utf-8") as fh:
+        json.dump(res, fh, ensure_ascii=False, indent=2)
+    with open(os.path.join(caso, "_validos.json"), "w", encoding="utf-8") as fh:
+        json.dump(validos, fh, ensure_ascii=False, indent=2)
+
+    if ilegibles or not res or por_estado.get("NO_ENCONTRADO") or por_estado.get("MAL_FORMADO"):
+        codigo, puerta = 2, "DETENER: hay identificadores no encontrados o mal formados, ficheros ilegibles o nada que verificar"
+    elif por_estado.get("INCONCLUSO"):
+        codigo, puerta = 3, "FALLO TECNICO: quedan identificadores sin poder comprobar tras reintentar"
+    else:
+        codigo, puerta = 0, "CONTINUAR"
+    resumen = {
+        "puerta": puerta,
+        "n_citados": len(res),
+        "por_estado": por_estado,
+        "fuera_de_candidatos": [k for k, v in res.items() if v["origen"] == "fuera_de_candidatos"],
+        "ficheros_ilegibles": ilegibles,
+        "detalle_no_validos": {k: v["detalle"] for k, v in res.items() if v["estado"] != "VALIDO"},
+    }
+    return resumen, codigo
+
+
+# ---------------------------------------------------------------------
+# Citas del documento: toda cita debe estar en la lista de VALIDOS.
+# ---------------------------------------------------------------------
+
+_BRACKET_CITE_RE = re.compile(r"\[((?:PMID|DOI|NCT)\s*:[^\]]+)\]", re.IGNORECASE)
+
+
+def _trim_doi(s: str) -> str:
+    while s and (s[-1] in ".,;:" or (s[-1] == ")" and s.count("(") < s.count(")"))):
+        s = s[:-1]
+    return s
+
+
+def extract_citations(text: str) -> list[str]:
+    """Identificadores citados en un texto: entre corchetes o sueltos."""
+    found: list[str] = []
+    for m in _BRACKET_CITE_RE.finditer(text):
+        for part in re.split(r"\s*[;,]\s*(?=(?:PMID|DOI|NCT)\s*:)", m.group(1), flags=re.IGNORECASE):
+            found.append(coerce_identifier(part))
+    resto = _BRACKET_CITE_RE.sub(" ", text)
+    for m in re.finditer(r"PMID\s*:?\s*(\d{1,9})", resto, re.IGNORECASE):
+        found.append(f"PMID:{m.group(1)}")
+    for m in re.finditer(r"\bNCT\d{8}\b", resto, re.IGNORECASE):
+        found.append(f"NCT:{m.group(0).upper()}")
+    for m in re.finditer(r"10\.\d{4,9}/[^\s\]>\"',;]+", resto):
+        found.append(f"DOI:{_trim_doi(m.group(0)).lower()}")
+    return list(dict.fromkeys(found))
+
+
+def check_citations(doc: str, validos: list[str]) -> dict:
+    """Marca toda cita del documento que no este en la lista de VALIDOS."""
+    permitidos = {coerce_identifier(v) for v in validos}
+    citas = extract_citations(doc)
+    fuera = [c for c in citas if c not in permitidos]
+    return {
+        "n_citas": len(citas),
+        "fuera_de_validos": fuera,
+        "veredicto": "OK" if not fuera else "DETENER: el documento cita identificadores que no estan en VALIDOS",
+    }
+
+
+# ---------------------------------------------------------------------
+# Auditoria de cifras: localiza cada cifra del documento en las fuentes de
+# las citas de su misma linea. Encontrar el numero NO demuestra que la fuente
+# respalde la afirmacion: por eso se devuelve el fragmento, para cotejarlo.
 # ---------------------------------------------------------------------
 
 # Cifras que importan clínicamente: porcentajes, decimales tipo 0.xx, e enteros
 # de >=3 dígitos (tamaños muestrales, estadísticos). Los enteros de 1-2 dígitos
-# suelen ser estructura (nº de diapositiva, ratios 16:9) y se ignoran.
-_NUM_RE = re.compile(r"(?<![\w.])\d{1,3}(?:[.,]\d+)?\s?%|(?<![\w.])0[.,]\d+|(?<![\w])\d{3,}(?![\w.])")
-
-
-_CITA_RE = re.compile(r"\[((?:PMID|DOI|NCT):[^\]]+)\]")
+# suelen ser estructura (nº de diapositiva, ratios 16:9) y se ignoran. Los enteros
+# con separador de millares ("2.586", "1,204") cuentan como un solo número.
+_NUM_RE = re.compile(
+    r"(?<![\w.])\d{1,3}(?:[.,]\d+)?\s?%"
+    r"|(?<![\w.])0[.,]\d+"
+    r"|(?<![\w.,])[1-9]\d{0,2}(?:[.,]\d{3})+(?![\w]|[.,]\d)"
+    r"|(?<![\w.,])\d{3,}(?![\w.])"
+)
+_MILLARES_RE = re.compile(r"(?<!(?<!\d)0)(?<=\d)[.,](?=\d{3}(?!\d))")
 
 
 def _norm_num(tok: str) -> str:
-    return tok.replace(" ", "").replace(",", ".").rstrip("%")
+    tok = tok.replace(" ", "")
+    if re.fullmatch(r"[1-9]\d{0,2}(?:[.,]\d{3})+", tok):
+        return re.sub(r"[.,]", "", tok)
+    return tok.replace(",", ".").rstrip("%")
 
 
-def audit_figures(doc: str, corpus: dict[str, str]) -> dict:
-    """Recorre el documento linea a linea y marca las cifras cuantitativas que NO
-    aparecen en el abstract de ninguna de las citas de su linea (o de su bloque,
-    si la linea no cita).
+def _find_number(n: str, texto: str) -> str | None:
+    """Fragmento de `texto` donde aparece la cifra `n` como numero completo, o None."""
+    patron = r"(?<![\d.])" + re.escape(n) + r"(?!\d|\.\d)"
+    m = re.search(patron, texto.replace(",", "."))  # misma longitud: los indices valen para `texto`
+    if m:
+        return texto[max(0, m.start() - 70): m.end() + 70].strip()
+    if n.isdigit() and len(n) >= 4:
+        sin_millares = _MILLARES_RE.sub("", texto)
+        m = re.search(patron, sin_millares)
+        if m:
+            return sin_millares[max(0, m.start() - 70): m.end() + 70].strip()
+    return None
 
-    corpus: {identificador_normalizado: abstract}. Devuelve las cifras a cotejar a
-    mano. Es un guardarrail determinista contra atribuir números no leídos.
+
+def build_corpus(caso: str) -> dict[str, list[dict]]:
+    """Fuentes de respaldo del expediente: {cita: [{lugar, texto}]}.
+
+    Abstracts de los candidatos, fragmentos transcritos por los investigadores
+    (`evidencia_numerica`: abstract, Elicit o texto completo) y extractos de
+    guias / deep research (clave = identificador o URL).
     """
-    corpus_norm = {normalize_identifier(k): (v or "") for k, v in corpus.items()}
+    corpus: dict[str, list[dict]] = {}
+
+    def add(clave: str, lugar: str, texto) -> None:
+        if clave and texto:
+            corpus.setdefault(clave, []).append({"lugar": lugar, "texto": str(texto)})
+
+    for f in glob.glob(os.path.join(caso, "_candidatos*", "*.json")):
+        for c in (_load_json(f) or {}).get("candidatos", []):
+            add(coerce_identifier(c.get("identifier", "")), f"abstract ({c.get('source', '')})", c.get("abstract"))
+    for f in glob.glob(os.path.join(caso, "02-investigador", "*.json")):
+        for it in (_load_json(f) or {}).get("items", []):
+            add(coerce_identifier(it.get("identifier", "")),
+                "transcrito por el investigador, sin comprobar por script ("
+                + (it.get("fuente_cifra") or "abstract/Elicit") + ")",
+                it.get("evidencia_numerica"))
+    for it in (_load_json(os.path.join(caso, "02b-deepresearch.json")) or {}).get("items", []):
+        clave = coerce_identifier(it.get("identifier", "")) if it.get("identifier") else (it.get("url") or "")
+        add(clave, f"guia / deep research: {it.get('url', '')}", it.get("extracto"))
+    return corpus
+
+
+def audit_figures(doc: str, corpus: dict) -> dict:
+    """Recorre el documento linea a linea y busca cada cifra en las fuentes de
+    las citas de esa misma linea.
+
+    corpus: {cita: abstract} o {cita: [{lugar, texto}]} (cita = identificador o URL).
+    """
+    fuentes: dict[str, list[dict]] = {}
+    for k, v in corpus.items():
+        clave = k if k.lower().startswith("http") else coerce_identifier(k)
+        fuentes[clave] = [{"lugar": "abstract", "texto": v or ""}] if isinstance(v, str) else list(v or [])
+    urls = [k for k in fuentes if k.lower().startswith("http")]
     # Ignora el contenido en `backticks` (prompts visuales, code spans): no son afirmaciones.
     doc = re.sub(r"`[^`]*`", " ", doc)
-    # Asocia cada cifra con las citas de su MISMA LÍNEA. En markdown, cada párrafo o
-    # viñeta es una línea, y la cita suele acompañar a la cifra ahí mismo; esto evita
-    # que las abreviaturas con punto ("sens.", "espec.") separen la cifra de su cita.
-    # Si una linea no cita, hereda las citas de su bloque (lineas contiguas: una
-    # lista o una tabla) o, si el bloque no cita, las del parrafo de una linea que
-    # lo introduce ("... [PMID:x]:" seguido de la tabla). La cifra debe seguir
-    # apareciendo en el abstract de alguna de esas citas.
-    bloques_doc: list[list[str]] = [[]]
-    for ln in doc.split("\n"):
-        if ln.strip():
-            bloques_doc[-1].append(ln)
-        elif bloques_doc[-1]:
-            bloques_doc.append([])
     flagged: list[dict] = []
-    marcadas: list[str] = []
-    prev_intro: list[str] = []
-    for bloque in bloques_doc:
-        ids_bloque = [i for ln in bloque for i in _ids_en(ln)]
-        for frase in bloque:
-            ids = _ids_en(frase)
-            heredadas = False
-            if not ids and not frase.lstrip().startswith("#"):
-                ids = ids_bloque or prev_intro
-                heredadas = bool(ids)
-            _auditar_linea(frase, ids, heredadas, corpus_norm, flagged, marcadas)
-        # Introduce lo que sigue: un parrafo de una sola linea, o una linea (p. ej. la
-        # ultima vineta de una lista) que termina en ":".
-        if bloque and bloque[-1].rstrip().endswith(":"):
-            prev_intro = _ids_en(bloque[-1])
-        elif len(bloque) == 1 and not re.match(r"\s*(?:[-*+]\s|#|\||\d+\.\s)", bloque[0]):
-            prev_intro = ids_bloque
-        else:
-            prev_intro = []
+    coincidencias: list[dict] = []
+    # Asocia cada cifra con las citas de su MISMA LÍNEA (párrafo o viñeta en markdown).
+    for linea in (ln for ln in doc.split("\n") if ln.strip()):
+        ids = extract_citations(linea) + [u for u in urls if u in linea]
+        # Quita citas y URLs antes de buscar cifras, para no tomar sus dígitos por datos.
+        limpia = _BRACKET_CITE_RE.sub(" ", linea)
+        limpia = re.sub(r"https?://\S+|10\.\d{4,9}/\S+|PMID\s*:?\s*\d+|NCT\d{8}", " ", limpia, flags=re.IGNORECASE)
+        for tok in (m.group(0) for m in _NUM_RE.finditer(limpia)):
+            n = _norm_num(tok)
+            if re.fullmatch(r"(19|20)\d{2}", n):  # años sueltos
+                continue
+            loc = []
+            for i in ids:
+                for src in fuentes.get(i, []):
+                    frag = _find_number(n, src.get("texto", ""))
+                    if frag:
+                        loc.append({"cita": i, "lugar": src.get("lugar", ""), "fragmento": frag})
+            if loc:
+                coincidencias.append({"cifra": tok, "frase": linea.strip()[:200], "localizacion": loc})
+            else:
+                flagged.append({
+                    "cifra": tok,
+                    "motivo": "sin cita en la linea" if not ids else "la cifra no aparece en las fuentes de sus citas",
+                    "citas_en_frase": ids,
+                    "frase": linea.strip()[:200],
+                })
     return {
         "n_cifras_sin_respaldo": len(flagged),
-        "veredicto": "OK" if not flagged else "REVISAR: cifras sin respaldo en los abstracts citados",
+        "veredicto": "OK" if not flagged else "REVISAR: cifras sin respaldo en las fuentes citadas",
+        "aviso": "Una coincidencia numerica no prueba que la fuente respalde la afirmacion: "
+                 "coteja cada fragmento de `coincidencias` con su frase.",
         "cifras_a_cotejar": flagged,
-        "n_marcadas_pendiente_cotejo": len(marcadas),
-        "marcadas_pendiente_cotejo": marcadas,
+        "coincidencias": coincidencias,
     }
-
-
-def _ids_en(linea: str) -> list[str]:
-    # Bloques de cita: [PMID:1], y también agrupados, [PMID:1; PMID:2] o [PMID:1, DOI:10.x/y].
-    return [normalize_identifier(m.strip()) for b in _CITA_RE.findall(linea)
-            for m in re.split(r"\s*[;,]\s*(?=(?:PMID|DOI|NCT):)", b)]
-
-
-def _auditar_linea(frase: str, ids: list[str], heredadas: bool, corpus_norm: dict[str, str],
-                   flagged: list[dict], marcadas: list[str]) -> None:
-    """Añade a `flagged` las cifras de `frase` que no aparecen en el abstract de `ids`."""
-    # Elimina los bloques de cita antes de buscar cifras, para no confundir los
-    # dígitos del propio identificador con un dato.
-    frase_limpia = _CITA_RE.sub(" ", frase)
-    if not _NUM_RE.search(frase_limpia):
-        return
-    # El punto medio (p=0·73, estilo Lancet) es un separador decimal.
-    respaldo = " ".join(corpus_norm.get(i, "") for i in ids).replace("\u00b7", ".")
-    for m in _NUM_RE.finditer(frase_limpia):
-        tok = m.group(0)
-        n = _norm_num(tok)
-        # ignora años sueltos y números triviales de estructura
-        if re.fullmatch(r"(19|20)\d{2}", n):
-            continue
-        if n in respaldo.replace(",", ".") or tok in respaldo:
-            continue
-        # Cifra ya señalada como "(pendiente de cotejo con la fuente)": no es un
-        # hallazgo nuevo, se cuenta aparte para que el documento final pueda dar OK.
-        if "pendiente de cotejo" in frase_limpia[m.end():m.end() + 60].lower():
-            marcadas.append(tok)
-            continue
-        flagged.append({
-            "cifra": tok,
-            "citas_en_frase": (ids or ["(sin cita en la frase)"])
-            + (["(heredadas del bloque)"] if heredadas else []),
-            "respaldo_en_abstract": False,
-            "frase": frase.strip()[:200],
-        })
 
 
 # ---------------------------------------------------------------------
@@ -758,31 +908,41 @@ def main() -> None:
                           help="Adjunta el abstract de cada candidato (grounding real)")
     p_search.add_argument("--pubmed-query", default=None,
                           help="Query booleana MeSH solo para PubMed (los motores semanticos usan --query)")
+    p_search.add_argument("--from-build", default=None,
+                          help="JSON de build-query: toma de ahi la query booleana (evita pasarla por la shell)")
 
     p_build = sub.add_parser("build-query", help="Construye query PubMed booleana desde PICO (MeSH validado)")
     p_build.add_argument("--pico", required=True, help="Ruta a JSON {concepts:[{label,mesh,tiab}]}")
     p_build.add_argument("--no-validate", action="store_true", help="No validar los MeSH contra NCBI")
 
-    p_verify = sub.add_parser("verify", help="Verificar existencia + retractacion")
+    p_verify = sub.add_parser("verify", help="Verificar existencia + retractacion (comprobaciones sueltas)")
     p_verify.add_argument("identifiers", nargs="+")
 
-    p_corpus = sub.add_parser("corpus", help="Construye {identificador: abstract} para audit-figures")
-    p_corpus.add_argument("--validos", required=True, help="JSON con la lista de identificadores VALIDOS")
-    p_corpus.add_argument("--candidatos", nargs="*", default=[],
-                          help="JSON de _candidatos-brutos/ (aportan abstracts de DOIs/NCTs)")
+    p_gate = sub.add_parser("gate", help="Puerta: verifica todos los identificadores citados en un expediente")
+    p_gate.add_argument("--caso", required=True, help="Directorio del expediente")
 
-    p_audit = sub.add_parser("audit-figures", help="Marca cifras del documento no respaldadas por los abstracts")
+    p_cites = sub.add_parser("check-citations", help="Comprueba que toda cita del documento esta en VALIDOS")
+    p_cites.add_argument("--doc", required=True)
+    p_cites.add_argument("--validos", required=True, help="Ruta a _validos.json")
+
+    p_audit = sub.add_parser("audit-figures", help="Localiza cada cifra del documento en las fuentes de sus citas")
     p_audit.add_argument("--doc", required=True, help="Ruta del markdown a auditar")
-    p_audit.add_argument("--corpus", required=True, help="JSON {identificador: abstract} de respaldo")
+    grp = p_audit.add_mutually_exclusive_group(required=True)
+    grp.add_argument("--caso", help="Expediente: el corpus se construye de sus ficheros")
+    grp.add_argument("--corpus", help="JSON {identificador: abstract} de respaldo")
 
     args = parser.parse_args()
+    codigo = 0
 
     if args.cmd == "search":
         days = None if args.days == 0 else args.days
+        pubmed_query = args.pubmed_query
+        if args.from_build:
+            pubmed_query = (_load_json(args.from_build) or {}).get("query") or pubmed_query
         result = search_all(args.query, condition=args.condition, days=days,
-                            with_abstracts=args.with_abstracts, pubmed_query=args.pubmed_query)
-        json.dump({"query": args.query, "pubmed_query": args.pubmed_query,
-                   "fuentes": dict(FUENTES_ESTADO), "n": len(result), "candidatos": result},
+                            with_abstracts=args.with_abstracts, pubmed_query=pubmed_query)
+        json.dump({"query": args.query, "pubmed_query": pubmed_query,
+                   "n": len(result), "candidatos": result},
                   sys.stdout, ensure_ascii=False, indent=2)
     elif args.cmd == "build-query":
         pico = json.load(open(args.pico, encoding="utf-8"))
@@ -792,32 +952,20 @@ def main() -> None:
     elif args.cmd == "verify":
         result = verify_identifiers(args.identifiers)
         json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
-    elif args.cmd == "corpus":
-        with open(args.validos, encoding="utf-8") as f:
-            validos = [normalize_identifier(i) for i in json.load(f)]
-        known: dict[str, str] = {}
-        for path in args.candidatos:
-            with open(path, encoding="utf-8") as f:
-                cands = json.load(f).get("candidatos", [])
-            for c in cands:
-                ident = normalize_identifier(c.get("identifier", ""))
-                if ident and (c.get("abstract") or "").strip():
-                    known[ident] = c["abstract"]
-        pmids = [i.split(":", 1)[1] for i in validos if i.startswith("PMID:")]
-        fetched = fetch_pubmed_abstracts(pmids)
-        corpus = {i: fetched.get(i.split(":", 1)[1], "") if i.startswith("PMID:") else known.get(i, "")
-                  for i in validos}
-        for i in validos:  # un PMID sin efetch puede tener abstract en los candidatos
-            if not corpus[i]:
-                corpus[i] = known.get(i, "")
-            if not corpus[i] and i.startswith("DOI:"):
-                corpus[i] = fetch_abstract_by_doi(i.split(":", 1)[1])
-        json.dump(corpus, sys.stdout, ensure_ascii=False, indent=2)
+    elif args.cmd == "gate":
+        resumen, codigo = run_gate(args.caso)
+        json.dump(resumen, sys.stdout, ensure_ascii=False, indent=2)
+    elif args.cmd == "check-citations":
+        doc = open(args.doc, encoding="utf-8").read()
+        result = check_citations(doc, json.load(open(args.validos, encoding="utf-8")))
+        codigo = 0 if not result["fuera_de_validos"] else 2
+        json.dump(result, sys.stdout, ensure_ascii=False, indent=2)
     elif args.cmd == "audit-figures":
         doc = open(args.doc, encoding="utf-8").read()
-        corpus = json.load(open(args.corpus, encoding="utf-8"))
+        corpus = build_corpus(args.caso) if args.caso else json.load(open(args.corpus, encoding="utf-8"))
         json.dump(audit_figures(doc, corpus), sys.stdout, ensure_ascii=False, indent=2)
     sys.stdout.write("\n")
+    sys.exit(codigo)
 
 
 if __name__ == "__main__":

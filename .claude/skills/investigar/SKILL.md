@@ -1,143 +1,178 @@
 ---
 name: investigar
-description: >-
-  Sistema multiagente de investigación biomédica con evidencia verificada.
-  Convierte una pregunta, duda o título en un expediente trazable cuya
-  bibliografía se comprueba contra APIs oficiales (existencia + retractación).
-  Activar cuando el usuario invoque /investigar o pida "investiga…", "busca
-  evidencia sobre…", "¿hay evidencia de que…?", "prepara una ponencia /
-  comunicación sobre…" en contexto biomédico. Niveles: rapido (duda puntual),
-  medio (informe de investigación), completo (ponencia con guion de
-  diapositivas). NO activar para consultas sobre la colección SCI-INDEX ya
-  indexada (usar collection-query-engine) ni para evaluación metodológica de
-  un artículo concreto (usar scientific-literature-critical-appraisal).
+description: 'Investigación biomédica con evidencia verificada. Convierte una pregunta, duda o título en un expediente trazable cuya bibliografía comprueba un script contra PubMed, Crossref y ClinicalTrials.gov (existencia y retractación). Activar con /investigar o cuando el usuario pida "investiga…", "busca evidencia sobre…", "¿qué dice la literatura de…?", "prepara una ponencia sobre…". Frecuente en urología, uro-oncología e IA en salud, pero sirve para cualquier tema biomédico. Niveles: rapido (duda puntual), medio (informe), completo (ponencia con guion de diapositivas). No usar para evaluar la metodología de un artículo concreto ni para consultar una colección ya indexada.'
 ---
 
-# /investigar — pipeline de investigación con evidencia verificada
+# /investigar — investigación con evidencia verificada
 
-Eres el coordinador de un pipeline multiagente. Tu valor diferencial es que
-**ninguna cita llega al documento final sin pasar por un verificador
-determinista** (script, no LLM). Respeta las puertas de seguridad: son la
-razón de ser del sistema.
+Coordinas un proceso por etapas cuyo valor está en una garantía: ninguna cita
+llega al documento final sin que un script, y no un modelo, haya comprobado
+contra su fuente oficial que existe y que no consta retractada. Tu juicio
+decide qué buscar y cómo sintetizar; los estados de las citas y las puertas los
+decide `tools/research_tools.py`, y su veredicto no se reinterpreta.
 
-Rutas en este documento: `SKILL_DIR` = directorio de esta skill
-(`.claude/skills/investigar` en el repo); los expedientes viven en
-`investigacion/casos/` en la raíz del repo. Si trabajas fuera de un clon del
-repo (p. ej. skill personal), usa un directorio `investigacion/` junto al
-directorio de trabajo y anótalo en el resultado.
+Dónde vive cada regla, para no duplicarla:
 
-## Preparación (una vez por sesión)
+- Este fichero: el orden de las etapas, los comandos y qué hacer ante cada puerta.
+- `prompts/*.md`: la rúbrica de cada rol. Pásala íntegra al subagente o síguela
+  tú; no la resumas aquí ni en el encargo.
+- `tools/research_tools.py`: estados de verificación, lista citable, control de
+  citas y auditoría de cifras.
 
-1. Comprueba el venv: si no existe `SKILL_DIR/.venv`, créalo:
-   `python3 -m venv SKILL_DIR/.venv && SKILL_DIR/.venv/bin/pip install -r SKILL_DIR/requirements.txt`
-   (solo instala `requests`). En adelante `PY` = `SKILL_DIR/.venv/bin/python`.
-2. Crea el expediente `investigacion/casos/AAAA-MM-DD-slug-corto/` y guarda
-   la petición literal del usuario en `00-encargo-original.md`.
+## Entorno
 
-## Fase 1 — Orquestador (tú mismo, sin subagente)
+`SKILL_DIR` es el directorio de este fichero.
 
-Aplica `SKILL_DIR/prompts/orquestador_system_prompt.md` al encargo y guarda
-el JSON resultante en `01-clasificacion.json`: nivel (`rapido` / `medio` /
-`completo`), 1-4 facetas con PICO (conceptos con MeSH candidatos y sinónimos
-tiab), `query_semantica` y opcionalmente `condicion_ctgov`.
+- **Python (`PY`)**: usa `~/Dev/investigacion-agentica/.venv/bin/python` si
+  existe. Si no, `python3` cuando `import requests` funcione; en otro caso crea
+  un venv en el directorio de trabajo e instala `SKILL_DIR/requirements.txt`.
+- **Expedientes (`CASOS`)**: `~/Dev/investigacion-agentica/casos/` si existe; si
+  no, `./investigacion/casos/` en el directorio de trabajo, y al terminar
+  entrega al usuario los ficheros del expediente, porque fuera del equipo local
+  no se conservan.
+- **Subagentes**: si dispones de una herramienta para lanzarlos, úsala donde se
+  indica. Si no, ejecuta tú cada rol, uno tras otro, con la misma rúbrica.
+- **MCP y conectores** (Consensus, Elicit, Scite, PubMed, Zotero, NotebookLM,
+  Obsidian): son complementos. El proceso funciona sin ninguno; los que falten
+  se anotan en el expediente y en el resumen final.
 
-## Fase 2 — Búsqueda determinista (por faceta)
+## Expediente y reanudación
 
-Para cada faceta:
+Crea `CASOS/AAAA-MM-DD-slug/` (en adelante `DIR`) con las subcarpetas
+`01b-busqueda/`, `_candidatos/` y `02-investigador/`, y guarda el encargo
+literal en `00-encargo-original.md`. Cada etapa deja su fichero numerado: es el
+registro de lo hecho. Si el expediente ya existe, continúa desde la primera
+etapa cuyo fichero falte en lugar de empezar de nuevo.
 
-1. Escribe el PICO de la faceta en un JSON temporal y construye la query
-   booleana validando MeSH contra NCBI:
-   `PY SKILL_DIR/tools/research_tools.py build-query --pico pico-facetaN.json`
-   Guarda la query resultante en el expediente (transparencia PRISMA).
-2. Recupera candidatos reales con abstract:
-   `PY SKILL_DIR/tools/research_tools.py search --query "<query_semantica>" --pubmed-query '<booleana>' --with-abstracts`
-   (añade la condición de ClinicalTrials si la faceta la tiene). Guarda la
-   salida en `_candidatos-brutos/faceta-N.json`. Su campo `fuentes` dice qué
-   fuentes respondieron: una fuente con error (p. ej. HTTP 429, cuota
-   agotada) no aportó candidatos y se anota en el resumen final.
+## Etapas
 
-## Fase 3 — Investigadores (subagentes en PARALELO)
+### 1. Clasificación y estrategia (tú)
 
-Lanza **un subagente por faceta, todos en un solo mensaje** (tool Agent,
-tipo general-purpose). Prompt de cada uno: el contenido íntegro de
-`SKILL_DIR/prompts/investigador_system_prompt.md` + su brief + la ruta de su
-`_candidatos-brutos/faceta-N.json` (que debe leer). MCPs (Consensus, Elicit,
-PubMed, Scholar Gateway, Clinical Trials, Scite) son opcionales: si no están
-o fallan, el subagente continúa y lo anota. Guarda cada salida JSON en
-`02-investigador/faceta-N.json`.
+Aplica `prompts/orquestador_system_prompt.md` → `01-clasificacion.json`: nivel,
+tipo de pregunta y de una a cuatro facetas con sus conceptos de búsqueda.
+Respeta el nivel que pida el usuario.
 
-## Fase 4 — Verificación (PUERTA DURA)
+### 2. Búsqueda reproducible (script, por faceta)
 
-1. Reúne TODOS los identificadores citados por los investigadores y ejecuta:
-   `PY SKILL_DIR/tools/research_tools.py verify PMID:... DOI:... NCT:...`
-   Guarda el resultado en `03-verificacion.json`. Si algún identificador
-   trae `exists: null` (la API no respondió), repite `verify` con esos
-   identificadores antes de seguir; si persiste, trátalo como no citable y
-   anótalo. `_validos.json` = identificadores con `exists: true` y
-   `retracted` distinto de `true` (`retracted: null` = retractación no
-   evaluable, p. ej. NCT o DOI fuera de Crossref: citable, pero señalado).
-   La regla de fondo está en `SKILL_DIR/skills/citation-verifier.md`.
-2. Lanza un subagente Verificador 1 con
-   `SKILL_DIR/prompts/verificador1_system_prompt.md`, las síntesis de la
-   fase 3 y el resultado del verify. Salida → `03-verificacion.md`.
-3. **Si el veredicto es "REQUIERE ACLARACIÓN DEL USUARIO"** (identificadores
-   inventados, evidencia insuficiente o vacío crítico): DETENTE. Informa al
-   usuario de qué falta y espera su respuesta. No continúes "por si acaso".
+Escribe los conceptos de la faceta en `01b-busqueda/faceta-N.json` como
+`{"concepts": [...]}` y ejecuta:
 
-## Fase 5 — Análisis y redacción
+```
+PY SKILL_DIR/tools/research_tools.py build-query --pico DIR/01b-busqueda/faceta-N.json > DIR/01b-busqueda/faceta-N-query.json
+PY SKILL_DIR/tools/research_tools.py search --query "<query_semantica>" --from-build DIR/01b-busqueda/faceta-N-query.json --with-abstracts > DIR/_candidatos/faceta-N.json
+```
 
-1. (Opcional, niveles medio/completo) Consolida el expediente en
-   `04-fuente-notebooklm.md` para NotebookLM.
-2. Subagente Analista (`prompts/analista_system_prompt.md`) con el encargo,
-   el informe del Verificador 1 y las síntesis → `05-analista.json`.
-3. Subagente Redactor (`prompts/redactor_system_prompt.md`) con el análisis,
-   la lista de VÁLIDOS y las síntesis de la fase 3 (sus campos
-   `evidencia_numerica` y `pendiente_cotejo` sostienen la regla de cifras)
-   → `06-redaccion-borrador.md`. Solo puede citar
-   identificadores de `_validos.json`; estilo de citas `inline` por defecto,
-   `iso690` para tesis/vault.
+Añade `--condition "<condicion_ctgov>"` si la faceta la tiene. `build-query`
+valida cada descriptor MeSH contra NCBI y deja la estrategia booleana para el
+expediente. Si `pubmed_count` es 0 o desmesurado, ajusta los conceptos y repite.
 
-## Fase 6 — Auditoría de cifras y pulido final
+### 3. Investigadores (un subagente por faceta, todos en el mismo mensaje)
 
-1. Construye el corpus de abstracts de los VÁLIDOS y audita las cifras:
-   `PY SKILL_DIR/tools/research_tools.py corpus --validos _validos.json --candidatos _candidatos-brutos/*.json > corpus.json`
-   `PY SKILL_DIR/tools/research_tools.py audit-figures --doc 06-redaccion-borrador.md --corpus corpus.json`
-   → `07-auditoria-cifras.json`. Toda cifra sin respaldo se corrige o se
-   marca "(pendiente de cotejo con la fuente)".
-2. Subagente Verificador 2 (`prompts/verificador2_system_prompt.md`) con el
-   borrador + auditoría → `07-resultado-final.md`. No altera hechos ni citas.
-3. Nivel `completo`: opcionalmente diapositivas Marp con
-   `generate_advanced_presentation_artifacts(expediente_dir, encargo, plan, resultado_final, validos, fuentes)`
-   (`fuentes`: las que respondieron según el campo `fuentes` de la búsqueda)
-   de `tools/slide_generator.py` (módulo sin CLI: impórtalo con
-   `cd SKILL_DIR/tools && PY -c "from slide_generator import …"`).
+A cada uno: `prompts/investigador_system_prompt.md` íntegro, la descripción de
+su faceta, el tipo de pregunta, su brief y la ruta de
+`_candidatos/faceta-N.json`, que debe leer. Es trabajo de selección y síntesis:
+en Claude Code lánzalos con `model: "sonnet"` y reserva el modelo de la sesión
+para las etapas 5 a 7. Guarda cada salida en `02-investigador/faceta-N.json`.
+
+**3b. Guías y literatura gris** (nivel `completo`, o si el usuario lo pide, y
+solo si hay búsqueda web): un subagente adicional localiza guías clínicas y
+documentos de sociedades que las APIs no indexan. Guarda
+`02b-deepresearch.json` como
+`{"items": [{"organismo", "anio", "titulo", "url", "extracto", "identifier"}]}`,
+donde `extracto` es texto literal de la fuente e `identifier` solo aparece si
+el hallazgo es un estudio con PMID o DOI.
+
+### 4. Puerta de verificación (script)
+
+```
+PY SKILL_DIR/tools/research_tools.py gate --caso DIR
+```
+
+Lee los identificadores de los JSON de las etapas 3 y 3b, de modo que nunca
+pasan por la línea de comandos, los verifica y escribe `03-verificacion.json` y
+`_validos.json`. Solo lo que esté en `_validos.json` es citable. El código de
+salida manda:
+
+- **0**: continúa.
+- **2**: hay identificadores `NO_ENCONTRADO` o `MAL_FORMADO`, o no hay nada que
+  verificar. Detente y cuéntale al usuario cuáles son y de qué faceta salieron.
+  Si tras verlo decide seguir sin ellos, continúa con `_validos.json` tal como
+  quedó.
+- **3**: quedan `INCONCLUSO` aunque el script ya reintentó una vez. Es un fallo
+  técnico, no una cita inventada. Repite el comando una vez más pasados unos
+  minutos; si persiste, detente y explica qué fuente no responde. Si casi todo
+  queda `INCONCLUSO`, lo más probable es que el entorno no tenga salida a
+  internet hacia esas APIs: dilo así y no redactes.
+
+Un `INCONCLUSO` cuyo detalle es "retractación no evaluable" (DOI ajeno a
+Crossref, típico de preprints) no se arregla reintentando: queda fuera de la
+lista citable salvo que el usuario decida otra cosa.
+
+Con la puerta superada, lanza el Verificador 1
+(`prompts/verificador1_system_prompt.md`) con las síntesis y
+`03-verificacion.json` → `03-verificacion.md`. Si su veredicto es REQUIERE
+ACLARACIÓN, detente y pregunta al usuario antes de redactar.
+
+### 5. Análisis
+
+`prompts/analista_system_prompt.md` con el encargo, `03-verificacion.md` y las
+síntesis → `05-analista.json`. En niveles `medio` y `completo`, consolida antes
+el encargo, las síntesis y el informe de verificación en
+`04-fuente-notebooklm.md`.
+
+### 6. Redacción
+
+`prompts/redactor_system_prompt.md` con el análisis, el nivel y
+`_validos.json` → `06-redaccion-borrador.md`.
+
+### 7. Pulido y puertas finales (script)
+
+```
+PY SKILL_DIR/tools/research_tools.py audit-figures --doc DIR/06-redaccion-borrador.md --caso DIR > DIR/07-auditoria-cifras.json
+```
+
+Lanza el Verificador 2 (`prompts/verificador2_system_prompt.md`) con el
+borrador y la auditoría → `07-resultado-final.md`. Después comprueba el
+documento ya pulido:
+
+```
+PY SKILL_DIR/tools/research_tools.py check-citations --doc DIR/07-resultado-final.md --validos DIR/_validos.json
+PY SKILL_DIR/tools/research_tools.py audit-figures --doc DIR/07-resultado-final.md --caso DIR > DIR/07-auditoria-cifras.json
+```
+
+`check-citations` debe salir con 0: si encuentra una cita fuera de la lista,
+retírala del texto junto con lo que afirmaba y repite. En la auditoría no
+pueden quedar entradas en `cifras_a_cotejar` salvo las reescritas como
+pendientes de cotejo. Corrige como máximo dos rondas; si sigue sin pasar,
+entrega el documento señalando qué queda sin resolver.
+
+Si el encargo pide ISO 690, convierte ahora las citas a Apellido-Año conservando
+el identificador en la lista de referencias. En nivel `completo` puedes generar
+diapositivas con `tools/slide_generator.py`.
 
 ## Cierre
 
-1. Ofrece (no impongas) los pasos opcionales: colección Zotero
-   (`export_zotero_bibliografia(expediente_dir, validos, titulo)` de
-   `tools/zotero_export.py`, módulo sin CLI que se importa igual que el
-   anterior, o el MCP de Zotero), subida a NotebookLM,
-   volcado al vault de Obsidian (ISO 690 / RMmp / PEEL). El export a Zotero
-   marca como "METADATOS INCOMPLETOS" los registros cuya API no respondió y
-   no los sube a la biblioteca — revísalos a mano antes de citarlos.
-2. **Integración SCI-INDEX**: si las skills `sci-index-processor` /
-   `zotero-bridge` están disponibles en la sesión, ofrece indexar los
-   identificadores VÁLIDOS del expediente en la colección SCI-INDEX del
-   usuario (añadirlos a Zotero vía zotero-bridge y procesarlos con
-   sci-index-processor para clasificación, calidad y tags `sci/*`). Así cada
-   investigación alimenta la biblioteca curada sin trabajo manual.
-3. Añade la fila del expediente a `investigacion/INDICE.md`
-   (fecha, pregunta, nivel, veredicto, ruta).
-4. Entrega al usuario `07-resultado-final.md` y un resumen de: nivel
-   aplicado, nº de facetas, citas VÁLIDAS / RETRACTADAS / INVENTADAS
-   detectadas, y fuentes de búsqueda y herramientas MCP que no estuvieron
-   disponibles.
+1. Entrega `07-resultado-final.md` y un resumen: nivel, facetas, recuento por
+   estado (`VALIDO`, `RETRACTADO`, `NO_ENCONTRADO`, `INCONCLUSO`), cifras
+   pendientes de cotejo y herramientas que no estuvieron disponibles.
+2. Añade una fila a `INDICE.md`, junto a la carpeta `casos/`: fecha, pregunta,
+   nivel, veredicto y ruta.
+3. Ofrece, sin imponer, las integraciones disponibles en la sesión:
+   - **Zotero**: colección con los VALIDOS mediante el MCP de Zotero (en lotes
+     de unos diez) o, en su defecto, `tools/zotero_export.py`, que genera RIS y
+     CSL-JSON y no sube registros con metadatos incompletos.
+   - **NotebookLM**: subir `04-fuente-notebooklm.md` como fuente.
+   - **Obsidian**: nota en el vault `AI_Knowledge_System` siguiendo las normas
+     de su `Claude.md` (ISO 690, RMmp, PEEL).
+   - **SCI-INDEX**: si las skills `zotero-bridge` y `sci-index-processor` están
+     en la sesión, indexar los VALIDOS en esa colección.
+4. En local, si durante el caso el usuario corrigió algo o expresó una
+   preferencia, invoca la skill `update-claude-memory` con ese contexto.
 
-## Principios inviolables
+## Límites que conviene decir al usuario
 
-- La lista de citas válidas la produce el script, nunca el modelo.
-- Un estudio RETRACTADO jamás sustenta una afirmación.
-- Ante INVENTADO o evidencia insuficiente, el sistema se detiene de verdad.
-- Existencia ≠ veracidad: atribuye con cautela y señala incertidumbre.
-- Todo queda en el expediente: cada decisión debe poder reconstruirse.
+- Que una cita exista no prueba que respalde la afirmación. Si Scite está
+  disponible, contrasta con él las afirmaciones clave.
+- "Sin retractación" significa que no consta en PubMed ni en Crossref en la
+  fecha registrada en `03-verificacion.json`.
+- Las guías citadas por URL no pasan por el verificador de identificadores.
