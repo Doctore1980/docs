@@ -1,4 +1,11 @@
 """
+LEGACY -- NO EJECUTABLE TAL CUAL. Se conserva solo como referencia historica.
+Ya no funciona con el resto del repositorio: importa `zotero_exporter` (hoy
+`tools/zotero_export.py`), lee `prompts/` junto a este fichero (hoy en
+`.claude/skills/investigar/prompts/`) y espera `faceta["query_pubmed"]`, que el
+Orquestador actual ya no emite (emite `pico`). El sistema vigente es la skill
+`/investigar` (.claude/skills/investigar/SKILL.md).
+
 Orquestador de investigacion-agentica -- Fase 1 & Fase 2 Completa
 (Orquestador -> Investigador(es) -> Verificador 1 -> Analista -> Redactor -> Verificador 2 -> Zotero & Slides & Prompts)
 
