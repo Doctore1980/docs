@@ -66,6 +66,12 @@ Añade `--condition "<condicion_ctgov>"` si la faceta la tiene. `build-query`
 valida cada descriptor MeSH contra NCBI y deja la estrategia booleana para el
 expediente. Si `pubmed_count` es 0 o desmesurado, ajusta los conceptos y repite.
 
+El campo `fuentes` de la salida dice qué fuentes respondieron. Una con error
+(HTTP 429, cuota agotada, sin red) no aportó candidatos: anótala para el resumen
+final en lugar de leer su silencio como ausencia de estudios. Semantic Scholar y
+OpenAlex aceptan claves gratuitas en `SEMANTIC_SCHOLAR_API_KEY` y
+`OPENALEX_API_KEY`; sin ellas suelen devolver 429 desde IP compartidas.
+
 ### 3. Investigadores (un subagente por faceta, todos en el mismo mensaje)
 
 A cada uno: `prompts/investigador_system_prompt.md` íntegro, la descripción de
@@ -143,7 +149,8 @@ PY SKILL_DIR/tools/research_tools.py audit-figures --doc DIR/07-resultado-final.
 `check-citations` debe salir con 0: si encuentra una cita fuera de la lista,
 retírala del texto junto con lo que afirmaba y repite. En la auditoría no
 pueden quedar entradas en `cifras_a_cotejar` salvo las reescritas como
-pendientes de cotejo. Corrige como máximo dos rondas; si sigue sin pasar,
+pendientes de cotejo, que el script lista aparte en
+`marcadas_pendiente_cotejo`. Corrige como máximo dos rondas; si sigue sin pasar,
 entrega el documento señalando qué queda sin resolver.
 
 Si el encargo pide ISO 690, convierte ahora las citas a Apellido-Año conservando
@@ -154,7 +161,8 @@ diapositivas con `tools/slide_generator.py`.
 
 1. Entrega `07-resultado-final.md` y un resumen: nivel, facetas, recuento por
    estado (`VALIDO`, `RETRACTADO`, `NO_ENCONTRADO`, `INCONCLUSO`), cifras
-   pendientes de cotejo y herramientas que no estuvieron disponibles.
+   pendientes de cotejo, y fuentes de búsqueda y herramientas que no estuvieron
+   disponibles.
 2. Añade una fila a `INDICE.md`, junto a la carpeta `casos/`: fecha, pregunta,
    nivel, veredicto y ruta.
 3. Ofrece, sin imponer, las integraciones disponibles en la sesión:

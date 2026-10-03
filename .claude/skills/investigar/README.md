@@ -25,56 +25,65 @@ claude.ai (Ajustes → Capacidades → Skills) o cópiala a `~/.claude/skills/in
 
 ## Qué hace, paso a paso
 
-1. **Orquestador** — clasifica el nivel (`rapido` / `medio` / `completo`) y descompone en 1-4 facetas.
-2. **Investigadores** (subagentes en paralelo) — buscan en fuentes deterministas (PubMed,
-   ClinicalTrials.gov, Europe PMC, Semantic Scholar, OpenAlex) y enriquecen con tus MCPs
-   (Consensus, Elicit, PubMed, Clinical Trials) cuando aportan.
-3. **Verificador 1** (ancla determinista + puerta real) — comprueba existencia y
-   retractación de cada cita. Si algo está **inventado** o la evidencia es **insuficiente**,
-   **el sistema se detiene y te avisa**. No sigue a ciegas.
-4. **Paquete NotebookLM** — consolida el expediente en un fichero listo para NotebookLM.
-5. **Analista** — integra los hallazgos entre facetas y clasifica por certidumbre.
-6. **Redactor** — redacta adaptado al nivel (citas `inline` o `ISO 690` para tesis/vault).
-7. **Verificador 2 / Humanizador** — pule estilo y rigor clínico sin tocar los hechos.
+El detalle operativo está en `SKILL.md`; aquí, el resumen:
 
-Al final, opcionalmente: crea una **colección en Zotero**, sube la fuente a **NotebookLM**,
-o vuelca la nota al **vault de Obsidian** (respetando ISO 690 / RMmp / PEEL).
+1. **Clasificación** — nivel (`rapido` / `medio` / `completo`), tipo de pregunta y 1-4 facetas.
+2. **Búsqueda reproducible** (script) — query booleana con MeSH validado contra NCBI y
+   candidatos con abstract de PubMed, Europe PMC, Semantic Scholar, OpenAlex y
+   ClinicalTrials.gov.
+3. **Investigadores** (subagentes en paralelo) — seleccionan y sintetizan; los MCP
+   (Consensus, Elicit, Scite…) son complementos opcionales. En nivel `completo`, un
+   subagente adicional busca guías y literatura gris.
+4. **Puerta de verificación** (script `gate`) — comprueba existencia y retractación de
+   cada identificador citado y escribe `_validos.json`, la única lista citable. Si algo
+   no existe o no se pudo comprobar, **el proceso se detiene y te avisa**. Después, el
+   Verificador 1 revisa coherencia y suficiencia de la evidencia.
+5. **Analista** — integra los hallazgos entre facetas.
+6. **Redactor** — redacta según el nivel citando solo identificadores VÁLIDOS.
+7. **Pulido y puertas finales** — auditoría de cifras, Verificador 2 y, sobre el texto
+   final, `check-citations` y una segunda auditoría de cifras.
+
+Al final, opcionalmente: colección en **Zotero**, fuente para **NotebookLM**, nota en el
+vault de **Obsidian** o indexado en **SCI-INDEX**.
 
 ## El ancla determinista (lo que da confianza)
 
 `tools/research_tools.py` no usa ningún LLM. Es la fuente de verdad:
 
 ```bash
-# Construir query PubMed booleana desde PICO, validando los MeSH contra NCBI
-./.venv/bin/python tools/research_tools.py build-query --pico pico.json
+PY=./.venv/bin/python   # o python3 si ya tiene requests
 
-# Buscar candidatos reales, con abstract, en carril doble (booleana a PubMed + texto libre a semánticos)
-./.venv/bin/python tools/research_tools.py search --query "PSMA PET recurrence" \
-  --pubmed-query '("Prostatic Neoplasms"[Mesh]) AND ("Positron-Emission Tomography"[Mesh])' --with-abstracts
+# Query PubMed booleana desde los conceptos, validando los MeSH contra NCBI
+$PY tools/research_tools.py build-query --pico faceta-1.json > faceta-1-query.json
 
-# Verificar existencia + retractación
-./.venv/bin/python tools/research_tools.py verify PMID:9500320 DOI:10.1056/NEJMoa1910038
+# Candidatos con abstract (booleana a PubMed, texto libre a los motores semánticos)
+$PY tools/research_tools.py search --query "PSMA PET recurrence" --from-build faceta-1-query.json --with-abstracts
 
-# Construir el corpus {identificador: abstract} de los VÁLIDOS y auditar cifras contra él
-./.venv/bin/python tools/research_tools.py corpus --validos _validos.json --candidatos _candidatos-brutos/*.json > corpus.json
-./.venv/bin/python tools/research_tools.py audit-figures --doc 07-resultado-final.md --corpus corpus.json
+# Puerta: verifica todo lo citado en el expediente y escribe _validos.json
+$PY tools/research_tools.py gate --caso investigacion/casos/AAAA-MM-DD-slug
+
+# Citas del documento contra VALIDOS, y auditoría de cifras contra las fuentes del expediente
+$PY tools/research_tools.py check-citations --doc 07-resultado-final.md --validos _validos.json
+$PY tools/research_tools.py audit-figures --doc 07-resultado-final.md --caso investigacion/casos/AAAA-MM-DD-slug
+
+# Comprobación suelta
+$PY tools/research_tools.py verify PMID:29137830 DOI:10.1056/NEJMoa1910038 NCT:NCT03036150
 ```
 
-La búsqueda parte de un **PICO** (el Orquestador propone conceptos con descriptores MeSH y
-sinónimos); un paso determinista **valida cada MeSH contra NCBI** y arma una query booleana
-reproducible que queda guardada en el expediente (transparencia tipo PRISMA).
+Cada identificador recibe un estado:
 
-`verify` devuelve, por identificador, `exists` y `retracted`, que dan cuatro estados:
-**VÁLIDO** (existe, no retractado), **RETRACTADO** (existe pero retractado — nunca se usa
-como apoyo), **INVENTADO** (la API responde que no existe — señal de alucinación) y
-**NO EVALUABLE** (`exists: null`: la API no respondió; se repite `verify`, nunca se
-trata como válido ni como inventado). Solo los VÁLIDOS pueden citarse en el documento
-final. La retractación se comprueba en doble vía: PMIDs contra PubMed ("Retracted
-Publication") y DOIs contra Crossref (notas de retractación registradas vía
-`filter=updates:`); si esa consulta falla, `retracted` queda en `null`, nunca en `false`.
-Los DOI no registrados en Crossref se confirman contra el registro de handles de doi.org
-(retractación no evaluable). Los PMID se consultan por lotes para no chocar con el
-límite de peticiones de NCBI.
+| Estado | Significado | ¿Citable? |
+|---|---|---|
+| `VALIDO` | Existe y no consta retractado en PubMed ni en Crossref | Sí |
+| `RETRACTADO` | Existe pero está retractado | No |
+| `NO_ENCONTRADO` | La fuente oficial responde que no existe (señal de invención) | No; `gate` se detiene |
+| `MAL_FORMADO` | No tiene forma de PMID, NCT ni DOI | No; `gate` se detiene |
+| `INCONCLUSO` | La API no respondió, o la retractación no es evaluable (DOI fuera de Crossref) | No; se reintenta |
+
+Un fallo de la API (por ejemplo, un 429 de NCBI) da `INCONCLUSO`, nunca `NO_ENCONTRADO`,
+y una consulta de retractación fallida nunca deja pasar un artículo como `VALIDO`. Los DOI
+que no están en Crossref se confirman contra doi.org. El campo `fuentes` de `search` dice
+qué fuentes respondieron.
 
 ## Instalación (una vez, la skill la hace sola si falta)
 
@@ -96,30 +105,28 @@ export SEMANTIC_SCHOLAR_API_KEY=...    # https://www.semanticscholar.org/product
 
 ## Pruebas
 
-Pruebas sin red (las APIs se simulan) de `verify`, `audit-figures`, `corpus`, la búsqueda,
-el export a Zotero y las diapositivas. Cada una fija un fallo que ya ocurrió en un
-expediente real:
+Pruebas sin red (las APIs se simulan) de la verificación, la puerta, la búsqueda y la
+auditoría de cifras. Cada una fija un fallo que ya ocurrió en un expediente real:
 
 ```bash
 cd .claude/skills/investigar
-./.venv/bin/python -m unittest discover -s tests -v
+python3 -m unittest discover -s tests -v
 ```
 
 ## Estructura
 
 ```
 .claude/skills/investigar/    # la skill
-├── SKILL.md                  # registra /investigar y orquesta el pipeline
+├── SKILL.md                  # registra /investigar y fija etapas, comandos y puertas
 ├── tools/
-│   ├── research_tools.py     # ancla determinista: search + verify (existencia + retractación)
+│   ├── research_tools.py     # ancla determinista: búsqueda, verificación, puertas, cifras
 │   ├── zotero_export.py      # export RIS / CSL-JSON (+ sync opcional a Zotero web API)
 │   └── slide_generator.py    # (opcional) diapositivas Marp para nivel "completo"
-├── prompts/                  # rúbricas de cada rol del pipeline
-├── skills/                   # regla citation-verifier
+├── prompts/                  # rúbricas de cada rol
 ├── tests/                    # pruebas sin red de tools/
 └── .venv/                    # (local, no versionado)
 
-investigacion/                # en la raíz del repo
+investigacion/                # en la raíz del repo (excluido del sitio en .mintignore)
 ├── casos/                    # expedientes generados
 ├── INDICE.md                 # registro de expedientes
 └── legacy/                   # enfoque anterior (subprocess + GitHub Actions), como referencia

@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import re
 import sys
+import html
 import json
 import time
 import argparse
@@ -47,11 +48,13 @@ HTTP_HEADERS = {
 # Red resiliente
 # ---------------------------------------------------------------------
 
-def safe_get(url: str, params: dict | None = None, timeout: int = 30, retries: int = 2) -> requests.Response | None:
+def safe_get(url: str, params: dict | None = None, timeout: int = 30, retries: int = 2,
+             headers: dict | None = None) -> requests.Response | None:
     """GET con User-Agent polite, reintentos y tolerancia a rate-limiting."""
+    cabeceras = {**HTTP_HEADERS, **(headers or {})}
     for attempt in range(retries + 1):
         try:
-            resp = requests.get(url, params=params, headers=HTTP_HEADERS, timeout=timeout)
+            resp = requests.get(url, params=params, headers=cabeceras, timeout=timeout)
             if resp.status_code == 200:
                 return resp
             if resp.status_code in (429, 502, 503, 504) and attempt < retries:
@@ -64,6 +67,28 @@ def safe_get(url: str, params: dict | None = None, timeout: int = 30, retries: i
                 continue
             return None
     return None
+
+
+# Estado de cada fuente en la ultima busqueda: una fuente que falla (429, cuota
+# agotada, sin red) devuelve 0 candidatos, y sin este registro no se distingue
+# de "no hay estudios". `search` lo publica en el campo `fuentes`.
+FUENTES_ESTADO: dict[str, str] = {}
+
+
+def _fallo(fuente: str, resp) -> list:
+    FUENTES_ESTADO[fuente] = f"error: {_http(resp)}"
+    return []
+
+
+def _ok(fuente: str, out: list) -> list:
+    FUENTES_ESTADO[fuente] = f"ok ({len(out)})"
+    return out
+
+
+def _texto_plano(s: str | None) -> str:
+    """Quita etiquetas y decodifica entidades (p&lt;0.001 -> p<0.001), en ese orden."""
+    sin_etiquetas = re.sub(r"</?[A-Za-z][^<>]*>", "", s or "")  # respeta "p<0.05" literal
+    return re.sub(r"\s+", " ", html.unescape(sin_etiquetas)).strip()
 
 
 # ---------------------------------------------------------------------
@@ -105,24 +130,24 @@ def fetch_pubmed(query: str, days: int | None = 3650, retmax: int = 25) -> list[
         params={"db": "pubmed", "term": term, "retmode": "json", "retmax": retmax, "sort": "relevance"},
     )
     if not resp or resp.status_code != 200:
-        return []
+        return _fallo("PubMed", resp)
     try:
         ids = resp.json().get("esearchresult", {}).get("idlist", [])
     except Exception:
-        return []
+        return _fallo("PubMed", resp)
     if not ids:
-        return []
+        return _ok("PubMed", [])
     time.sleep(0.4)
     resp_sum = safe_get(
         "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi",
         params={"db": "pubmed", "id": ",".join(ids), "retmode": "json"},
     )
     if not resp_sum or resp_sum.status_code != 200:
-        return []
+        return _fallo("PubMed", resp_sum)
     try:
         result = resp_sum.json().get("result", {})
     except Exception:
-        return []
+        return _fallo("PubMed", resp_sum)
     out = []
     for pmid in ids:
         doc = result.get(pmid, {})
@@ -137,7 +162,7 @@ def fetch_pubmed(query: str, days: int | None = 3650, retmax: int = 25) -> list[
             "pubtypes": pubtypes,
             "source": "PubMed",
         })
-    return out
+    return _ok("PubMed", out)
 
 
 def fetch_clinicaltrials(condition: str, page_size: int = 15) -> list[dict]:
@@ -146,11 +171,11 @@ def fetch_clinicaltrials(condition: str, page_size: int = 15) -> list[dict]:
         params={"query.cond": condition, "pageSize": page_size, "sort": "LastUpdatePostDate:desc"},
     )
     if not resp or resp.status_code != 200:
-        return []
+        return _fallo("ClinicalTrials.gov", resp)
     try:
         studies = resp.json().get("studies", [])
     except Exception:
-        return []
+        return _fallo("ClinicalTrials.gov", resp)
     out = []
     for study in studies:
         proto = study.get("protocolSection", {})
@@ -165,7 +190,7 @@ def fetch_clinicaltrials(condition: str, page_size: int = 15) -> list[dict]:
                 "status": status.get("overallStatus", ""),
                 "source": "ClinicalTrials.gov",
             })
-    return out
+    return _ok("ClinicalTrials.gov", out)
 
 
 def fetch_europepmc(query: str, page_size: int = 20) -> list[dict]:
@@ -174,11 +199,11 @@ def fetch_europepmc(query: str, page_size: int = 20) -> list[dict]:
         params={"query": query, "format": "json", "pageSize": page_size, "resultType": "core"},
     )
     if not resp or resp.status_code != 200:
-        return []
+        return _fallo("Europe PMC", resp)
     try:
         results = resp.json().get("resultList", {}).get("result", [])
     except Exception:
-        return []
+        return _fallo("Europe PMC", resp)
     out = []
     for item in results:
         doi, pmid = item.get("doi"), item.get("pmid")
@@ -189,23 +214,24 @@ def fetch_europepmc(query: str, page_size: int = 20) -> list[dict]:
                 "title": item.get("title", ""),
                 "date": item.get("firstPublicationDate", ""),
                 "journal": item.get("journalTitle", ""),
-                "abstract": (item.get("abstractText") or "")[:6000],
+                "abstract": _texto_plano(item.get("abstractText"))[:6000],
                 "source": "Europe PMC",
             })
-    return out
+    return _ok("Europe PMC", out)
 
 
 def fetch_semantic_scholar(query: str, limit: int = 20) -> list[dict]:
     resp = safe_get(
         "https://api.semanticscholar.org/graph/v1/paper/search",
         params={"query": query, "limit": limit, "fields": "title,externalIds,year,venue,abstract"},
+        headers={"x-api-key": key} if (key := os.environ.get("SEMANTIC_SCHOLAR_API_KEY")) else None,
     )
     if not resp or resp.status_code != 200:
-        return []
+        return _fallo("Semantic Scholar", resp)
     try:
         data = resp.json().get("data", [])
     except Exception:
-        return []
+        return _fallo("Semantic Scholar", resp)
     out = []
     for item in data:
         ext = item.get("externalIds") or {}
@@ -220,20 +246,21 @@ def fetch_semantic_scholar(query: str, limit: int = 20) -> list[dict]:
                 "abstract": (item.get("abstract") or "")[:6000],
                 "source": "Semantic Scholar",
             })
-    return out
+    return _ok("Semantic Scholar", out)
 
 
 def fetch_openalex(query: str, per_page: int = 20) -> list[dict]:
     resp = safe_get(
         "https://api.openalex.org/works",
-        params={"search": query, "per_page": per_page},
+        params={"search": query, "per_page": per_page,
+                **({"api_key": key} if (key := os.environ.get("OPENALEX_API_KEY")) else {})},
     )
     if not resp or resp.status_code != 200:
-        return []
+        return _fallo("OpenAlex", resp)
     try:
         results = resp.json().get("results", [])
     except Exception:
-        return []
+        return _fallo("OpenAlex", resp)
     out = []
     for item in results:
         doi_url = item.get("doi")
@@ -245,7 +272,7 @@ def fetch_openalex(query: str, per_page: int = 20) -> list[dict]:
                 "abstract": _openalex_abstract(item.get("abstract_inverted_index"))[:6000],
                 "source": "OpenAlex",
             })
-    return out
+    return _ok("OpenAlex", out)
 
 
 def _openalex_abstract(inv_index: dict | None) -> str:
@@ -280,8 +307,7 @@ def fetch_pubmed_abstracts(pmids: list[str]) -> dict[str, str]:
                 continue
             pmid = m.group(1)
             parts = re.findall(r"<AbstractText[^>]*>(.*?)</AbstractText>", block, re.DOTALL)
-            text = " ".join(re.sub(r"<[^>]+>", "", p) for p in parts).strip()
-            text = re.sub(r"\s+", " ", text)
+            text = _texto_plano(" ".join(parts))
             if text:
                 out[pmid] = text[:6000]
         time.sleep(0.34)
@@ -313,6 +339,7 @@ def search_all(query: str, condition: str | None = None, days: int | None = 3650
     los motores semanticos (Europe PMC, Semantic Scholar, OpenAlex) siguen con
     `query` en texto libre, que es donde mejor rinden. Carril doble.
     """
+    FUENTES_ESTADO.clear()
     candidatos: list[dict] = []
     candidatos += fetch_pubmed(pubmed_query or query, days=days)
     candidatos += fetch_europepmc(query)
@@ -856,6 +883,7 @@ def audit_figures(doc: str, corpus: dict) -> dict:
     # Ignora el contenido en `backticks` (prompts visuales, code spans): no son afirmaciones.
     doc = re.sub(r"`[^`]*`", " ", doc)
     flagged: list[dict] = []
+    marcadas: list[dict] = []
     coincidencias: list[dict] = []
     # Asocia cada cifra con las citas de su MISMA LÍNEA (párrafo o viñeta en markdown).
     for linea in (ln for ln in doc.split("\n") if ln.strip()):
@@ -875,6 +903,8 @@ def audit_figures(doc: str, corpus: dict) -> dict:
                         loc.append({"cita": i, "lugar": src.get("lugar", ""), "fragmento": frag})
             if loc:
                 coincidencias.append({"cifra": tok, "frase": linea.strip()[:200], "localizacion": loc})
+            elif re.search(r"pendiente de cotejo", linea, re.IGNORECASE):
+                marcadas.append({"cifra": tok, "frase": linea.strip()[:200]})
             else:
                 flagged.append({
                     "cifra": tok,
@@ -888,6 +918,7 @@ def audit_figures(doc: str, corpus: dict) -> dict:
         "aviso": "Una coincidencia numerica no prueba que la fuente respalde la afirmacion: "
                  "coteja cada fragmento de `coincidencias` con su frase.",
         "cifras_a_cotejar": flagged,
+        "marcadas_pendiente_cotejo": marcadas,
         "coincidencias": coincidencias,
     }
 
@@ -942,7 +973,7 @@ def main() -> None:
         result = search_all(args.query, condition=args.condition, days=days,
                             with_abstracts=args.with_abstracts, pubmed_query=pubmed_query)
         json.dump({"query": args.query, "pubmed_query": pubmed_query,
-                   "n": len(result), "candidatos": result},
+                   "fuentes": FUENTES_ESTADO, "n": len(result), "candidatos": result},
                   sys.stdout, ensure_ascii=False, indent=2)
     elif args.cmd == "build-query":
         pico = json.load(open(args.pico, encoding="utf-8"))

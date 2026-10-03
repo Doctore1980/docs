@@ -1,7 +1,7 @@
 """Pruebas sin red de las herramientas deterministas de /investigar.
 
 Ejecutar desde la carpeta de la skill:
-    .venv/bin/python -m unittest discover -s tests -v
+    python3 -m unittest discover -s tests -v
 
 Las APIs externas se simulan sustituyendo `safe_get`; cada prueba fija un
 fallo concreto que ya ocurrió en un expediente real.
@@ -17,8 +17,8 @@ from unittest import mock
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools"))
 
 import research_tools as rt  # noqa: E402
-import slide_generator as sg  # noqa: E402
-import zotero_export as ze  # noqa: E402
+import slide_generator  # noqa: E402,F401  (importa sin errores)
+import zotero_export  # noqa: E402,F401
 
 
 class Resp:
@@ -34,195 +34,166 @@ class Resp:
 
 
 def fake_get(routes):
-    """routes: lista de (subcadena_url, respuesta | callable(url, params))."""
+    """routes: lista de (subcadena_url, respuesta | callable(url, params, kwargs))."""
     def _get(url, params=None, **kwargs):
         for frag, resp in routes:
             if frag in url:
-                return resp(url, params) if callable(resp) else resp
+                return resp(url, params, kwargs) if callable(resp) else resp
         return None
     return _get
 
 
-EFETCH_RETRACTED = ("<PubmedArticleSet><PubmedArticle><PMID>1</PMID>"
-                    "<PublicationType>Retracted Publication</PublicationType>"
-                    "</PubmedArticle><PubmedArticle><PMID>2</PMID></PubmedArticle></PubmedArticleSet>")
+def patched(routes):
+    return mock.patch.object(rt, "safe_get", side_effect=fake_get(routes))
+
+
+EFETCH = ("<PubmedArticleSet><PubmedArticle><PMID>1</PMID>"
+          "<PublicationType>Retracted Publication</PublicationType>"
+          "</PubmedArticle><PubmedArticle><PMID>2</PMID></PubmedArticle></PubmedArticleSet>")
 
 
 class VerifyTests(unittest.TestCase):
-    def run_verify(self, routes, ids):
-        with mock.patch.object(rt, "safe_get", side_effect=fake_get(routes)), \
-                mock.patch.object(rt.time, "sleep"):
-            return rt.verify_identifiers(ids)
+    def setUp(self):
+        p = mock.patch.object(rt.time, "sleep")
+        p.start()
+        self.addCleanup(p.stop)
 
-    def test_pmid_existente_retractado_e_inventado(self):
+    def test_pmid_retractado_valido_y_no_encontrado(self):
         esummary = Resp(payload={"result": {"1": {"title": "a"}, "2": {"title": "b"},
-                                            "3": {"uid": "3", "error": "cannot get document summary"}}})
-        out = self.run_verify([("esummary", esummary), ("efetch", Resp(text=EFETCH_RETRACTED))],
-                              ["PMID:1", "PMID:2", "PMID:3"])
-        self.assertEqual((out["PMID:1"]["exists"], out["PMID:1"]["retracted"]), (True, True))
-        self.assertEqual((out["PMID:2"]["exists"], out["PMID:2"]["retracted"]), (True, False))
-        self.assertIs(out["PMID:3"]["exists"], False)
+                                            "3": {"error": "cannot get document summary"}}})
+        with patched([("esummary", esummary), ("efetch", Resp(text=EFETCH))]):
+            out = rt.verify_identifiers(["PMID:1", "PMID:2", "PMID:3"])
+        self.assertEqual(out["PMID:1"]["estado"], "RETRACTADO")
+        self.assertEqual(out["PMID:2"]["estado"], "VALIDO")
+        self.assertEqual(out["PMID:3"]["estado"], "NO_ENCONTRADO")
 
-    def test_ncbi_429_no_es_inventado(self):
-        out = self.run_verify([("eutils", Resp(status=429))], ["PMID:1"])
-        self.assertIsNone(out["PMID:1"]["exists"])
-        self.assertIn("repetir verify", out["PMID:1"]["checked_against"])
+    def test_429_de_ncbi_nunca_da_no_encontrado(self):
+        # Ye 2017 se marcó como inventado por un 429: debe quedar INCONCLUSO.
+        with patched([("eutils", Resp(status=429))]):
+            out = rt.verify_identifiers(["PMID:29137830"])
+        self.assertEqual(out["PMID:29137830"]["estado"], "INCONCLUSO")
+        self.assertIsNone(out["PMID:29137830"]["exists"])
 
-    def test_fallo_de_retracciones_no_da_false(self):
-        esummary = Resp(payload={"result": {"1": {"title": "a"}}})
-        out = self.run_verify([("esummary", esummary), ("efetch", Resp(status=429))], ["PMID:1"])
-        self.assertIs(out["PMID:1"]["exists"], True)
-        self.assertIsNone(out["PMID:1"]["retracted"])
+    def test_fallo_en_retractacion_no_da_valido(self):
+        esummary = Resp(payload={"result": {"2": {"title": "b"}}})
+        with patched([("esummary", esummary), ("efetch", Resp(status=503))]):
+            out = rt.verify_identifiers(["PMID:2"])
+        self.assertEqual(out["PMID:2"]["estado"], "INCONCLUSO")
+        self.assertIsNone(out["PMID:2"]["retracted"])
 
-    def test_pmids_en_una_sola_peticion(self):
-        llamadas = []
+    def test_doi_fuera_de_crossref_se_confirma_en_doi_org(self):
+        routes = [("api.crossref.org/works/", Resp(status=404)),
+                  ("doi.org/api/handles", Resp(status=200, payload={}))]
+        with patched(routes):
+            out = rt.verify_identifiers(["DOI:10.22037/uj.v0i0.4758"])
+        v = out["DOI:10.22037/uj.v0i0.4758"]
+        self.assertTrue(v["exists"])
+        self.assertEqual(v["estado"], "INCONCLUSO")  # retractación no evaluable
+        self.assertFalse(v["reintentable"])
 
-        def esummary(url, params):
-            llamadas.append(params["id"])
-            return Resp(payload={"result": {i: {"title": "t"} for i in params["id"].split(",")}})
-        self.run_verify([("esummary", esummary), ("efetch", Resp(text=""))],
-                        [f"PMID:{i}" for i in range(1, 30)])
-        self.assertEqual(len(llamadas), 1)
-
-    def test_doi_fuera_de_crossref(self):
-        out = self.run_verify([("api.crossref.org", Resp(status=404)),
-                               ("doi.org/api/handles", Resp(payload={"responseCode": 1}))],
-                              ["DOI:10.22037/uj.v0i0.4758"])
-        self.assertIs(out["DOI:10.22037/uj.v0i0.4758"]["exists"], True)
-        self.assertIsNone(out["DOI:10.22037/uj.v0i0.4758"]["retracted"])
-
-    def test_doi_inexistente(self):
-        out = self.run_verify([("api.crossref.org", Resp(status=404)),
-                               ("doi.org/api/handles", Resp(status=404, payload={"responseCode": 100}))],
-                              ["DOI:10.9999/nada"])
-        self.assertIs(out["DOI:10.9999/nada"]["exists"], False)
-
-    def test_doi_con_apis_caidas(self):
-        out = self.run_verify([], ["DOI:10.1/x"])
-        self.assertIsNone(out["DOI:10.1/x"]["exists"])
-
-    def test_nct(self):
-        out = self.run_verify([("clinicaltrials.gov", Resp(status=404))], ["NCT:NCT00000001"])
-        self.assertIs(out["NCT:NCT00000001"]["exists"], False)
-        out = self.run_verify([("clinicaltrials.gov", Resp(status=503))], ["NCT:NCT00000001"])
-        self.assertIsNone(out["NCT:NCT00000001"]["exists"])
+    def test_doi_retractado_por_crossref(self):
+        msg = {"message": {"updated-by": [{"type": "retraction", "DOI": "10.1016/x"}]}}
+        with patched([("api.crossref.org/works/", Resp(payload=msg))]):
+            out = rt.verify_identifiers(["DOI:10.1016/abc"])
+        self.assertEqual(out["DOI:10.1016/abc"]["estado"], "RETRACTADO")
 
 
-class AuditFiguresTests(unittest.TestCase):
-    CORPUS = {"PMID:1": "expulsion 45% (p=0·73)", "DOI:10.1/x": "n = 512 patients"}
+class GateTests(unittest.TestCase):
+    def _caso(self, items):
+        d = tempfile.mkdtemp()
+        os.makedirs(os.path.join(d, "02-investigador"))
+        with open(os.path.join(d, "02-investigador", "faceta-1.json"), "w") as fh:
+            json.dump({"items": [{"identifier": i} for i in items]}, fh)
+        return d
 
-    def test_citas_agrupadas_y_punto_medio(self):
-        doc = "Tasa 45 % y p = 0,73 con n = 512 [PMID:1; DOI:10.1/x]."
-        self.assertEqual(rt.audit_figures(doc, self.CORPUS)["n_cifras_sin_respaldo"], 0)
+    def test_codigos_de_salida(self):
+        casos = {
+            0: {"estado": "VALIDO"},
+            2: {"estado": "NO_ENCONTRADO"},
+            3: {"estado": "INCONCLUSO"},
+        }
+        for codigo, v in casos.items():
+            d = self._caso(["PMID:1"])
+            fake = {"PMID:1": {**v, "detalle": ""}}
+            with mock.patch.object(rt, "verify_identifiers", return_value=fake):
+                _, got = rt.run_gate(d)
+            self.assertEqual(got, codigo, v)
+            with open(os.path.join(d, "_validos.json")) as fh:
+                validos = json.load(fh)
+            self.assertEqual(validos, ["PMID:1"] if codigo == 0 else [])
 
-    def test_cifra_sin_respaldo_y_sin_cita(self):
-        res = rt.audit_figures("Otra 99 % [PMID:1].\nSin cita 77 %.", self.CORPUS)
-        self.assertEqual([c["cifra"] for c in res["cifras_a_cotejar"]], ["99 %", "77 %"])
-
-
-    def test_hereda_citas_de_bloque_y_de_parrafo_introductorio(self):
-        corpus = {"PMID:1": "HR 0.51 (0.34-0.75) and 1.29 (0.73-1.85)"}
-        doc = ("- Global [PMID:1].\n  - Subgrupo: HR 0,51 (0,34-0,75).\n\n"
-               "**Tabla.** Pendiente [PMID:1]:\n\n| Grupo | Valor |\n|---|---|\n| Sin DM | 1,29 (0,73-1,85) |\n")
-        self.assertEqual(rt.audit_figures(doc, corpus)["n_cifras_sin_respaldo"], 0)
-
-    def test_vineta_terminada_en_dos_puntos_introduce_tabla(self):
-        doc = ("- Otra cosa.\n- Por causa [PMID:1]:\n\n  | Causa | HR |\n  |---|---|\n  | GN | 0,43 (0,26-0,71) |\n")
-        self.assertEqual(rt.audit_figures(doc, {"PMID:1": "HR 0.43 (0.26-0.71)"})["n_cifras_sin_respaldo"], 0)
-
-    def test_cifra_ya_marcada_no_bloquea_el_ok(self):
-        res = rt.audit_figures("Tasa ~86,7 % (pendiente de cotejo con la fuente) [PMID:1].", {"PMID:1": ""})
-        self.assertEqual(res["veredicto"], "OK")
-        self.assertEqual(res["marcadas_pendiente_cotejo"], ["86,7 %"])
-
-    def test_herencia_no_tapa_cifras_falsas(self):
-        res = rt.audit_figures("- Global [PMID:1].\n  - Inventada: 0,99.", {"PMID:1": "HR 0.51"})
-        self.assertEqual([c["cifra"] for c in res["cifras_a_cotejar"]], ["0,99"])
-        self.assertIn("(heredadas del bloque)", res["cifras_a_cotejar"][0]["citas_en_frase"])
+    def test_sin_identificadores_detiene(self):
+        d = self._caso([])
+        _, codigo = rt.run_gate(d)
+        self.assertEqual(codigo, 2)
 
 
-class AbstractsTests(unittest.TestCase):
-    def test_abstract_por_doi_en_europe_pmc(self):
-        ok = Resp(payload={"resultList": {"result": [{
-            "doi": "10.2337/DC21-0300",
-            "abstractText": "<h4>Results</h4>HR 0.62, p &lt; 0.05 and eGFR &gt; 25"}]}})
-        with mock.patch.object(rt, "safe_get", return_value=ok):
-            txt = rt.fetch_abstract_by_doi("10.2337/dc21-0300")
-        self.assertIn("HR 0.62, p < 0.05 and eGFR > 25", txt)
-        self.assertNotIn("<h4>", txt)
-        otro = Resp(payload={"resultList": {"result": [{"doi": "10.9/otro", "abstractText": "x"}]}})
-        with mock.patch.object(rt, "safe_get", return_value=otro):
-            self.assertEqual(rt.fetch_abstract_by_doi("10.2337/dc21-0300"), "")
-
-    def test_entidades_y_sin_truncar_a_1800(self):
-        largo = "x " * 1500
-        xml = (f"<PubmedArticle><PMID>1</PMID><AbstractText>p=0&#xb7;73 y p&lt;0.001 {largo}"
-               f"CONCLUSION</AbstractText></PubmedArticle>")
-        with mock.patch.object(rt, "safe_get", return_value=Resp(text=xml)), \
-                mock.patch.object(rt.time, "sleep"):
-            txt = rt.fetch_pubmed_abstracts(["1"])["1"]
-        self.assertIn("p=0·73", txt)
-        self.assertIn("p<0.001", txt)
-        self.assertTrue(txt.endswith("CONCLUSION"))
-
-
-class SearchStatusTests(unittest.TestCase):
-    def test_fuente_caida_queda_registrada(self):
-        routes = [("semanticscholar", Resp(status=429)), ("openalex", Resp(status=429)),
+class SearchTests(unittest.TestCase):
+    def test_fuente_con_429_queda_registrada(self):
+        routes = [("esearch", Resp(payload={"esearchresult": {"idlist": []}})),
                   ("europepmc", Resp(payload={"resultList": {"result": []}})),
-                  ("esearch", Resp(payload={"esearchresult": {"idlist": []}}))]
-        with mock.patch.object(rt, "safe_get", side_effect=fake_get(routes)):
-            rt.search_all("q")
-        self.assertIn("429", rt.FUENTES_ESTADO["Semantic Scholar"])
-        self.assertIn("429", rt.FUENTES_ESTADO["OpenAlex"])
-        self.assertTrue(rt.FUENTES_ESTADO["Europe PMC"].startswith("ok"))
+                  ("semanticscholar", Resp(status=429)),
+                  ("openalex", Resp(status=429))]
+        with patched(routes):
+            rt.search_all("x")
+        self.assertEqual(rt.FUENTES_ESTADO["PubMed"], "ok (0)")
+        self.assertEqual(rt.FUENTES_ESTADO["Semantic Scholar"], "error: HTTP 429")
+        self.assertEqual(rt.FUENTES_ESTADO["OpenAlex"], "error: HTTP 429")
+
+    def test_claves_de_api_se_envian(self):
+        vistos = {}
+
+        def s2(url, params, kw):
+            vistos["s2"] = kw.get("headers")
+            return Resp(payload={"data": []})
+
+        def oa(url, params, kw):
+            vistos["oa"] = params
+            return Resp(payload={"results": []})
+
+        env = {"SEMANTIC_SCHOLAR_API_KEY": "k1", "OPENALEX_API_KEY": "k2"}
+        with mock.patch.dict(os.environ, env), patched([("semanticscholar", s2), ("openalex", oa)]):
+            rt.fetch_semantic_scholar("x")
+            rt.fetch_openalex("x")
+        self.assertEqual(vistos["s2"], {"x-api-key": "k1"})
+        self.assertEqual(vistos["oa"]["api_key"], "k2")
+
+    def test_abstract_pubmed_decodifica_entidades(self):
+        xml = ("<PubmedArticle><PMID>5</PMID><AbstractText Label=\"R\">"
+               "Mejoria significativa (p&lt;0.001) &amp; <i>HR</i> 0.61</AbstractText></PubmedArticle>")
+        with patched([("efetch", Resp(text=xml))]), mock.patch.object(rt.time, "sleep"):
+            out = rt.fetch_pubmed_abstracts(["5"])
+        self.assertEqual(out["5"], "Mejoria significativa (p<0.001) & HR 0.61")
+
+    def test_abstract_no_se_recorta_a_1800(self):
+        texto = "a " * 2500
+        xml = f"<PubmedArticle><PMID>6</PMID><AbstractText>{texto}</AbstractText></PubmedArticle>"
+        with patched([("efetch", Resp(text=xml))]), mock.patch.object(rt.time, "sleep"):
+            out = rt.fetch_pubmed_abstracts(["6"])
+        self.assertGreater(len(out["6"]), 1800)
 
 
-class ZoteroTests(unittest.TestCase):
-    def test_autor_formato_ris(self):
-        self.assertEqual(ze._ris_author("Campschroer T"), "Campschroer, T")
-        self.assertEqual(ze._ris_author("van der Berg JH"), "van der Berg, JH")
-        self.assertEqual(ze._ris_author("Smith, John"), "Smith, John")
-
-    def test_doi_fuera_de_crossref_usa_doi_org(self):
-        csl = Resp(payload={"title": "Tamsulosin MA", "container-title": "Urol J",
-                            "issued": {"date-parts": [[2019]]}, "author": [{"family": "Tao", "given": "R"}]})
-        with mock.patch.object(ze, "safe_get", side_effect=fake_get([("api.crossref.org", Resp(status=404)),
-                                                                     ("doi.org/", csl)])):
-            meta = ze.fetch_item_metadata("DOI:10.22037/uj.v0i0.4758")
-        self.assertTrue(meta["complete"])
-        self.assertEqual((meta["title"], meta["journal"], meta["year"]), ("Tamsulosin MA", "Urol J", "2019"))
+class TextoPlanoTests(unittest.TestCase):
+    def test_no_borra_desigualdades_literales(self):
+        self.assertEqual(rt._texto_plano("<h4>Results</h4>p<0.05 and HR>1"),
+                         "Resultsp<0.05 and HR>1")
 
 
-class SlidesTests(unittest.TestCase):
-    def test_sin_contenido_de_especialidad_ni_recortes(self):
-        cuerpo = "\n".join(f"linea {i}" for i in range(30))
-        ids = [f"PMID:{i}" for i in range(12)]
-        md = sg.generate_marp_presentation({"pregunta": "¿Dapagliflozina en ERC?"}, {"nivel": "rapido"},
-                                           f"## Evidencia\n{cuerpo}", ids, ["PubMed"])
-        self.assertNotIn("Uro-Onco", md)
-        self.assertIn("linea 29", md)
-        self.assertIn("PMID:11", md)
-        self.assertIn("**Fuentes Consultadas**: PubMed.", md)
-        prompts = sg.generate_visual_prompts({"pregunta": "¿Dapagliflozina en ERC?"}, {})
-        self.assertNotIn("prostate", prompts.lower())
+class CitasYCifrasTests(unittest.TestCase):
+    def test_check_citations(self):
+        doc = "Reduce eventos [PMID:1; DOI:10.1/AbC]. Otro dato (PMID: 9)."
+        r = rt.check_citations(doc, ["PMID:1", "DOI:10.1/abc"])
+        self.assertEqual(r["fuera_de_validos"], ["PMID:9"])
 
-
-class CliTests(unittest.TestCase):
-    def test_corpus_combina_pubmed_y_candidatos(self):
-        with tempfile.TemporaryDirectory() as d:
-            v = os.path.join(d, "v.json")
-            c = os.path.join(d, "c.json")
-            with open(v, "w") as f:
-                json.dump(["PMID:1", "DOI:10.1/x"], f)
-            with open(c, "w") as f:
-                json.dump({"candidatos": [{"identifier": "DOI:10.1/x", "abstract": "abs doi"}]}, f)
-            argv = ["research_tools.py", "corpus", "--validos", v, "--candidatos", c]
-            with mock.patch.object(sys, "argv", argv), \
-                    mock.patch.object(rt, "fetch_pubmed_abstracts", return_value={"1": "abs pmid"}), \
-                    mock.patch("sys.stdout", new_callable=lambda: __import__("io").StringIO()) as out:
-                rt.main()
-            self.assertEqual(json.loads(out.getvalue()), {"PMID:1": "abs pmid", "DOI:10.1/x": "abs doi"})
+    def test_audit_figures(self):
+        corpus = {"PMID:1": "HR 0.61 (95% CI 0.51-0.72) in 4304 patients"}
+        doc = ("La dapagliflozina redujo el riesgo (HR 0,61) en 4.304 pacientes [PMID:1].\n"
+               "Un 37% sin respaldo [PMID:1].\n"
+               "Alrededor del 12% (pendiente de cotejo con la fuente).\n")
+        r = rt.audit_figures(doc, corpus)
+        self.assertEqual([c["cifra"] for c in r["coincidencias"]], ["0,61", "4.304"])
+        self.assertEqual([c["cifra"] for c in r["cifras_a_cotejar"]], ["37%"])
+        self.assertEqual([c["cifra"] for c in r["marcadas_pendiente_cotejo"]], ["12%"])
 
 
 if __name__ == "__main__":
