@@ -1,0 +1,242 @@
+<template>
+  <style>
+    @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/captured-IBMPlexMono-normal-400-latin-ext.woff2") format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+    @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/captured-IBMPlexMono-normal-400-latin.woff2") format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+    @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url("assets/fonts/captured-IBMPlexMono-normal-500-latin-ext.woff2") format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+    @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url("assets/fonts/captured-IBMPlexMono-normal-500-latin.woff2") format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+    @font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-stretch:100%;font-display:swap;src:url("assets/fonts/captured-IBMPlexSans-normal-400-600-latin-ext.woff2") format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+    @font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-stretch:100%;font-display:swap;src:url("assets/fonts/captured-IBMPlexSans-normal-400-600-latin.woff2") format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+    @font-face{font-family:'Newsreader';font-style:italic;font-weight:300 600;font-display:swap;src:url("assets/fonts/captured-Newsreader-italic-300-600-latin-ext.woff2") format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+    @font-face{font-family:'Newsreader';font-style:italic;font-weight:300 600;font-display:swap;src:url("assets/fonts/captured-Newsreader-italic-300-600-latin.woff2") format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+    @font-face{font-family:'Newsreader';font-style:normal;font-weight:300 700;font-display:swap;src:url("assets/fonts/captured-Newsreader-normal-300-700-latin-ext.woff2") format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+    @font-face{font-family:'Newsreader';font-style:normal;font-weight:300 700;font-display:swap;src:url("assets/fonts/captured-Newsreader-normal-300-700-latin.woff2") format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;}
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      color: #0E2240;
+    }
+
+    [id="06-cierre-bg"] {
+      position: absolute;
+      inset: 0;
+      background: #FAF8F4;
+    }
+
+    /* Content region: top 900px (83% keep-out); lockup centred vertically at y=450 */
+    [id="06-cierre-stage"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 900px;
+    }
+    [id="06-cierre-lockup"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 900px;
+      display: flex;
+      align-items: center;
+      padding-left: 168px;
+      box-sizing: border-box;
+    }
+
+    [id="06-cierre-mark"] {
+      flex: 0 0 auto;
+      width: 260px;
+      height: 260px;
+      display: block;
+      overflow: visible;
+    }
+    [id="06-cierre-ring"] {
+      fill: #0E2240;
+      fill-opacity: 0;
+      stroke: #0E2240;
+      stroke-width: 1.1;
+      stroke-linecap: round;
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+    }
+
+    [id="06-cierre-text"] {
+      flex: 0 0 auto;
+      margin-left: 68px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    [id="06-cierre-tagline"] {
+      margin: 0;
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 400;
+      font-size: 88px; /* headline 4.6cqw */
+      line-height: 1.06;
+      letter-spacing: -0.018em;
+      color: #0E2240;
+      white-space: nowrap;
+    }
+    .w06-cierre-word {
+      display: inline-block;
+    }
+    .w06-cierre-accent {
+      font-style: italic;
+      color: #C2412A;
+    }
+
+    [id="06-cierre-name"] {
+      margin-top: 22px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 500;
+      font-size: 44px; /* card-title 2.3cqw */
+      line-height: 1.25;
+      letter-spacing: -0.005em;
+      color: #0E2240;
+      white-space: nowrap;
+    }
+
+    [id="06-cierre-role"] {
+      margin-top: 14px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 400;
+      font-size: 29px; /* body 1.5cqw */
+      line-height: 1.5;
+      color: rgba(14, 34, 64, 0.7);
+      white-space: nowrap;
+    }
+
+    [id="06-cierre-rule"] {
+      margin-top: 34px;
+      width: 100%;
+      height: 1px;
+      background: rgba(14, 34, 64, 0.2);
+      transform-origin: 0% 50%;
+    }
+
+    [id="06-cierre-urlbox"] {
+      position: relative;
+      margin-top: 24px;
+      padding-right: 6px;
+      overflow: hidden;
+    }
+    [id="06-cierre-url"] {
+      display: block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 500;
+      font-size: 30px;
+      line-height: 1.3;
+      letter-spacing: 0.02em;
+      color: #0E2240;
+      white-space: nowrap;
+    }
+    /* cream cover slides right off the URL; its left coral border is the wipe's leading edge */
+    [id="06-cierre-urlcover"] {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #FAF8F4;
+      border-left: 3px solid #C2412A;
+      box-sizing: border-box;
+    }
+
+    [id="06-cierre-fade"] {
+      position: absolute;
+      inset: 0;
+      background: #FAF8F4;
+      opacity: 0;
+    }
+  </style>
+
+  <div id="root" data-composition-id="06-cierre" data-width="1920" data-height="1080">
+    <!-- Full-bleed cream ground -->
+    <div id="06-cierre-bg" class="clip" data-start="0" data-duration="4.5" data-track-index="0"></div>
+
+    <!-- Lockup: monogram + tagline / name / role / URL -->
+    <div id="06-cierre-stage" class="clip" data-start="0" data-duration="4.5" data-track-index="1">
+      <div id="06-cierre-lockup">
+        <!-- Brand monogram: exact paths from assets/favicon.svg -->
+        <svg id="06-cierre-mark" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="Monograma">
+          <defs>
+            <clipPath id="06-cierre-glyphclip">
+              <rect id="06-cierre-glyphwipe" x="8" y="18" width="0" height="28"></rect>
+            </clipPath>
+          </defs>
+          <circle id="06-cierre-ring" cx="32" cy="32" r="31" pathLength="100" transform="rotate(-90 32 32)"></circle>
+          <g id="06-cierre-glyphs" fill="#FAF8F4" clip-path="url(#06-cierre-glyphclip)">
+            <path transform="translate(11.83 41.76) scale(0.01466 -0.01466)" d="M1204.1986694335938 687.7999877929688Q1204.1986694335938 968.7998046875 1041.1663510857559 1102.9996337890625Q878.134032737918 1237.199462890625 594.801513671875 1237.199462890625H325.20135498046875L317.40087890625 1340H643.3385923373625Q905.4014892578125 1340 1078.9014892578125 1271.0Q1252.4014892578125 1202 1338.4014892578125 1062.0Q1424.4014892578125 922 1424.4014892578125 710Q1424.4014892578125 485 1322.4014892578125 326.5Q1220.4014892578125 168 1043.9014892578125 84.0Q867.4014892578125 0 645.4014892578125 0H317.40087890625L325.20135498046875 102.800537109375H615.4014282226562Q791.8806030273438 102.800537109375 924.2399841308594 162.80047607421875Q1056.599365234375 222.8004150390625 1130.3990173339844 351.85749984999836Q1204.1986694335938 480.91458466093417 1204.1986694335938 687.7999877929688ZM79.7996826171875 0V40.40008544921875L233.7994384765625 94.40020751953125V1245.5997924804688L79.7996826171875 1299.542768205915V1340H439.80224609375V0Z"></path>
+            <path transform="translate(33.43 41.76) scale(0.01466 -0.01466)" d="M906.4013671875 965V703V441H825.0009155273438L803.0009155273438 651.5997314453125H321.401123046875V754.4002685546875H803.0009155273438L825.0009155273438 965ZM1166.2017822265625 958.5997924804688 1116.0015869140625 948.19970703125 935.0006103515625 1265.9999389648438 998.401123046875 1237.199462890625H321.401123046875V1340H960.6010131835938L1076.001220703125 1394.4003295898438H1096.4014892578125ZM958.0009155273438 70.8001708984375 1154.6018676757812 396.40093994140625 1198.60205078125 384.8009033203125 1122.8018188476562 -63.4002685546875H1101.4014892578125L980.401123046875 0H321.401123046875V102.800537109375H1008.4012451171875ZM79.7996826171875 0V40.40008544921875L233.7994384765625 94.40020751953125V1245.5997924804688L79.7996826171875 1299.5999145507812V1340H439.80224609375V0Z"></path>
+          </g>
+          <circle id="06-cierre-dot" cx="50.5" cy="14.5" r="4.6" fill="#C2412A"></circle>
+        </svg>
+
+        <div id="06-cierre-text">
+          <h1 id="06-cierre-tagline"><span class="w06-cierre-word">Urología</span> <span class="w06-cierre-word">con</span> <span class="w06-cierre-word w06-cierre-accent">evidencia</span></h1>
+          <div id="06-cierre-name">Dr. Mario Domínguez Esteban</div>
+          <div id="06-cierre-role">Jefe de Sección de Uro-Oncología · Hospital Universitario Marqués de Valdecilla</div>
+          <div id="06-cierre-rule"></div>
+          <div id="06-cierre-urlbox">
+            <span id="06-cierre-url">drdominguezesteban.com</span>
+            <div id="06-cierre-urlcover"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final exit (last frame only): fade to cream in the last 0.4s -->
+    <div id="06-cierre-fade" class="clip" data-start="0" data-duration="4.5" data-track-index="2"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      var scope = document.querySelector('[data-composition-id="06-cierre"]') || document;
+      var $ = function (id) { return scope.querySelector('[id="' + id + '"]'); };
+
+      var ring = $("06-cierre-ring");
+      var wipe = $("06-cierre-glyphwipe");
+      var dot = $("06-cierre-dot");
+      var lockup = $("06-cierre-lockup");
+      var words = scope.querySelectorAll(".w06-cierre-word");
+      var name = $("06-cierre-name");
+      var role = $("06-cierre-role");
+      var rule = $("06-cierre-rule");
+      var cover = $("06-cierre-urlcover");
+      var fade = $("06-cierre-fade");
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Scene 1 (0.0–1.2s): monogram self-draw — outline, fill navy, cream glyphs wipe in
+      tl.fromTo(ring, { strokeDashoffset: 100 }, { strokeDashoffset: 0, duration: 0.75, ease: "power2.out" }, 0.1);
+      tl.fromTo(ring, { attr: { "fill-opacity": 0 } }, { attr: { "fill-opacity": 1 }, duration: 0.35, ease: "power1.out" }, 0.7);
+      tl.fromTo(wipe, { attr: { width: 0 } }, { attr: { width: 48 }, duration: 0.4, ease: "power2.out" }, 0.9);
+      tl.fromTo(dot, { scale: 0, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.3, ease: "power3.out" }, 1.15);
+
+      // Life in the hold: near-imperceptible settle of the whole lockup
+      tl.fromTo(lockup, { scale: 1, transformOrigin: "50% 50%" }, { scale: 1.012, duration: 4.5, ease: "none" }, 0);
+
+      // Scene 2 (1.2–2.4s): tagline word by word, then the name
+      tl.fromTo(words, { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out", stagger: 0.16 }, 1.2);
+      tl.fromTo(name, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 1.85);
+
+      // Scene 3 (2.4–3.4s): role line
+      tl.fromTo(role, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 2.45);
+
+      // Scene 4 (3.4–4.5s): hairline draws, URL wipes left→right behind a coral leading edge
+      tl.fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out" }, 3.35);
+      tl.fromTo(cover, { xPercent: 0 }, { xPercent: 102, duration: 0.55, ease: "power2.inOut" }, 3.5);
+
+      // Final exit: fade to cream over the last 0.4s
+      tl.fromTo(fade, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.inOut" }, 4.1);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["06-cierre"] = tl;
+    })();
+  </script>
+</template>

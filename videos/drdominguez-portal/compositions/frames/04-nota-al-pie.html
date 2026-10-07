@@ -1,0 +1,242 @@
+<template>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/captured-IBMPlexMono-normal-400-latin-ext.woff2") format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/captured-IBMPlexMono-normal-400-latin.woff2") format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url("assets/fonts/captured-IBMPlexMono-normal-500-latin-ext.woff2") format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url("assets/fonts/captured-IBMPlexMono-normal-500-latin.woff2") format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 400 600; font-stretch: 100%; font-display: swap; src: url("assets/fonts/captured-IBMPlexSans-normal-400-600-latin-ext.woff2") format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'IBM Plex Sans'; font-style: normal; font-weight: 400 600; font-stretch: 100%; font-display: swap; src: url("assets/fonts/captured-IBMPlexSans-normal-400-600-latin.woff2") format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Newsreader'; font-style: italic; font-weight: 300 600; font-display: swap; src: url("assets/fonts/captured-Newsreader-italic-300-600-latin-ext.woff2") format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'Newsreader'; font-style: italic; font-weight: 300 600; font-display: swap; src: url("assets/fonts/captured-Newsreader-italic-300-600-latin.woff2") format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Newsreader'; font-style: normal; font-weight: 300 700; font-display: swap; src: url("assets/fonts/captured-Newsreader-normal-300-700-latin-ext.woff2") format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'Newsreader'; font-style: normal; font-weight: 300 700; font-display: swap; src: url("assets/fonts/captured-Newsreader-normal-300-700-latin.woff2") format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+    }
+
+    /* Full-bleed cream ground — a clip layer, never painted on #root */
+    [id="04-nota-al-pie-bg"] {
+      position: absolute;
+      inset: 0;
+      background: #FAF8F4;
+    }
+
+    /* Stage: the single positioned ancestor for all measured elements */
+    [id="04-nota-al-pie-stage"] {
+      position: absolute;
+      inset: 0;
+      color: #0E2240;
+    }
+
+    /* Asymmetric 70/30 column, upper third */
+    [id="04-nota-al-pie-col"] {
+      position: absolute;
+      left: 160px;
+      top: 232px;
+      width: 1360px;
+    }
+
+    [id="04-nota-al-pie-sentence"] {
+      margin: 0;
+      font-family: 'Newsreader', Georgia, serif;
+      font-weight: 400;
+      font-size: 104px;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: #0E2240;
+    }
+    [id="04-nota-al-pie-sentence"] [class~="04-nota-al-pie-w"] {
+      display: inline-block;
+      will-change: transform, opacity;
+    }
+    [id="04-nota-al-pie-sentence"] em {
+      font-style: italic;
+      color: #C2412A;
+      letter-spacing: -0.012em;
+    }
+    [id="04-nota-al-pie-sup"] {
+      display: inline-block;
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 0.5em;
+      line-height: 1;
+      vertical-align: 0.95em;
+      margin-left: 0.04em;
+      color: #C2412A;
+      transform-origin: 50% 60%;
+    }
+
+    /* Footnote block */
+    [id="04-nota-al-pie-rule"] {
+      position: absolute;
+      left: 160px;
+      top: 512px;
+      width: 1360px;
+      height: 2px;
+      overflow: visible;
+    }
+    [id="04-nota-al-pie-rule"] line {
+      stroke: rgba(14, 34, 64, 0.22);
+      stroke-width: 1;
+      fill: none;
+    }
+
+    [id="04-nota-al-pie-ref"] {
+      position: absolute;
+      left: 160px;
+      top: 552px;
+      width: 1360px;
+      font-family: 'IBM Plex Mono', ui-monospace, monospace;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 1.3;
+      letter-spacing: 0.01em;
+      color: #0E2240;
+      white-space: nowrap;
+    }
+    [id="04-nota-al-pie-marker"] {
+      display: inline-block;
+      width: 1.1em;
+      color: #C2412A;
+      font-weight: 500;
+      visibility: hidden; /* slot only — the flying marker lands here */
+    }
+    [id="04-nota-al-pie-fly"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: 'IBM Plex Mono', ui-monospace, monospace;
+      font-weight: 500;
+      font-size: 32px;
+      line-height: 1.3;
+      color: #C2412A;
+      transform-origin: 30% 50%;
+    }
+
+    [id="04-nota-al-pie-close"] {
+      position: absolute;
+      left: 160px;
+      top: 668px;
+      width: 1360px;
+      margin: 0;
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      font-weight: 400;
+      font-size: 40px;
+      line-height: 1.5;
+      color: #0E2240;
+    }
+  </style>
+
+  <div id="root" data-composition-id="04-nota-al-pie" data-width="1920" data-height="1080" data-duration="7">
+    <div id="04-nota-al-pie-bg" class="clip" data-start="0" data-duration="7" data-track-index="0"></div>
+
+    <div id="04-nota-al-pie-stage" class="clip" data-start="0" data-duration="7" data-track-index="1">
+      <div id="04-nota-al-pie-col">
+        <h1 id="04-nota-al-pie-sentence"><span class="04-nota-al-pie-w">El</span> <span class="04-nota-al-pie-w">PSA</span> <span class="04-nota-al-pie-w">elevado</span> <span class="04-nota-al-pie-w"><em>no</em></span> <span class="04-nota-al-pie-w"><em>siempre</em></span><br><span class="04-nota-al-pie-w">significa</span> <span class="04-nota-al-pie-w">cáncer.</span><sup id="04-nota-al-pie-sup">¹</sup></h1>
+      </div>
+
+      <svg id="04-nota-al-pie-rule" viewBox="0 0 1360 2" width="1360" height="2" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <line id="04-nota-al-pie-rule-line" x1="0" y1="1" x2="1360" y2="1" stroke-dasharray="1360" stroke-dashoffset="1360" />
+      </svg>
+
+      <div id="04-nota-al-pie-ref"><span id="04-nota-al-pie-marker">¹</span><span id="04-nota-al-pie-reftext"></span></div>
+
+      <span id="04-nota-al-pie-fly">¹</span>
+
+      <p id="04-nota-al-pie-close">Cada texto cita guías y fuentes.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var ID = "04-nota-al-pie";
+      var $ = function (s) { return document.getElementById(ID + "-" + s); };
+      var rootEl = document.querySelector('[data-composition-id="' + ID + '"]');
+      var stage = $("stage");
+
+      var words = rootEl.querySelectorAll('[class~="04-nota-al-pie-w"]');
+      var sup = $("sup");
+      var rule = $("rule-line");
+      var marker = $("marker");
+      var fly = $("fly");
+      var refText = $("reftext");
+      var closeLine = $("close");
+
+      // Build the reference line as per-character spans (type-on target).
+      var REF = "EAU Guidelines on Prostate Cancer, 2026 · §5.2.2";
+      var chars = [];
+      for (var i = 0; i < REF.length; i++) {
+        var c = document.createElement("span");
+        c.textContent = REF.charAt(i);
+        c.style.opacity = "0";
+        refText.appendChild(c);
+        chars.push(c);
+      }
+
+      // Layout offsets measured against the stage (transform-independent).
+      function offsetIn(el) {
+        var x = 0, y = 0, n = el;
+        while (n && n !== stage) { x += n.offsetLeft; y += n.offsetTop; n = n.offsetParent; }
+        return { x: x, y: y };
+      }
+      // Fly's resting place = the marker slot in the reference line.
+      function restXY() {
+        var m = offsetIn(marker);
+        return m;
+      }
+      // Start = on top of the sentence superscript (scaled up to match its size).
+      var START_SCALE = 1.62;
+      function startDX() { var s = offsetIn(sup); var r = restXY(); return s.x - r.x + 2; }
+      function startDY() { var s = offsetIn(sup); var r = restXY(); return s.y - r.y - 6; }
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Place the flying marker on its resting slot (left/top), animate via x/y only.
+      tl.set(fly, {
+        left: function () { return restXY().x; },
+        top: function () { return restXY().y; },
+        opacity: 0
+      }, 0);
+
+      // Scene 1 (0.0–2.0s): per-word staggered reveal, power3, reading-paced.
+      var WORD_START = 0.15, WORD_STAGGER = 0.2;
+      for (var w = 0; w < words.length; w++) {
+        tl.fromTo(words[w],
+          { opacity: 0, y: 28 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+          WORD_START + w * WORD_STAGGER);
+      }
+
+      // Scene 2 (2.0–2.8s): superscript appears in coral with a small scale pulse.
+      tl.fromTo(sup, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1.25, duration: 0.28, ease: "power3.out" }, 2.0);
+      tl.to(sup, { scale: 1, duration: 0.4, ease: "power2.inOut" }, 2.28);
+
+      // Scene 3 (2.8–4.8s): the ¹ travels down and OPENS into the reference line.
+      tl.fromTo(fly,
+        { opacity: 0, x: startDX, y: startDY, scale: START_SCALE },
+        { opacity: 1, duration: 0.12, ease: "none" }, 2.8);
+      tl.to(fly, { x: 0, y: 0, scale: 1, duration: 0.55, ease: "power3.inOut" }, 2.84);
+      // Hairline self-draws left→right from the landed marker.
+      tl.fromTo(rule, { attr: { "stroke-dashoffset": 1360 } }, { attr: { "stroke-dashoffset": 0 }, duration: 1.1, ease: "power2.out" }, 3.3);
+      // Reference types on, character by character (seek-safe discrete sets).
+      var TYPE_START = 3.42, TYPE_STEP = 0.026;
+      for (var k = 0; k < chars.length; k++) {
+        tl.set(chars[k], { opacity: 1 }, TYPE_START + k * TYPE_STEP);
+      }
+
+      // Scene 4 (4.8–7.0s): closing lead enters, then everything holds still.
+      tl.fromTo(closeLine, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 4.85);
+
+      // Anchor the timeline to the full 7s frame duration.
+      tl.set({}, {}, 7);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines[ID] = tl;
+    })();
+  </script>
+</template>
