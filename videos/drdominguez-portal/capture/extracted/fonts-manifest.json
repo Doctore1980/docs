@@ -1,0 +1,188 @@
+{
+  "files": [
+    {
+      "file": "IBMPlexMono-normal-400-latin-ext.woff2",
+      "family": "IBM Plex Mono",
+      "rawFamily": "IBM Plex Mono",
+      "subfamily": "Regular",
+      "postscript": "IBMPlexMono-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "IBMPlexMono-normal-400-latin.woff2",
+      "family": "IBM Plex Mono",
+      "rawFamily": "IBM Plex Mono",
+      "subfamily": "Regular",
+      "postscript": "IBMPlexMono-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "IBMPlexMono-normal-500-latin-ext.woff2",
+      "family": "IBM Plex Mono",
+      "rawFamily": "IBM Plex Mono Medium",
+      "subfamily": "Regular",
+      "postscript": "IBMPlexMono-Medium",
+      "weight": 500,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "IBMPlexMono-normal-500-latin.woff2",
+      "family": "IBM Plex Mono",
+      "rawFamily": "IBM Plex Mono Medium",
+      "subfamily": "Regular",
+      "postscript": "IBMPlexMono-Medium",
+      "weight": 500,
+      "style": "normal",
+      "variationAxes": [],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "IBMPlexSans-normal-400-600-latin-ext.woff2",
+      "family": "IBM Plex Sans",
+      "rawFamily": "IBM Plex Sans",
+      "subfamily": "Regular",
+      "postscript": "IBMPlexSans-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "IBMPlexSans-normal-400-600-latin.woff2",
+      "family": "IBM Plex Sans",
+      "rawFamily": "IBM Plex Sans",
+      "subfamily": "Regular",
+      "postscript": "IBMPlexSans-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Newsreader-italic-300-600-latin-ext.woff2",
+      "family": "Newsreader 16pt",
+      "rawFamily": "Newsreader 16pt",
+      "subfamily": "Italic",
+      "postscript": "Newsreader16pt-Italic",
+      "weight": 400,
+      "style": "italic",
+      "variationAxes": [
+        "wght",
+        "opsz"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Newsreader-italic-300-600-latin.woff2",
+      "family": "Newsreader 16pt",
+      "rawFamily": "Newsreader 16pt",
+      "subfamily": "Italic",
+      "postscript": "Newsreader16pt-Italic",
+      "weight": 400,
+      "style": "italic",
+      "variationAxes": [
+        "wght",
+        "opsz"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Newsreader-normal-300-700-latin-ext.woff2",
+      "family": "Newsreader 16pt",
+      "rawFamily": "Newsreader 16pt",
+      "subfamily": "Regular",
+      "postscript": "Newsreader16pt-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght",
+        "opsz"
+      ],
+      "identified": true,
+      "isIcon": false
+    },
+    {
+      "file": "Newsreader-normal-300-700-latin.woff2",
+      "family": "Newsreader 16pt",
+      "rawFamily": "Newsreader 16pt",
+      "subfamily": "Regular",
+      "postscript": "Newsreader16pt-Regular",
+      "weight": 400,
+      "style": "normal",
+      "variationAxes": [
+        "wght",
+        "opsz"
+      ],
+      "identified": true,
+      "isIcon": false
+    }
+  ],
+  "families": [
+    {
+      "family": "IBM Plex Mono",
+      "weights": [
+        400,
+        500
+      ],
+      "variable": false,
+      "fileCount": 4,
+      "files": [
+        "IBMPlexMono-normal-400-latin-ext.woff2",
+        "IBMPlexMono-normal-400-latin.woff2",
+        "IBMPlexMono-normal-500-latin-ext.woff2",
+        "IBMPlexMono-normal-500-latin.woff2"
+      ]
+    },
+    {
+      "family": "IBM Plex Sans",
+      "weights": [
+        400
+      ],
+      "variable": true,
+      "fileCount": 2,
+      "files": [
+        "IBMPlexSans-normal-400-600-latin-ext.woff2",
+        "IBMPlexSans-normal-400-600-latin.woff2"
+      ]
+    },
+    {
+      "family": "Newsreader 16pt",
+      "weights": [
+        400
+      ],
+      "variable": true,
+      "fileCount": 4,
+      "files": [
+        "Newsreader-italic-300-600-latin-ext.woff2",
+        "Newsreader-italic-300-600-latin.woff2",
+        "Newsreader-normal-300-700-latin-ext.woff2",
+        "Newsreader-normal-300-700-latin.woff2"
+      ]
+    }
+  ],
+  "unidentified": [],
+  "meta": {
+    "generatedAt": "2026-10-07T20:35:18.797Z",
+    "tool": "fontkit"
+  }
+}

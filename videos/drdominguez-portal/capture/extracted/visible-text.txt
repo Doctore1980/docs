@@ -1,0 +1,657 @@
+[a] Saltar al contenido
+[b] Portal informativo
+[span] · Esta web no resuelve consultas médicas en línea ·
+[a] Dónde paso consulta
+[span] · Las opiniones son personales
+[span] Revisado: 5 oct 2026
+[b] Dr. Domínguez Esteban
+[span] Urología con evidencia
+[a] ¿Qué te preocupa?
+[a] Técnicas
+[a] Herramientas
+[a] Actualidad
+[a] Publicaciones
+[a] Sobre mí
+[a] Consulta
+[span] Menú
+[div] Urólogo · Santander
+[span] Dr. Mario Domínguez Esteban
+[em] Urólogo en Santander
+[span] Jefe de Sección de Uro-Oncología
+[span] Hospital Universitario Marqués de Valdecilla
+[span] Investigador IDIVAL
+[p] Nº colegiado 392860199
+[p] Urología con evidencia: información clara y revisada para entender lo que te pasa, decidir con calma y preguntar mejor en tu consulta.
+[button] Uro-oncología
+[button] HoLEP
+[button] Cirugía robótica
+[button] Trasplante renal
+[button] IA en medicina e investigación
+[button] Docencia · Tutor MIR
+[p] Toca un área para ver su ficha
+[a] ¿Qué te preocupa?
+[a] Herramientas
+[b] Santander · Cantabria
+[figcaption] Hospital Universitario Marqués de Valdecilla · IDIVAL
+[span] Foto:
+[a] Colegio Oficial de Médicos de Cantabria (entrevista, junio de 2021) ↗
+[span] (se abre en una pestaña nueva)
+[button] Investigación y ensayos clínicos
+[small] IDIVAL · Oncología Médica
+[a] Publicaciones
+[small] 39 artículos (37 en PubMed) · 1 preprint · 16 capítulos de libro
+[a] Formación
+[small] H. 12 de Octubre · Memorial Sloan-Kettering · FEBU
+[b] Evidencia primero
+[span] Cada texto cita guías y fuentes.
+[span] ii.
+[b] Sin exageraciones
+[span] Lo que se sabe y lo que no.
+[span] iii.
+[b] Tu privacidad
+[span] Las herramientas no guardan datos.
+[span] iv.
+[b] Transparencia
+[span] Conflictos de interés declarados.
+[b] No sustituye a tu médico
+[span] Orienta para preguntar mejor.
+[span] § 01 — Preguntas
+[h2] ¿Qué te
+[em] preocupa
+[label] Buscar una duda
+[button] Buscar
+[button] PSA
+[button] Orinar
+[button] Sangre
+[button] Próstata
+[button] Vejiga
+[button] Riñón
+[button] Piedras
+[button] Escapes
+[p] Respuestas breves, en lenguaje claro y revisadas con las guías vigentes.
+[p] Esta web no resuelve consultas médicas en línea. Si tienes un síntoma que te preocupa, consulta con tu médico; si quieres pedir cita conmigo, mira
+[a] dónde paso consulta
+[p] . Si tienes un problema que no puede esperar, consulta de forma urgente (mira las
+[a] señales de alarma
+[span] 11 preguntas
+[span] Revisadas oct 2026
+[h3] Me han dado un PSA alto. ¿Tengo cáncer?
+[p] No necesariamente. El PSA puede subir por crecimiento benigno, inflamación o infección. Para evitar falsos positivos, en los 2-3 días previos al análisis evita eyacular, el ciclismo intenso y actividades similares. Lo habitual es repetirlo y, si sigue alto, valorar una resonancia antes de decidir si hace falta biopsia.
+[a] Qué es el PSA y qué hacer
+[a] Ver la ruta PSA elevado
+[a] Más información: PSA alto
+[a] Guía EAU 2026 ↗
+[h3] Me cuesta orinar y me levanto por la noche
+[span] · con vídeo
+[p] Suele deberse al crecimiento benigno de la próstata (HBP). Hay opciones que van desde cambios de hábitos y medicación hasta cirugía, como la HoLEP. Medir tus síntomas te ayuda a explicarlos en consulta.
+[video] Tu navegador no puede reproducir este vídeo.
+[a] Descárgalo en MP4
+[video] o lee la transcripción.
+[span] Vídeo · 1 min 51 s
+[h3] Próstata agrandada:
+[em] qué es la HoLEP
+[p] Por qué crece la próstata, cuándo se valora operar y cómo es la HoLEP frente a la RTU y la cirugía abierta.
+[p] Vídeo con avatar generado por IA, guion revisado por el Dr. Domínguez Esteban.
+[b] Transparencia:
+[p] el Dr. Domínguez Esteban actúa como proctor (formador de cirujanos) para Boston Scientific (HoLEP o enucleación prostática con láser de holmio, fotovaporización con láser verde y REZUM) y ha declarado haber recibido honorarios de esta empresa. Este vídeo no está patrocinado.
+[a] Ver todas las declaraciones
+[summary] Ver transcripción
+[p] ¿Te levantas varias veces por la noche a orinar? Puede ser la próstata. Y hay tratamiento.
+[p] Con la edad, la próstata crece. Es un crecimiento benigno, pero puede apretar la uretra. Entonces el chorro sale flojo y vas más al baño.
+[p] Primero se prueban cambios de hábitos y medicación. Si no basta, se valora operar.
+[p] Una opción es la HoLEP: la enucleación prostática con láser de holmio. Se hace por dentro de la uretra, sin cortes. El láser despega el tejido que obstruye. Es como vaciar los gajos de una mandarina y dejar la piel.
+[p] Es una técnica versátil: sirve para próstatas de casi cualquier tamaño.
+[p] ¿Y frente a la resección transuretral, o RTU? La fuerza del chorro mejora al menos igual. En algunos estudios, algo más el primer año. Y la mejoría se mantiene con los años. Además, se sangra menos. Y la sonda y el ingreso suelen ser más cortos.
+[p] Frente a la cirugía abierta, o adenomectomía, el resultado al orinar es parecido. Pero se sangra menos, y la sonda y el ingreso son más cortos. Y, sin cortes, no hay herida que se pueda infectar.
+[p] Es una técnica que requiere experiencia y material específico. Por eso no está disponible en todos los centros.
+[p] Igual que con la RTU, es frecuente que el semen no salga al exterior. Es la eyaculación retrógrada. La erección no suele cambiar. Las primeras semanas puede haber escozor, prisa o algún escape. Suele mejorar.
+[p] Tu caso decide. Depende de tu próstata, de tu salud y de lo que esperas.
+[p] Antes de la consulta, mide tus síntomas con el test IPSS en drdominguezesteban.com.
+[a] Hacer el test IPSS
+[a] Más información: HoLEP
+[a] Guía EAU 2026 ↗
+[h3] He visto sangre en la orina
+[p] Si ves sangre en la orina sin coágulos, orinas bien y te encuentras bien, no suele ser una urgencia, pero merece una consulta preferente con tu médico (tu médico de familia, tu urólogo o el profesional que tengas a tu disposición), aunque haya sido una sola vez y no duela. Muchas causas son benignas, pero hay que descartar otras.
+[p] Si hay coágulos, no puedes orinar o te mareas, consulta de forma urgente.
+[a] Señales de alarma
+[a] Guía EAU 2026 ↗
+[h3] Cáncer de próstata: ¿qué opciones hay?
+[p] Depende del riesgo del tumor, tu edad y tus preferencias. En tumores de bajo riesgo la vigilancia activa es una opción establecida; en otros casos se valoran cirugía (también robótica) o radioterapia. La decisión se toma de forma compartida.
+[a] Guía EAU 2026 · AEU ↗
+[h3] Cáncer de vejiga: ¿cómo se diagnostica?
+[p] Hoy el estándar es la cistoscopia junto con la citología de orina. Hay pruebas nuevas en orina en investigación, prometedoras pero aún no validadas para sustituirla.
+[a] Qué aporta uRARE-seq
+[a] Guía EAU 2026 ↗
+[h3] Me han visto una masa en el riñón
+[p] Muchas masas renales se descubren por casualidad y no todas son malignas. Su tamaño y aspecto en el TAC o la resonancia orientan si basta con vigilar o conviene tratar, a menudo conservando el riñón.
+[a] Guía EAU 2026 ↗
+[h3] Piedras en el riñón: ¿cómo evitar otro cólico?
+[p] Beber agua suficiente es la medida con más peso. Según el tipo de piedra, también ayudan ajustes en la sal, las proteínas animales y algunos alimentos.
+[a] Guía EAU 2026 ↗
+[h3] Se me escapa la orina
+[p] La incontinencia tiene varias formas (de esfuerzo, de urgencia o mixta) y casi todas tienen opciones, desde ejercicios del suelo pélvico hasta tratamientos específicos. No es algo que haya que aceptar sin más.
+[a] Cuestionario ICIQ-UI SF (web oficial) ↗
+[span] (se abre en una pestaña nueva)
+[span] Guía EAU 2026
+[h3] Tengo problemas de erección
+[p] Es frecuente y tiene tratamiento. A veces es la primera señal de un problema de los vasos sanguíneos, así que conviene consultarlo con tu médico, que también revisará tensión, azúcar y colesterol.
+[a] Guía EAU 2026 ↗
+[h3] ¿Puedo fiarme de un chatbot para mis dudas?
+[p] Puede ayudarte a ordenar preguntas, pero se equivoca con seguridad aparente y no conoce tu historia. Úsalo para preparar la consulta, no para decidir un tratamiento.
+[button] Ficha: IA en medicina
+[h3] ¿Puedo pedir cita o enviarte mis análisis?
+[p] Puedes pedir cita en mi consulta privada o, a través del sistema público de salud, con la derivación de tu médico de familia o de otro especialista: lo explico en
+[a] Dónde paso consulta
+[p] . Esta web no resuelve consultas médicas en línea y no reviso análisis por correo ni por mensaje.
+[a] señales de alarma
+[a] Señales de alarma
+[span] § 02 — PSA
+[h2] ¿Te han dicho que tienes
+[em] el PSA alto
+[span] Orienta, no diagnostica
+[p] Un PSA alto es un hallazgo frecuente y no significa que tengas cáncer.
+[h3] ¿Qué es el PSA?
+[p] Es una proteína que fabrica la próstata y se mide con un análisis de sangre. Un valor alto indica que conviene mirar con más detalle, pero no dice por sí solo qué está pasando.
+[h3] ¿Y después?
+[p] Lo habitual es repetir el análisis en unas semanas para confirmar que sigue alto, y que tu médico explore la próstata con un tacto rectal. El siguiente paso suele ser una resonancia magnética de la próstata, que ayuda a decidir si hace falta una biopsia.
+[p] Un PSA alto no es una urgencia. Sí lo es tener fiebre o no poder orinar: mira las
+[a] señales de alarma
+[a] Más información: PSA alto, qué significa y qué hacer
+[span] § 03 — Herramientas
+[h2] Tests y herramientas
+[em] fáciles
+[span] Orienta, no diagnostica
+[p] Se usan en el navegador, en menos de cinco minutos y sin registrarte. No guardamos tus respuestas. El resultado sirve para hablar con tu médico, no para sustituirlo.
+[video] Tu navegador no puede reproducir este vídeo.
+[a] Descárgalo en MP4
+[video] o lee la transcripción.
+[span] Vídeo · 1 min 47 s · con subtítulos
+[h3] Tres cuestionarios para
+[em] explicar tus síntomas
+[p] Qué miden el IPSS, el IIEF-5 y el ICIQ-SF, y por qué orientan pero no diagnostican.
+[p] Vídeo con avatar generado por IA, guion revisado por el Dr. Domínguez Esteban.
+[p] Por ahora solo está disponible el IPSS; el IIEF-5 se añadirá cuando tengamos la licencia de uso y el ICIQ-SF puede consultarse en su web oficial.
+[summary] Ver transcripción
+[p] Tres cuestionarios cortos te ayudan a explicar lo que te pasa. Pero no te dan un diagnóstico.
+[p] En consulta, a veces cuesta poner palabras a los síntomas. Por eso usamos cuestionarios validados. Son los mismos en muchos países y permiten medir y comparar.
+[p] El IPSS mide los síntomas al orinar: chorro flojo, ir muchas veces, levantarte por la noche. Va de 0 a 35 puntos. Cuanto más alto, más síntomas. Añade una pregunta sobre cómo afecta a tu vida.
+[p] El IIEF-5 pregunta por las erecciones en los últimos seis meses. Va de 5 a 25. Una puntuación baja sugiere disfunción eréctil, pero no explica la causa.
+[p] El ICIQ-SF mide los escapes de orina: cuántas veces, cuánta cantidad y cuánto te molestan. Va de 0 a 21.
+[p] Ahora lo importante: estos cuestionarios orientan, no diagnostican. Los mismos síntomas pueden tener causas distintas. Una puntuación alta en el IPSS no dice si el problema es la próstata, la vejiga u otra cosa. Para eso hacen falta la consulta, la exploración y, a veces, pruebas.
+[p] Donde sí ayudan es a llevar tus síntomas ordenados a la consulta. Y a ver si un tratamiento te funciona, si los repites con el tiempo.
+[p] Si tienes fiebre, no puedes orinar o ves sangre, no rellenes un test: consulta.
+[p] Puedes hacerlos en drdominguezesteban.com en menos de cinco minutos. No guardamos tus respuestas. Imprime el resultado y llévalo a tu médico.
+[span] Basado en el IPSS
+[h3] Síntomas de próstata
+[p] Piensa en el
+[b] último mes
+[p] . Marca la opción que mejor te describa. 7 preguntas + 1 sobre calidad de vida.
+[b] Vaciado incompleto
+[span] ¿Con qué frecuencia has tenido la sensación de no vaciar del todo la vejiga al terminar de orinar?
+[span] Nunca
+[span] Menos de 1 de cada 5 veces
+[span] Menos de la mitad
+[span] La mitad de las veces
+[span] Más de la mitad
+[span] Casi siempre
+[b] Frecuencia
+[span] ¿Con qué frecuencia has tenido que volver a orinar antes de que pasaran 2 horas?
+[span] Nunca
+[span] Menos de 1 de cada 5 veces
+[span] Menos de la mitad
+[span] La mitad de las veces
+[span] Más de la mitad
+[span] Casi siempre
+[b] Chorro que se corta
+[span] ¿Con qué frecuencia el chorro se ha parado y vuelto a empezar varias veces mientras orinabas?
+[span] Nunca
+[span] Menos de 1 de cada 5 veces
+[span] Menos de la mitad
+[span] La mitad de las veces
+[span] Más de la mitad
+[span] Casi siempre
+[b] Urgencia
+[span] ¿Con qué frecuencia te ha costado aguantarte las ganas de orinar?
+[span] Nunca
+[span] Menos de 1 de cada 5 veces
+[span] Menos de la mitad
+[span] La mitad de las veces
+[span] Más de la mitad
+[span] Casi siempre
+[b] Chorro débil
+[span] ¿Con qué frecuencia has notado el chorro de orina flojo?
+[span] Nunca
+[span] Menos de 1 de cada 5 veces
+[span] Menos de la mitad
+[span] La mitad de las veces
+[span] Más de la mitad
+[span] Casi siempre
+[b] Esfuerzo
+[span] ¿Con qué frecuencia has tenido que apretar o hacer fuerza para empezar a orinar?
+[span] Nunca
+[span] Menos de 1 de cada 5 veces
+[span] Menos de la mitad
+[span] La mitad de las veces
+[span] Más de la mitad
+[span] Casi siempre
+[b] Por la noche
+[span] ¿Cuántas veces sueles levantarte a orinar desde que te acuestas hasta que te levantas?
+[span] Ninguna
+[span] 1 vez
+[span] 2 veces
+[span] 3 veces
+[span] 4 veces
+[span] 5 o más
+[b] Calidad de vida · no suma
+[span] Si tuvieras que pasar el resto de tu vida con los síntomas que tienes ahora, ¿cómo te sentirías?
+[span] Encantado
+[span] Muy satisfecho
+[span] Más bien satisfecho
+[span] Ni satisfecho ni insatisfecho
+[span] Más bien insatisfecho
+[span] Muy insatisfecho
+[span] Fatal
+[span] Puntuación
+[span] / 35
+[span] 0 de 7
+[div] Tu puntuación
+[span] / 35
+[div] 0 de 7 preguntas respondidas
+[b] Responde las 7 preguntas
+[div] Te faltan 7. Verás aquí una orientación general según la puntuación.
+[div] Calidad de vida:
+[b] sin responder
+[button] Borrar
+[button] Imprimir o guardar PDF
+[span] Orienta, no diagnostica
+[span] No guardamos tus respuestas: se calculan en tu navegador y se borran al cerrar la página.
+[span] Si no puedes orinar, tienes fiebre o ves sangre, mira las
+[a] señales de alarma
+[p] Fuente:
+[a] Barry MJ, et al. J Urol. 1992;148:1549-57 ↗
+[p] · Versión española:
+[a] Badía X, et al. Urology. 1998;52:614-20 ↗
+[p] Si quieres valorar la incontinencia de orina, puedes consultar
+[a] el cuestionario ICIQ-UI SF en su web oficial ↗
+[span] (se abre en una pestaña nueva)
+[span] Lista rápida
+[h3] Señales de alarma
+[p] Marca lo que te esté pasando ahora.
+[h4] Consulta de forma urgente
+[span] Urgente
+[span] Sangre en la orina con coágulos, si no puedes orinar o tras un golpe
+[span] Urgente
+[span] No puedo orinar nada, aunque tengo ganas
+[span] Urgente
+[span] Fiebre con dolor en el costado o la espalda
+[span] Urgente
+[span] Fiebre con escozor, dolor o dificultad al orinar
+[span] Urgente
+[span] Fiebre si llevas una sonda o un catéter doble J
+[span] Urgente
+[span] Dolor fuerte y repentino en un testículo
+[span] Urgente
+[span] Cólico que no cede con tu analgésico, o con fiebre, o si tienes un solo riñón
+[span] Urgente
+[span] Erección que dura más de 4 horas
+[span] Urgente
+[span] Dolor, enrojecimiento o hinchazón que avanza rápido en genitales o periné, con o sin fiebre o malestar general
+[h4] Consulta de forma preferente con tu médico
+[p] Tu médico de familia, tu urólogo o el profesional que tengas a tu disposición.
+[span] Preferente
+[span] Sangre en la orina sin coágulos: orinas bien y te encuentras bien
+[span] Preferente
+[span] Bulto o endurecimiento en un testículo, sin dolor
+[span] Preferente
+[span] Me han dicho que tengo el PSA alto
+[p] Más sobre el PSA:
+[a] qué es, por qué sube y qué pasos siguen
+[b] Marca lo que te pase
+[div] Si no marcas nada y te encuentras bien, no hay una señal de alarma en esta lista.
+[span] Orienta, no diagnostica
+[video] Tu navegador no puede reproducir este vídeo.
+[a] Descárgalo en MP4
+[video] o lee la transcripción.
+[span] Vídeo · 1 min 50 s
+[h3] Señales de alarma
+[em] en urología
+[p] Qué síntomas conviene valorar de forma urgente y cuáles merecen una consulta preferente con tu médico.
+[p] Vídeo con avatar generado por IA, guion revisado por el Dr. Domínguez Esteban.
+[summary] Ver transcripción
+[p] Hay síntomas urológicos que no pueden esperar a la próxima cita. Te cuento cuáles.
+[p] Es recomendable que te valoren de forma urgente si no puedes orinar nada, aunque tengas muchas ganas. Si tienes fiebre con dolor en el costado o la espalda. Si tienes fiebre con escozor o dificultad al orinar. O si tienes fiebre y llevas una sonda o un catéter doble J.
+[p] También si notas un dolor fuerte y repentino en un testículo. Aquí el tiempo cuenta: no esperes a ver si se pasa. Si tienes un cólico que no cede con tu analgésico, con fiebre, o si tienes un solo riñón. O una erección que dura más de cuatro horas.
+[p] Y si ves sangre en la orina con coágulos, si no puedes orinar o después de un golpe. O si notas dolor, enrojecimiento o hinchazón que avanza rápido en los genitales o el periné, con o sin fiebre.
+[p] En cualquiera de estos casos, no esperes a ver si se pasa: consulta de forma urgente.
+[p] Otras señales merecen una consulta de forma preferente con tu médico: tu médico de familia, tu urólogo o el profesional que tengas a tu disposición. Sangre en la orina sin coágulos, si orinas bien y te encuentras bien, aunque haya sido una sola vez. Un bulto o un endurecimiento en un testículo, sin dolor. O que te hayan dicho que tienes el PSA alto.
+[p] Si empeora o aparece algo de la primera lista, consulta de forma urgente. Y no tomes antibióticos por tu cuenta.
+[p] En drdominguezesteban.com tienes esta lista de señales de alarma para revisarla cuando la necesites.
+[span] Enlaces externos
+[span] Se abren en otra web ↗
+[h3] Calculadoras de riesgo de próstata
+[p] Herramientas de grupos de investigación para usar
+[b] con tu médico
+[p] : estiman un riesgo, no diagnostican.
+[span] Rotterdam Prostate Cancer Risk Calculator
+[small] SWOP · Erasmus MC
+[span] PCPT Risk Calculator 2.0
+[small] Prostate Cancer Prevention Trial
+[span] § 04 — Actualidad
+[h2] Actualidad y
+[em] actividad
+[span] Lectura clínica
+[span] 28 sep 2026
+[h3] IA en la resonancia de próstata: qué aporta QP-Prostate (y qué no)
+[p] BMC Medical Imaging, 28 sep 2026. Software QP-Prostate (Quibim) en 113 hombres con PI-RADS ≥3: sensibilidad alta y especificidad baja. Mi lectura: apoyo útil; no sustituye al radiólogo.
+[b] Qué cambia hoy:
+[div] nada en la práctica habitual. La decisión sigue siendo clínica, con el radiólogo y tu urólogo.
+[b] Sin conflictos de interés con Quibim
+[a] Leer la lectura clínica
+[a] Estudio (BMC) ↗
+[span] Uro-oncología · Estudio
+[span] 2 oct 2026
+[h3] uRARE-seq: un análisis de orina para detectar cáncer de vejiga
+[p] Nature Medicine, 2 oct 2026. Estudio con 683 muestras de orina de pacientes y controles: 95 % de sensibilidad con 90 % de especificidad en tumores localizados; superó a la citología. Necesita validación prospectiva en varios centros antes de usarse en la práctica.
+[span] Termómetro de expectativas
+[b] 3 / 5
+[span] Prudencia
+[span] Exageración
+[b] Qué cambia hoy:
+[div] nada todavía. Falta validación prospectiva; el estándar sigue siendo cistoscopia y citología.
+[b] Sin conflictos de interés con este estudio
+[a] Leer el estudio (Nature Medicine) ↗
+[a] Mi comentario en X ↗
+[span] Actividad profesional
+[span] 17 sep 2026
+[h3] Ponencia: Detección precoz con IA — GUARD Symposium, Madrid, 17 sep 2026
+[p] Charla en la mesa de IA en uro-oncología: dónde puede ayudar hoy la IA en la detección precoz y qué falta por demostrar.
+[span] GUARD SYMPOSIUM · MADRID
+[a] Ver todas las lecturas de actualidad
+[span] § 05 — Publicaciones
+[h2] Publicaciones
+[em] seleccionadas
+[span] 39 artículos (37 en PubMed) · 1 preprint · 16 capítulos
+[p] Lista revisada a mano a partir de mi CV y de PubMed. Cada artículo enlaza a PubMed o, si no está indexado, a la revista.
+[h3] Artículos
+[b] Domínguez Esteban M
+[span] , Fernández Guzmán E, …, Gutiérrez Baños JL
+[span] Multivariable model integrating PHI and mpMRI for detecting csPCa in biopsy-naïve men
+[i] BJUI Compass
+[span] · 2025
+[span] Primer autor
+[span] PMID 41346431 ↗
+[span] Chernysheva D, …,
+[b] Domínguez Esteban M
+[span] , …, Sanguedolce F
+[span] Imaging modalities in advanced prostate cancer: Interim analysis of the Spanish cohort of the RING registry
+[i] Actas Urol Esp (Engl Ed)
+[span] · 2026
+[span] PMID 42551522 ↗
+[span] Grande E, …,
+[b] Domínguez Esteban M
+[span] , …, Real FX
+[span] Spatial architecture contributes to failure of bulk biomarker-guided neoadjuvant immunotherapy selection in bladder cancer: The DUTRENEO study
+[i] Cell Rep Med
+[span] · 2026
+[span] PMID 42335902 ↗
+[span] Guijarro A, …,
+[b] Domínguez Esteban M
+[span] , …, Llorente C
+[span] PSA Response as a Prognostic Factor of Overall Survival in Patients with Metastatic Hormone-sensitive Prostate Cancer Treated with Apalutamide: Real-world Evidence
+[i] Eur Urol Open Sci
+[span] · 2026
+[span] PMID 42058872 ↗
+[span] Pinto Á,
+[b] Domínguez Esteban M
+[span] , …, Castro E
+[span] The role of radium-223 in the evolving treatment landscape of metastatic castration-resistant prostate cancer: A narrative review
+[i] Crit Rev Oncol Hematol
+[span] · 2025
+[span] PMID 40058740 ↗
+[span] Alonso-Gordoa T, …,
+[b] Domínguez Esteban M
+[span] , …, Maroto P
+[span] Expert consensus on patterns of progression in kidney cancer after adjuvant immunotherapy and subsequent treatment strategies
+[i] Cancer Treat Rev
+[span] · 2025
+[span] PMID 40186886 ↗
+[span] García Martínez B, …,
+[b] Domínguez Esteban M
+[span] Arterial Fistulas in Urinary Diverted Patients: A Report of 5 Cases
+[i] Cardiovasc Intervent Radiol
+[span] · 2022
+[span] Último autor
+[span] PMID 36175658 ↗
+[span] Fernández-Guzmán E, …,
+[b] Domínguez Esteban M
+[span] Preliminary results of a national multicenter study on the treatment of LUTS secondary to benign prostatic hyperplasia using the Rezūm® steam system
+[i] Actas Urol Esp (Engl Ed)
+[span] · 2022
+[span] Último autor
+[span] PMID 35570100 ↗
+[span] Ver los 39 artículos y el preprint
+[span] Hassi Roman M, …,
+[b] Domínguez Esteban M
+[span] , …, Ramírez Backhaus M
+[span] Apalutamide use in metastatic hormone-sensitive prostate cancer patients diagnosed by conventional and next-generation imaging. Real world data from 772 patients
+[i] Actas Urol Esp (Engl Ed)
+[span] · 2025
+[span] PMID 40097098 ↗
+[span] Ballestero R, …,
+[b] Domínguez Esteban M
+[span] , …, Gutierrez JL
+[span] Impact of COVID-19 on Postoperative Complications in Minimal Invasive Radical Cystectomy: A Comprehensive Complication Index-Based Analysis
+[i] Arch Esp Urol
+[span] · 2025
+[span] PMID 41111367 ↗
+[span] Zapatero A, …,
+[b] Domínguez Esteban M
+[span] , …, Maroto P
+[span] Triplet systemic therapy for hormone-sensitive prostate cancer: a critical review with a multidisciplinary approach
+[i] Oncol Rev
+[span] · 2025
+[span] PMID 40787089 ↗
+[span] García-Formoso N, …,
+[b] Domínguez Esteban M
+[span] , …, Gutiérrez Baños JL
+[span] Trasplante renal en pacientes testigos de Jehová: revisión de complicaciones de la serie histórica de un centro de referencia nacional
+[i] Academic Journal of Health Sciences
+[span] · 2024
+[span] Pérez Fentes D, …,
+[b] Domínguez Esteban M
+[span] , …, Gómez Caamaño A
+[span] Controversies in prostate cancer management: Consensus recommendations from experts in northern Spain
+[i] Actas Urol Esp (Engl Ed)
+[span] · 2024
+[span] PMID 38960063 ↗
+[span] Borque-Fernando Á, …,
+[b] Domínguez Esteban M
+[span] , …, Maroto P
+[span] Recommendations on the treatment of metastatic hormone-sensitive prostate cancer: Patient selection
+[i] Actas Urol Esp (Engl Ed)
+[span] · 2024
+[span] PMID 38740263 ↗
+[span] Serrano M, …,
+[b] Domínguez Esteban M
+[span] , …, Duran I
+[span] Neoadjuvant chemotherapy with dose-dense MVAC in muscle-invasive bladder cancer: a tertiary center experience
+[i] Clin Transl Oncol
+[span] · 2024
+[span] PMID 37566343 ↗
+[span] Hassi Roman M, …,
+[b] Domínguez Esteban M
+[span] , …, Ramírez Backhaus M
+[span] Prostate-specific Antigen at 3 Months as a Predictor of Radiologic Progression-free Survival in Metastatic Hormone-sensitive Prostate Cancer Treated with Apalutamide: Analysis of 633 Patients in a Real-world Database
+[i] Eur Urol Open Sci
+[span] · 2024
+[span] PMID 39474116 ↗
+[span] Expósito Ibáñez E,
+[b] Domínguez Esteban M
+[span] , …, Gutiérrez Baños JL
+[span] Giant Renal Angiomyolipoma: A Case Series and Review of the Literature
+[i] J Oncol Res Ther
+[span] · 2024
+[span] DOI ↗
+[span] Schwartzmann I, …,
+[b] Domínguez Esteban M
+[span] , …, Fernández Guzmán E
+[span] Water vapor thermal therapy: Technical variations among spanish hospitals and efficacy at 2-year follow-up
+[i] Actas Urol Esp (Engl Ed)
+[span] · 2023
+[span] PMID 37423384 ↗
+[span] MacLennan S, …, Briganti A;
+[b] Domínguez Esteban M
+[span] , como miembro del grupo colaborador IMAGINE
+[span] Mapping European Association of Urology Guideline Practice Across Europe: An Audit of Androgen Deprivation Therapy Use Before Prostate Cancer Surgery in 6598 Cases in 187 Hospitals Across 31 European Countries
+[i] Eur Urol
+[span] · 2023
+[span] PMID 36639296 ↗
+[span] De la Cuadra-Grande A, …,
+[b] Domínguez Esteban M
+[span] , …, Fernández-Arjona M
+[span] Budget impact analysis of transurethral water vapor therapy for treatment of lower urinary tract symptoms associated with benign prostatic hyperplasia in the Spanish national healthcare system
+[i] Expert Rev Pharmacoecon Outcomes Res
+[span] · 2023
+[span] PMID 36897833 ↗
+[span] González-Menéndez P, …,
+[b] Domínguez Esteban M
+[span] , Sainz RM
+[span] Insulin-dependent GLUT4 is a risk factor for cancer in the prostate
+[i] Research Square
+[span] · 2023
+[span] Preprint
+[span] Research Square ↗
+[span] Alonso Mediavilla E, …,
+[b] Domínguez Esteban M
+[span] , …, Gutiérrez Baños JL
+[span] Ureteroileal anastomosis stricture after urinary diversions performed by open, laparoscopic and robotic approaches. Incidence and management in a tertiary care center
+[i] Actas Urol Esp (Engl Ed)
+[span] · 2022
+[span] PMID 34838493 ↗
+[span] Terán-Navarro H, …,
+[b] Domínguez Esteban M
+[span] , …, Alvarez-Dominguez C
+[span] Gold Glyconanoparticles Combined with 91-99 Peptide of the Bacterial Toxin, Listeriolysin O, Are Efficient Immunotherapies in Experimental Bladder Tumors
+[i] Cancers (Basel)
+[span] · 2022
+[span] PMID 35626016 ↗
+[span] Calleja Hermosa P, …,
+[b] Domínguez Esteban M
+[span] , …, Gutiérrez Baños JL
+[span] Activity and short-term outcomes of kidney transplantation during the COVID-19 pandemic
+[i] Actas Urol Esp (Engl Ed)
+[span] · 2021
+[span] PMID 33213957 ↗
+[span] Herrero Blanco E,
+[b] Domínguez Esteban M
+[span] , …, Gutiérrez Baños JL
+[span] Percutaneous radiofrequency for the treatment of small renal masses: Analysis of outcomes and complications after 10 years of experience
+[i] Actas Urol Esp (Engl Ed)
+[span] · 2021
+[span] PMID 33541744 ↗
+[span] Medina-Polo J, …,
+[b] Domínguez Esteban M
+[span] , …, Rodríguez-Antolín A
+[span] Benign prostatic hyperplasia management during COVID-19 pandemia
+[i] Arch Esp Urol
+[span] · 2020
+[span] PMID 32538810 ↗
+[span] Gómez Rivas J,
+[b] Domínguez Esteban M
+[span] , …, Juárez Á
+[span] Prostate cancer and COVID-19 pandemia: Current recommendations
+[i] Arch Esp Urol
+[span] · 2020
+[span] PMID 32538806 ↗
+[span] Calleja P,
+[b] Domínguez Esteban M
+[span] , …, Gutiérrez JL
+[span] Hyponatremia as a presenting sign of metastatic disease in muscle invasive bladder cancer
+[i] Arch Esp Urol
+[span] · 2018
+[span] PMID 30403383 ↗
+[span] Herrero E, …,
+[b] Domínguez Esteban M
+[span] , …, Gutiérrez JL
+[span] Experience with third, fourth and fifth kidney transplants and their complications
+[i] Arch Esp Urol
+[span] · 2017
+[span] PMID 29205159 ↗
+[span] Ramos Barselo E, …,
+[b] Domínguez Esteban M
+[span] , …, Gutiérrez Baños JL
+[span] Mini-laparoscopic pyeloplasty
+[i] Arch Esp Urol
+[span] · 2017
+[span] PMID 28530628 ↗
+[b] Domínguez Esteban M
+[span] , Villacampa-Aubá F, …, de la Rosa Kehrmann F
+[span] Lessons learned from the comparative study between renal mass biopsy and the analysis of the surgical specimen
+[i] Actas Urol Esp
+[span] · 2014
+[span] Primer autor
+[span] PMID 24704129 ↗
+[span] Fuentes J, …,
+[b] Domínguez Esteban M
+[span] , …, Gutierrez JL
+[span] Review of a series of cystectomies in women for bladder cancer: Complications and quality of life
+[i] Arch Esp Urol
+[span] · 2014
+[span] PMID 24892391 ↗
+[span] Braun K, …,
+[b] Domínguez Esteban M
+[span] , …, Touijer KA
+[span] Effect of repeated prostate biopsies on erectile function in men on active surveillance for prostate cancer
+[i] J Urol
+[span] · 2014
+[span] PMID 24012535 ↗
+[span] Ramos E,
+[b] Domínguez Esteban M
+[span] , …, Gutiérrez JL
+[span] Therapeutic options for renal graft tumors
+[i] Arch Esp Urol
+[span] · 2013
+[span] PMID 23406814 ↗
+[span] Rodríguez Antolín A, …,
+[b] Domínguez Esteban M
+[span] , …, Díaz González R
+[span] Hormonal treatment in biochemical recurrence after radical prostatectomy
+[i] Arch Esp Urol
+[span] · 2012
+[span] PMID 22318183 ↗
+[span] Medina-Polo J, …,
+[b] Domínguez Esteban M
+[span] , …, Díaz-González R
+[span] Testicular tumors: residual retroperitoneal mass surgery after chemotherapy; Is it possible to predict their histology?
+[i] Arch Esp Urol
+[span] · 2011
+[span] PMID 21965259 ↗
+[span] Medina-Polo J, …,
+[b] Domínguez Esteban M
+[span] , …, Díaz-González R
+[span] Can partial nephrectomy preserve renal function and modify survival in comparison with radical nephrectomy?
+[i] Scand J Urol Nephrol
+[span] · 2011
+[span] PMID 21247272 ↗
+[span] Medina-Polo J,
+[b] Domínguez Esteban M
+[span] , …, Díaz R
+[span] Cardiovascular events after simultaneous pancreas-kidney transplantation
+[i] Transplant Proc
+[span] · 2010
+[span] PMID 20970588 ↗
+[b] Domínguez Esteban M
+[span] , Passas Martínez J, …, Rodríguez Antolín A
+[span] Open partial nephrectomy. Experience at the 12 de Octubre University Hospital
+[i] Actas Urol Esp
+[span] · 2009
+[span] Primer autor
+[span] PMID 19658306 ↗
+[span] Blanco M, …,
+[b] Domínguez Esteban M
+[span] , …, Morales JM
+[span] Third kidney transplantation: a permanent medical-surgical challenge
+[i] Transplant Proc
+[span] · 2009
+[span] PMID 1971
+[...truncated]

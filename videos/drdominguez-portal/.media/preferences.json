@@ -35,6 +35,13 @@
         "drdominguez-portal"
       ],
       "updated_at": "2026-10-07T20:32:15.505Z"
+    },
+    "style_preset.product-launch-video": {
+      "value": "code-editorial",
+      "confirmed_in": [
+        "drdominguez-portal"
+      ],
+      "updated_at": "2026-10-07T20:35:52.405Z"
     }
   },
   "sightings": {}

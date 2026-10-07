@@ -1,0 +1,44 @@
+[
+  {
+    "index": 0,
+    "url": "https://drdominguezesteban.com/media/holep-720.mp4",
+    "filename": "holep-720.mp4",
+    "width": 210,
+    "height": 373,
+    "sourceWidth": 0,
+    "sourceHeight": 0,
+    "heading": "Próstata agrandada: qué es la HoLEP",
+    "caption": "Por qué crece la próstata, cuándo se valora operar y cómo es la HoLEP frente a la RTU y la cirugía abierta.",
+    "ariaLabel": "Vídeo: Próstata agrandada: qué es la HoLEP (1 min 51 s, con subtítulos incrustados)",
+    "preview": "assets/videos/previews/video-0-preview.png",
+    "localPath": "assets/videos/holep-720.mp4"
+  },
+  {
+    "index": 1,
+    "url": "https://drdominguezesteban.com/media/cuestionarios-720.mp4",
+    "filename": "cuestionarios-720.mp4",
+    "width": 360,
+    "height": 640,
+    "sourceWidth": 0,
+    "sourceHeight": 0,
+    "heading": "Tres cuestionarios para explicar tus síntomas",
+    "caption": "Qué miden el IPSS, el IIEF-5 y el ICIQ-SF, y por qué orientan pero no diagnostican.",
+    "ariaLabel": "Vídeo: Tres cuestionarios para explicar tus síntomas (1 min 47 s, con subtítulos incrustados)",
+    "preview": "assets/videos/previews/video-1-preview.png",
+    "localPath": "assets/videos/cuestionarios-720.mp4"
+  },
+  {
+    "index": 2,
+    "url": "https://drdominguezesteban.com/media/senales-alarma-720.mp4",
+    "filename": "senales-alarma-720.mp4",
+    "width": 210,
+    "height": 373,
+    "sourceWidth": 0,
+    "sourceHeight": 0,
+    "heading": "Señales de alarma en urología",
+    "caption": "Qué síntomas conviene valorar de forma urgente y cuáles merecen una consulta preferente con tu médico.",
+    "ariaLabel": "Vídeo: Señales de alarma en urología (1 min 50 s, con subtítulos incrustados)",
+    "preview": "assets/videos/previews/video-2-preview.png",
+    "localPath": "assets/videos/senales-alarma-720.mp4"
+  }
+]
