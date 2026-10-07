@@ -26,7 +26,7 @@ additional_formats: ["1080x1080 (LinkedIn, adaptación tras aprobar el máster 1
 - duration: 4.5s
 - poster: 3.8s
 - transition_in: cut
-- status: outline
+- status: animated
 - scene: Una barra de búsqueda genérica sobre papel crema; alguien teclea su miedo
 - onscreen: "psa alto es cancer" → borra «alto es cancer» → «6 es cáncer?»
 - asset_candidates: (ninguno — barra de búsqueda genérica reconstruida en HTML, nunca la interfaz de Google)
@@ -50,7 +50,7 @@ Gancho: el pensamiento real de un paciente con un análisis en la mano, tecleado
 - duration: 4.5s
 - poster: 3.5s
 - transition_in: cut
-- status: outline
+- status: animated
 - scene: Titulares alarmistas genéricos se acumulan alrededor de la barra, desenfocados, cerrándose
 - onscreen: «PSA alto: lo que nadie te cuenta» · «Síntomas que no debes ignorar» · «Foro: me salió un 6,2 y estoy aterrado» · «10 señales de alarma» · «¿Es demasiado tarde?»
 - asset_candidates: (ninguno — tarjetas genéricas inventadas en HTML, sin cabeceras ni logos de medios reales)
@@ -74,7 +74,7 @@ Agitación: el exceso de información sin fuente. Los titulares son deliberadame
 - duration: 6s
 - poster: 4.5s
 - transition_in: cut
-- status: outline
+- status: animated
 - scene: Los titulares colapsan hacia el centro y de ahí sale la ficha real de la web sobre PSA alto, con un push-in lento
 - onscreen: (captura) «¿Te han dicho que tienes el PSA alto?» · «Un PSA alto es un hallazgo frecuente y no significa que tengas cáncer.»
 - asset_candidates: assets/scroll-019.png — sección PSA real de la web («¿Te han dicho que tienes el PSA alto?»)
@@ -97,7 +97,7 @@ Puente: el ruido se ordena en una sola respuesta clara, la de tu portal. Primera
 - duration: 7s
 - poster: 5.5s
 - transition_in: crossfade
-- status: outline
+- status: animated
 - scene: Una frase editorial con superíndice; el «¹» se despliega en su referencia
 - onscreen: «El PSA elevado no siempre significa cáncer.¹» → «¹ EAU Guidelines on Prostate Cancer, 2026 · §5.2.2» → «Cada texto cita guías y fuentes.»
 - asset_candidates: (ninguno — tipografía pura: Newsreader + IBM Plex Mono)
@@ -120,7 +120,7 @@ El corazón del vídeo: la evidencia se ve literalmente. «no siempre» en cursi
 - duration: 4s
 - poster: 3s
 - transition_in: crossfade
-- status: outline
+- status: animated
 - scene: Pantalla limpia y cálida; una sola pregunta con mucho aire
 - onscreen: «¿Qué te preocupa?» (con «preocupa» en cursiva terracota) · sub: «Para entender lo que te pasa y decidir con calma.»
 - asset_candidates: (ninguno — tipografía pura)
@@ -141,7 +141,7 @@ Respiro: el tono cambia de ansiedad a calma. Es la misma pregunta con la que se 
 - duration: 4.5s
 - poster: 3.8s
 - transition_in: cut
-- status: outline
+- status: animated
 - scene: El monograma «D» se dibuja y se fija con el lema, nombre, cargo y URL
 - onscreen: «Urología con evidencia» · «Dr. Mario Domínguez Esteban» · «Jefe de Sección de Uro-Oncología · Hospital Universitario Marqués de Valdecilla» · «drdominguezesteban.com»
 - asset_candidates: assets/favicon.svg — monograma «D» (círculo navy, D crema)
