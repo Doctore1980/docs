@@ -5,3 +5,6 @@
 # Draft content
 drafts/
 *.draft.mdx
+
+# Expedientes y codigo del sistema /investigar: no son paginas del sitio
+investigacion/
