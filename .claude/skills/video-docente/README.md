@@ -36,6 +36,19 @@ node tools/video.mjs previa  ejemplos/gleason-isup-marca.json --formato ambos   
 En Claude Code, `/video-docente` lleva el flujo completo: encargo, contenido verificado,
 guion, revisión, hoja de contactos con tu visto bueno, render y verificación.
 
+## Estudio web
+
+`estudio/plantilla.html` es una página autocontenida con el mismo motor: encargo a Claude,
+editor del guion, vista previa con transporte, auditoría y exportación (MP4 codificado en
+el navegador con WebCodecs, hoja de contactos, subtítulos y guion). Para regenerarla tras
+cambiar el motor, las marcas o el ejemplo:
+
+```bash
+node tools/construir-estudio.mjs   # escribe estudio/dist/estudio.html
+```
+
+Después se vuelve a publicar como artefacto en la misma URL.
+
 ## Estructura
 
 ```
@@ -45,6 +58,8 @@ motor/engine.js     plantillas, animación (muelles), auditoría y hoja de conta
 motor/fuentes/      Inter (SIL OFL 1.1), fuente de respaldo
 marcas/             identidades visuales (marca.json + fuentes)
 tools/video.mjs     CLI: validación, Playwright y ffmpeg
+tools/construir-estudio.mjs  genera el estudio web
+estudio/            plantilla del estudio web (dist/ se genera)
 ejemplos/           guiones de ejemplo con datos verificados
 ```
 

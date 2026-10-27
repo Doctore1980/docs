@@ -1,0 +1,617 @@
+<title>Estudio de microvídeos</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<style>
+/*__INTER__*/
+/* Mesa de montaje: guion a la izquierda, monitor con transporte, auditoría y exportación a la derecha.
+   Paleta y tipografía de drdominguezesteban.com (papel, marino, terracota; Newsreader + IBM Plex). */
+:root {
+  --papel: #FAF8F4; --papel2: #F2EEE6; --carta: #FFFFFF; --filete: #DDD6CA;
+  --tinta: #2B3650; --marino: #0E2240; --suave: #5B6476;
+  --acento: #C2412A; --acento-tx: #A8361F; --acento-fondo: #F6E3DC;
+  --ok: #2F7D62; --ok-fondo: #E3F1EB; --medio: #8A5A12; --medio-fondo: #FBF0DA;
+  --monitor: #E9E4DA;
+  --f-titular: "Newsreader", Georgia, serif;
+  --f-texto: "IBM Plex Sans", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papel: #0F1826; --papel2: #152133; --carta: #182539; --filete: #2B3B53;
+    --tinta: #C9D2DF; --marino: #E3E9F2; --suave: #9EAABC;
+    --acento: #EC8A73; --acento-tx: #F2A592; --acento-fondo: #3A2320;
+    --ok: #5DBB95; --ok-fondo: #163128; --medio: #E2AE52; --medio-fondo: #332A19;
+    --monitor: #0A1220; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --papel: #0F1826; --papel2: #152133; --carta: #182539; --filete: #2B3B53;
+  --tinta: #C9D2DF; --marino: #E3E9F2; --suave: #9EAABC;
+  --acento: #EC8A73; --acento-tx: #F2A592; --acento-fondo: #3A2320;
+  --ok: #5DBB95; --ok-fondo: #163128; --medio: #E2AE52; --medio-fondo: #332A19;
+  --monitor: #0A1220; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { background: var(--papel); color: var(--tinta); }
+body { font: 15px/1.5 var(--f-texto); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 32px; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+
+.cabecera { display: flex; align-items: center; gap: 14px; padding-block: 18px 14px; border-bottom: 2px solid var(--marino); max-width: 1400px; margin-inline: auto; flex-wrap: wrap; }
+.sello { width: 40px; height: 40px; border: 2px solid var(--marino); border-radius: 50%; display: grid; place-items: center; font: italic 600 15px/1 var(--f-titular); letter-spacing: -.03em; color: var(--marino); position: relative; flex: none; }
+.sello::after { content: ""; position: absolute; width: 7px; height: 7px; background: var(--acento); border-radius: 50%; left: 50%; bottom: -3.5px; margin-left: -3.5px; }
+.cabecera h1 { font: 500 24px/1.1 var(--f-titular); color: var(--marino); margin: 0; letter-spacing: -.018em; }
+.cabecera h1 em { color: var(--acento-tx); }
+.cabecera p { margin: 2px 0 0; font-size: 13px; color: var(--suave); }
+.cabecera .estado { margin-left: auto; }
+
+.chip { display: inline-flex; align-items: center; gap: 6px; font: 500 11.5px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; padding: 6px 9px; border-radius: 99px; white-space: nowrap; }
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.chip.ok { background: var(--ok-fondo); color: var(--ok); }
+.chip.medio { background: var(--medio-fondo); color: var(--medio); }
+.chip.mal { background: var(--acento-fondo); color: var(--acento-tx); }
+
+.mesa { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 28px; max-width: 1400px; margin: 22px auto 0; align-items: start; }
+@media (max-width: 900px) { .mesa { grid-template-columns: minmax(0, 1fr); } .monitor { order: -1; } }
+[hidden] { display: none !important; }
+
+.etiqueta { font: 500 11.5px/1.2 var(--f-mono); letter-spacing: .07em; text-transform: uppercase; color: var(--suave); }
+h2 { font: 500 20px/1.15 var(--f-titular); color: var(--marino); margin: 0; letter-spacing: -.015em; }
+
+.panel { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.pestanas { display: flex; border-bottom: 1px solid var(--filete); }
+.pestanas button { background: none; border: 0; border-bottom: 2px solid transparent; padding: 8px 14px 9px; margin-bottom: -1px; cursor: pointer; color: var(--suave); font-weight: 500; }
+.pestanas button[aria-selected="true"] { color: var(--marino); border-bottom-color: var(--acento); }
+
+form.encargo { display: flex; flex-direction: column; gap: 12px; }
+.campo { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.campo label { font-weight: 500; font-size: 13.5px; color: var(--marino); }
+.campo small { color: var(--suave); font-size: 12.5px; }
+.fila { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+input[type="text"], select, textarea { width: 100%; background: var(--carta); border: 1px solid var(--filete); border-radius: 6px; padding: 8px 10px; }
+textarea { resize: vertical; }
+textarea#json { font: 12.5px/1.55 var(--f-mono); min-height: 460px; tab-size: 2; white-space: pre; overflow: auto; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1.5px solid var(--marino); background: transparent; color: var(--marino); border-radius: 6px; padding: 8px 14px; font-weight: 600; cursor: pointer; }
+.btn.lleno { background: var(--marino); color: var(--papel); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn.discreto { border-color: var(--filete); color: var(--tinta); font-weight: 500; }
+.nota { font-size: 13px; color: var(--suave); margin: 0; }
+.nota.alerta { color: var(--acento-tx); }
+.aviso-caja { border-left: 3px solid var(--medio); background: var(--medio-fondo); padding: 10px 12px; border-radius: 0 6px 6px 0; font-size: 13.5px; color: var(--tinta); }
+.aviso-caja strong { color: var(--marino); }
+
+.monitor { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.mandos { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+.segmentado { display: inline-flex; border: 1px solid var(--filete); border-radius: 7px; overflow: hidden; background: var(--carta); }
+.segmentado button { border: 0; background: none; padding: 6px 12px; cursor: pointer; font-size: 13.5px; color: var(--suave); }
+.segmentado button + button { border-left: 1px solid var(--filete); }
+.segmentado button[aria-pressed="true"] { background: var(--marino); color: var(--papel); }
+.mando { display: flex; align-items: center; gap: 8px; }
+
+.pantalla { background: var(--monitor); border-radius: 10px; padding: 14px; display: grid; place-items: center; min-height: 240px; }
+.pantalla canvas { display: block; max-width: 100%; max-height: min(68vh, 720px); width: auto; height: auto; box-shadow: 0 1px 2px rgba(14,34,64,.12), 0 8px 24px -12px rgba(14,34,64,.35); background: var(--papel); }
+
+.transporte { display: flex; align-items: center; gap: 12px; }
+.transporte input[type="range"] { flex: 1; min-width: 0; accent-color: var(--acento); }
+.tiempo { font: 500 13px var(--f-mono); font-variant-numeric: tabular-nums; color: var(--suave); white-space: nowrap; }
+.reproducir { width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--acento); color: #fff; display: grid; place-items: center; cursor: pointer; flex: none; }
+.reproducir svg { width: 16px; height: 16px; fill: currentColor; }
+
+.escenas { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+.escenas button { flex: none; border: 1px solid var(--filete); background: var(--carta); border-radius: 6px; padding: 5px 9px; cursor: pointer; text-align: left; display: flex; flex-direction: column; gap: 1px; }
+.escenas button b { font: 500 11px/1.2 var(--f-mono); letter-spacing: .05em; text-transform: uppercase; color: var(--marino); }
+.escenas button span { font: 400 11px/1.2 var(--f-mono); color: var(--suave); font-variant-numeric: tabular-nums; }
+.escenas button[aria-current="true"] { border-color: var(--acento); box-shadow: inset 0 -2px 0 var(--acento); }
+
+.bajo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+@media (max-width: 640px) { .bajo { grid-template-columns: minmax(0, 1fr); } }
+.bloque { border-top: 1px solid var(--filete); padding-top: 12px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.cabeza { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.auditoria { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.auditoria li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: start; font-size: 13.5px; }
+.auditoria .esc { font: 500 11px/1.6 var(--f-mono); color: var(--suave); }
+.exportar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.progreso { height: 6px; background: var(--papel2); border-radius: 3px; overflow: hidden; }
+.progreso i { display: block; height: 100%; width: 0; background: var(--acento); }
+.check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; }
+.check input { margin-top: 3px; accent-color: var(--ok); }
+.imagenes { display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+</style>
+
+<header class="cabecera">
+  <div class="sello" aria-hidden="true">DE</div>
+  <div>
+    <h1>Estudio de <em>microvídeos</em></h1>
+    <p>Del guion al vídeo docente, con la identidad de Urología con evidencia</p>
+  </div>
+  <span class="estado chip medio" id="chipEstado">Ejemplo verificado</span>
+</header>
+
+<main class="mesa">
+  <section class="panel" aria-label="Guion">
+    <div class="pestanas" role="tablist">
+      <button type="button" role="tab" id="tabEncargo" aria-selected="false" aria-controls="vistaEncargo">Encargo</button>
+      <button type="button" role="tab" id="tabGuion" aria-selected="true" aria-controls="vistaGuion">Guion</button>
+    </div>
+
+    <div id="vistaEncargo" role="tabpanel" aria-labelledby="tabEncargo" hidden>
+      <form class="encargo" id="formEncargo">
+        <div class="campo">
+          <label for="tema">Tema</label>
+          <textarea id="tema" rows="2" placeholder="Por ejemplo: indicaciones de la biopsia de fusión RM-ecografía"></textarea>
+        </div>
+        <div class="campo">
+          <label for="objetivo">Objetivo de aprendizaje</label>
+          <input type="text" id="objetivo" placeholder="Al terminar, el residente sabe…">
+        </div>
+        <div class="fila">
+          <div class="campo">
+            <label for="audiencia">Audiencia</label>
+            <select id="audiencia">
+              <option>Residentes de Urología</option>
+              <option>Alumnos de grado</option>
+              <option>Alumnos de máster</option>
+              <option>Pacientes y familiares</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="duracion">Duración</label>
+            <select id="duracion">
+              <option value="60">≈ 60 s</option>
+              <option value="90" selected>≈ 90 s</option>
+              <option value="120">≈ 2 min</option>
+              <option value="180">≈ 3 min</option>
+            </select>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="datos">Datos y referencias verificados</label>
+          <textarea id="datos" rows="6" placeholder="Pega aquí las cifras y referencias (Vancouver) que el vídeo debe usar. Claude no añadirá datos que no estén aquí."></textarea>
+          <small>Sin datos, el guion será conceptual y las referencias quedarán como pendientes.</small>
+        </div>
+        <div class="aviso-caja"><strong>Borrador, no publicación.</strong> Claude redacta a partir de lo que escribes aquí; esta página no consulta PubMed. Comprueba cifras y citas antes de usar el vídeo.</div>
+        <button type="submit" class="btn lleno" id="btnRedactar">Redactar guion con Claude</button>
+        <p class="nota" id="notaRedactar" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <div id="vistaGuion" role="tabpanel" aria-labelledby="tabGuion">
+      <div class="campo">
+        <div class="cabeza"><label for="json">Guion (JSON)</label><button type="button" class="btn discreto" id="btnEjemplo">Cargar ejemplo</button></div>
+        <textarea id="json" spellcheck="false" aria-describedby="notaJson"></textarea>
+        <p class="nota" id="notaJson" aria-live="polite"></p>
+      </div>
+      <div class="imagenes" id="panelImagenes" hidden>
+        <span class="etiqueta">Imágenes del guion</span>
+        <div id="listaImagenes"></div>
+        <label class="btn discreto" for="subirImagenes">Añadir imágenes</label>
+        <input type="file" id="subirImagenes" accept="image/png,image/jpeg,image/webp,image/svg+xml" multiple hidden>
+      </div>
+    </div>
+  </section>
+
+  <section class="monitor" aria-label="Vista previa">
+    <div class="mandos">
+      <div class="mando"><span class="etiqueta">Formato</span>
+        <div class="segmentado" id="segFormato"><button type="button" data-v="16:9" aria-pressed="true">16:9</button><button type="button" data-v="9:16" aria-pressed="false">9:16</button></div></div>
+      <div class="mando"><span class="etiqueta">Marca</span>
+        <div class="segmentado" id="segMarca"><button type="button" data-v="drdominguezesteban" aria-pressed="true">Dr. Domínguez</button><button type="button" data-v="" aria-pressed="false">Neutra</button></div></div>
+      <div class="mando"><span class="etiqueta">Fondo</span>
+        <div class="segmentado" id="segTema"><button type="button" data-v="claro" aria-pressed="true">Claro</button><button type="button" data-v="oscuro" aria-pressed="false">Oscuro</button></div></div>
+    </div>
+
+    <div class="pantalla"><canvas id="vista" aria-label="Vista previa del vídeo"></canvas></div>
+
+    <div class="transporte">
+      <button type="button" class="reproducir" id="btnPlay" aria-label="Reproducir">
+        <svg viewBox="0 0 16 16" id="icoPlay"><path d="M4 2.5v11l9.5-5.5z"/></svg>
+      </button>
+      <input type="range" id="tiempo" min="0" max="1" step="0.01" value="0" aria-label="Posición">
+      <span class="tiempo" id="lecturaTiempo">0:00,0 / 0:00,0</span>
+    </div>
+    <div class="escenas" id="escenas" aria-label="Escenas"></div>
+
+    <div class="bajo">
+      <div class="bloque">
+        <div class="cabeza"><h2>Auditoría</h2><span class="chip ok" id="chipAuditoria">Sin incidencias</span></div>
+        <ul class="auditoria" id="auditoria"></ul>
+      </div>
+      <div class="bloque">
+        <div class="cabeza"><h2>Exportar</h2><span class="etiqueta" id="infoExport"></span></div>
+        <label class="check"><input type="checkbox" id="verificado"> He comprobado las cifras y las referencias del guion</label>
+        <div class="exportar">
+          <button type="button" class="btn lleno" id="btnMp4">Vídeo MP4</button>
+          <button type="button" class="btn" id="btnHoja">Hoja de contactos</button>
+          <button type="button" class="btn discreto" id="btnSrt">Subtítulos</button>
+          <button type="button" class="btn discreto" id="btnJson">Guion JSON</button>
+        </div>
+        <div class="progreso" id="barraExport" hidden><i></i></div>
+        <p class="nota" id="notaExport" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/mp4-muxer@5.1.3/build/mp4-muxer.js"></script>
+<script>
+/*__MOTOR__*/
+</script>
+<script>
+'use strict';
+const MARCAS = /*__MARCAS__*/;
+const EJEMPLO = /*__EJEMPLO__*/;
+
+const $ = s => document.querySelector(s);
+const FORMATOS = { '16:9': { w: 1920, h: 1080 }, '9:16': { w: 1080, h: 1920 } };
+const OBLIGATORIOS = {
+  titulo: ['titulo'], puntos: ['puntos'], mensaje: ['puntos'], tabla: ['columnas', 'filas'],
+  barras: ['datos'], cifra: ['valor'], pasos: ['pasos'], imagen: ['src'], referencias: ['refs'], cierre: [],
+};
+const FPS = 30;
+const est = { spec: null, formato: '16:9', marca: 'drdominguezesteban', tema: 'claro', api: null, t: 0,
+  play: false, imagenes: {}, origen: 'ejemplo', version: 0, exportando: false };
+const lienzo = $('#vista');
+
+const mmss = s => `${Math.floor(s / 60)}:${(s % 60).toFixed(1).padStart(4, '0').replace('.', ',')}`;
+const nombreBase = p => String(p).split(/[\\/]/).pop();
+function leer(k) { try { return localStorage.getItem(k); } catch { return null; } }
+function escribir(k, v) { try { localStorage.setItem(k, v); } catch { /* sin almacenamiento */ } }
+async function capacidad(nombre) { try { return window.claude && window.claude.use ? await window.claude.use(nombre) : null; } catch { return null; } }
+
+// ---------- estado de verificación ----------
+function pintarEstado() {
+  const chip = $('#chipEstado');
+  const ok = $('#verificado').checked;
+  if (ok) { chip.className = 'estado chip ok'; chip.textContent = 'Cifras comprobadas'; }
+  else if (est.origen === 'ejemplo') { chip.className = 'estado chip medio'; chip.textContent = 'Ejemplo verificado'; }
+  else { chip.className = 'estado chip mal'; chip.textContent = 'Borrador sin verificar'; }
+}
+
+// ---------- validación (la misma que la CLI) ----------
+function validar(spec) {
+  const e = [];
+  if (!spec || !Array.isArray(spec.escenas) || !spec.escenas.length) return ['El guion necesita un array "escenas" no vacío.'];
+  spec.escenas.forEach((s, i) => {
+    const n = `Escena ${i + 1}`;
+    if (!OBLIGATORIOS[s.tipo]) { e.push(`${n}: tipo "${s.tipo}" desconocido (${Object.keys(OBLIGATORIOS).join(', ')}).`); return; }
+    for (const c of OBLIGATORIOS[s.tipo]) {
+      const v = s[c];
+      if (v == null || v === '' || (Array.isArray(v) && !v.length)) e.push(`${n} (${s.tipo}): falta "${c}".`);
+    }
+    if (s.tipo === 'barras' && Array.isArray(s.datos)) s.datos.forEach((d, j) => {
+      if (typeof d.etiqueta !== 'string' || typeof d.valor !== 'number') e.push(`${n}: el dato ${j + 1} necesita "etiqueta" (texto) y "valor" (número).`);
+    });
+    if (s.tipo === 'imagen' && s.src && !est.imagenes[nombreBase(s.src)]) e.push(`${n}: falta la imagen "${nombreBase(s.src)}". Añádela en «Imágenes del guion».`);
+  });
+  return e;
+}
+
+function specEfectiva() {
+  const s = JSON.parse(JSON.stringify(est.spec));
+  s.formato = est.formato;
+  s.tema = Object.assign({}, s.tema, { base: est.tema });
+  if (est.marca) { s.marca = est.marca; s.__marca = MARCAS[est.marca]; } else { delete s.marca; }
+  s.escenas.forEach(e => { if (e.tipo === 'imagen') e.__datos = est.imagenes[nombreBase(e.src)]; });
+  return s;
+}
+
+// ---------- construir el motor ----------
+async function reconstruir() {
+  const v = ++est.version;
+  const nota = $('#notaJson');
+  let spec;
+  try { spec = JSON.parse($('#json').value); }
+  catch (err) { nota.className = 'nota alerta'; nota.textContent = `El JSON no es válido: ${err.message}`; return; }
+  est.spec = spec;
+  pintarImagenes();
+  const errores = validar(spec);
+  if (errores.length) { nota.className = 'nota alerta'; nota.textContent = errores.join(' '); return; }
+  try {
+    const api = await crearMotor(lienzo, specEfectiva(), FORMATOS[est.formato]);
+    if (v !== est.version) return;
+    est.api = api;
+    nota.className = 'nota';
+    nota.textContent = `${api.escenas.length} escenas · ${mmss(api.total)}`;
+    est.t = Math.min(est.t, api.total);
+    $('#tiempo').max = api.total.toFixed(2);
+    pintarEscenas(); pintarAuditoria(); irA(est.t);
+  } catch (err) {
+    nota.className = 'nota alerta'; nota.textContent = `No se pudo montar el vídeo: ${err.message || err}`;
+  }
+}
+let temporizador = 0;
+function programar() { clearTimeout(temporizador); temporizador = setTimeout(reconstruir, 450); }
+
+// ---------- vista ----------
+function irA(t) {
+  if (!est.api) return;
+  est.t = Math.max(0, Math.min(t, est.api.total));
+  est.api.seek(est.t);
+  $('#tiempo').value = est.t.toFixed(2);
+  $('#lecturaTiempo').textContent = `${mmss(est.t)} / ${mmss(est.api.total)}`;
+  const actual = est.api.escenas.findIndex(e => est.t < e.ini + e.dur);
+  document.querySelectorAll('#escenas button').forEach((b, i) => b.setAttribute('aria-current', String(i === (actual < 0 ? est.api.escenas.length - 1 : actual))));
+}
+function pintarEscenas() {
+  const cont = $('#escenas');
+  cont.replaceChildren(...est.api.escenas.map(e => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    const t1 = document.createElement('b'); t1.textContent = `${e.n} · ${e.tipo}`;
+    const t2 = document.createElement('span'); t2.textContent = `${mmss(e.ini)} · ${e.dur.toFixed(1).replace('.', ',')} s`;
+    b.append(t1, t2);
+    b.addEventListener('click', () => { parar(); irA(e.ini + Math.max(0, e.dur - 0.5)); });
+    return b;
+  }));
+}
+function pintarAuditoria() {
+  const lista = $('#auditoria'), chip = $('#chipAuditoria');
+  const a = est.api.auditoria;
+  const nErr = a.filter(x => x.nivel === 'error').length, nAv = a.length - nErr;
+  chip.className = 'chip ' + (nErr ? 'mal' : nAv ? 'medio' : 'ok');
+  chip.textContent = nErr ? `${nErr} ${nErr === 1 ? 'error' : 'errores'}` : nAv ? `${nAv} ${nAv === 1 ? 'aviso' : 'avisos'}` : 'Sin incidencias';
+  lista.replaceChildren(...(a.length ? a : [{ nivel: 'ok', escena: 0, msg: 'Legibilidad, carga por escena, contraste y tiempos de lectura dentro de los criterios.' }]).map(x => {
+    const li = document.createElement('li');
+    const s = document.createElement('span'); s.className = 'esc'; s.textContent = x.escena ? `ESC ${x.escena}` : 'GLOBAL';
+    const m = document.createElement('span'); m.textContent = x.msg;
+    if (x.nivel === 'error') m.style.color = 'var(--acento-tx)';
+    li.append(s, m); return li;
+  }));
+}
+function pintarImagenes() {
+  const imgs = (est.spec && Array.isArray(est.spec.escenas) ? est.spec.escenas : []).filter(e => e.tipo === 'imagen' && e.src);
+  $('#panelImagenes').hidden = !imgs.length;
+  $('#listaImagenes').replaceChildren(...imgs.map(e => {
+    const d = document.createElement('div');
+    const n = nombreBase(e.src);
+    d.textContent = `${est.imagenes[n] ? '✓' : '·'} ${n}${est.imagenes[n] ? '' : ' (pendiente)'}`;
+    return d;
+  }));
+}
+
+// ---------- reproducción ----------
+let inicioReloj = 0, inicioT = 0;
+function bucle(ahora) {
+  if (!est.play || !est.api) return;
+  const t = inicioT + (ahora - inicioReloj) / 1000;
+  if (t >= est.api.total) { irA(est.api.total); parar(); return; }
+  irA(t);
+  requestAnimationFrame(bucle);
+}
+function reproducir() {
+  if (!est.api || est.exportando) return;
+  if (est.t >= est.api.total - 0.05) est.t = 0;
+  est.play = true; inicioReloj = performance.now(); inicioT = est.t;
+  $('#icoPlay').innerHTML = '<path d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/>';
+  $('#btnPlay').setAttribute('aria-label', 'Pausar');
+  requestAnimationFrame(bucle);
+}
+function parar() {
+  est.play = false;
+  $('#icoPlay').innerHTML = '<path d="M4 2.5v11l9.5-5.5z"/>';
+  $('#btnPlay').setAttribute('aria-label', 'Reproducir');
+}
+
+// ---------- mandos ----------
+function fijarSeg(sel, clave, valor) {
+  est[clave] = valor;
+  document.querySelectorAll(`${sel} button`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === valor)));
+}
+for (const [sel, clave] of [['#segFormato', 'formato'], ['#segMarca', 'marca'], ['#segTema', 'tema']]) {
+  document.querySelectorAll(`${sel} button`).forEach(b => b.addEventListener('click', () => {
+    if (est.exportando) return;
+    fijarSeg(sel, clave, b.dataset.v); reconstruir();
+  }));
+}
+$('#btnPlay').addEventListener('click', () => est.play ? parar() : reproducir());
+$('#tiempo').addEventListener('input', e => { parar(); irA(parseFloat(e.target.value)); });
+document.addEventListener('keydown', e => {
+  if (e.code !== 'Space' || /^(TEXTAREA|INPUT|SELECT|BUTTON)$/.test(e.target.tagName)) return;
+  e.preventDefault(); est.play ? parar() : reproducir();
+});
+$('#json').addEventListener('input', () => { escribir('vd-guion', $('#json').value); if (est.origen === 'ejemplo') { est.origen = 'propio'; $('#verificado').checked = false; pintarEstado(); } programar(); });
+$('#btnEjemplo').addEventListener('click', () => { cargarGuion(EJEMPLO, 'ejemplo'); });
+$('#verificado').addEventListener('change', pintarEstado);
+$('#subirImagenes').addEventListener('change', async e => {
+  for (const f of e.target.files) {
+    est.imagenes[f.name] = await new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(f); });
+  }
+  e.target.value = '';
+  reconstruir();
+});
+
+function mostrarPestana(cual) {
+  const enc = cual === 'encargo';
+  $('#tabEncargo').setAttribute('aria-selected', String(enc));
+  $('#tabGuion').setAttribute('aria-selected', String(!enc));
+  $('#vistaEncargo').hidden = !enc; $('#vistaGuion').hidden = enc;
+}
+$('#tabEncargo').addEventListener('click', () => mostrarPestana('encargo'));
+$('#tabGuion').addEventListener('click', () => mostrarPestana('guion'));
+
+function cargarGuion(obj, origen) {
+  $('#json').value = JSON.stringify(obj, null, 2);
+  escribir('vd-guion', $('#json').value);
+  est.origen = origen;
+  $('#verificado').checked = false;
+  pintarEstado();
+  est.t = 0;
+  if (obj.formato && FORMATOS[obj.formato]) fijarSeg('#segFormato', 'formato', obj.formato);
+  reconstruir();
+}
+
+// ---------- redactar con Claude ----------
+const ESQUEMA = `Formato de salida: SOLO un objeto JSON {"formato":"16:9","ritmo":"normal","pie":"Microvídeo docente","escenas":[...]}.
+Tipos de escena (campos con ? son opcionales; todas admiten "narracion" y "antetitulo"):
+- {"tipo":"titulo","titulo","subtitulo?","antetitulo?"}
+- {"tipo":"puntos","titulo?","puntos":[str]}  (2-5 puntos, ≤ 14 palabras cada uno)
+- {"tipo":"tabla","titulo?","columnas":[str],"filas":[[str]],"destacar?":[nº de fila en base 1]}
+- {"tipo":"barras","titulo?","datos":[{"etiqueta":str,"valor":número}],"unidad?":str,"referencia?":{"valor":n,"etiqueta":str},"fuente?":str}
+- {"tipo":"cifra","valor":"90 %","texto":str,"fuente?":str}
+- {"tipo":"pasos","titulo?","pasos":[str]}  (2-5 pasos breves)
+- {"tipo":"mensaje","puntos":[str]}  (mensajes clave numerados)
+- {"tipo":"referencias","refs":[str]}  (Vancouver)
+- {"tipo":"cierre"}
+Ejemplo de escena: {"tipo":"puntos","titulo":"Limitaciones del Gleason *clásico*","puntos":["En la práctica, la puntuación más baja asignada es 6"],"narracion":"Para el paciente, un seis sobre diez parece un cáncer intermedio."}`;
+
+function prompt(f) {
+  return `Eres guionista de microvídeos docentes de urología para la marca «Urología con evidencia» del Dr. Domínguez Esteban (urólogo, Jefe de Sección de Uro-oncología). Escribe en español de España, con tono técnico, claro y sin adornos.
+
+Encargo:
+- Tema: ${f.tema}
+- Objetivo de aprendizaje: ${f.objetivo || '(no indicado; deduce uno concreto y medible)'}
+- Audiencia: ${f.audiencia}
+- Duración objetivo: unos ${f.duracion} s (se leen unas 2,5 palabras por segundo; cada escena dura 6-15 s)
+- Datos y referencias verificados que debes usar:
+${f.datos || '(ninguno)'}
+
+Reglas de contenido (obligatorias):
+1. Usa SOLO cifras, porcentajes, nombres de estudios y referencias que aparezcan en «Datos y referencias verificados». No inventes ninguno.
+2. Si no hay datos, haz un guion conceptual sin cifras y termina con {"tipo":"referencias","refs":["PENDIENTE: añadir referencias verificadas"]}.
+3. Una idea por escena. Máximo 50 palabras en pantalla por escena.
+4. La "narracion" explica o contextualiza lo que se ve; no lee el texto de la pantalla. Úsala en la mitad de las escenas, aproximadamente, con 1-2 frases.
+5. Marca con *asteriscos* una o dos palabras clave en algunos títulos (se mostrarán en cursiva de acento).
+6. Estructura: titulo → desarrollo (elige los tipos que mejor sirvan a cada idea) → mensaje → referencias → cierre.
+${f.audiencia.startsWith('Pacientes') ? '7. Para pacientes: lenguaje llano, sin jerga sin explicar, sin recomendaciones terapéuticas individuales.\n' : ''}
+${ESQUEMA}`;
+}
+
+$('#formEncargo').addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = { tema: $('#tema').value.trim(), objetivo: $('#objetivo').value.trim(), audiencia: $('#audiencia').value, duracion: $('#duracion').value, datos: $('#datos').value.trim() };
+  const nota = $('#notaRedactar');
+  if (!f.tema) { nota.className = 'nota alerta'; nota.textContent = 'Escribe el tema del vídeo.'; $('#tema').focus(); return; }
+  const sample = await capacidad('sample');
+  if (!sample) { nota.className = 'nota alerta'; nota.textContent = 'Redactar con Claude no está disponible en esta vista. Ábrela en claude.ai o pega un guion en la pestaña Guion.'; return; }
+  const btn = $('#btnRedactar');
+  btn.disabled = true; nota.className = 'nota'; nota.textContent = 'Redactando…';
+  try {
+    const g = await sample.json(prompt(f), { modelTier: 'complex', onText: ({ text }) => { nota.textContent = `Redactando… ${text.length} caracteres`; } });
+    if (!g || !Array.isArray(g.escenas)) throw { code: 'invalid_json', message: 'La respuesta no trae "escenas".' };
+    cargarGuion(g, 'claude');
+    mostrarPestana('guion');
+    nota.textContent = 'Guion listo. Revísalo en la pestaña Guion y comprueba las cifras.';
+  } catch (err) {
+    nota.className = 'nota alerta';
+    nota.textContent = err && err.code === 'rate_limited' ? 'Demasiadas peticiones seguidas. Espera un momento y vuelve a intentarlo.'
+      : err && err.code === 'not_granted' ? 'No se concedió permiso para consultar a Claude desde esta página.'
+      : err && err.code === 'invalid_json' ? 'La respuesta no era un guion válido. Vuelve a intentarlo o acorta el encargo.'
+      : `No se pudo redactar: ${(err && err.message) || err}`;
+  } finally { btn.disabled = false; }
+});
+
+// ---------- exportar ----------
+let descargas = null;
+const nombreArchivo = ext => `microvideo-${est.formato.replace(':', 'x')}${est.marca ? '-' + est.marca : ''}.${ext}`;
+async function guardar(filename, data) {
+  const nota = $('#notaExport');
+  if (!descargas) descargas = await capacidad('downloads');
+  if (!descargas) { nota.className = 'nota alerta'; nota.textContent = 'Las descargas no están disponibles en esta vista. Ábrela en claude.ai.'; return false; }
+  try { await descargas.save({ filename, data }); nota.className = 'nota'; nota.textContent = `Guardado: ${filename}`; return true; }
+  catch (err) {
+    nota.className = 'nota alerta';
+    nota.textContent = err && err.code === 'declined' ? 'Descarga cancelada.' : err && err.code === 'rate_limited' ? 'Hay otra descarga pendiente de confirmar.' : `No se pudo guardar: ${(err && err.message) || err}`;
+    return false;
+  }
+}
+function exigirAuditoria() {
+  if (!est.api) return false;
+  const nErr = est.api.auditoria.filter(a => a.nivel === 'error').length;
+  if (nErr) { $('#notaExport').className = 'nota alerta'; $('#notaExport').textContent = 'Corrige los errores de la auditoría antes de exportar.'; return false; }
+  return true;
+}
+function srt(subs) {
+  const ts = s => { const ms = Math.round(s * 1000), p = (n, k = 2) => String(n).padStart(k, '0');
+    return `${p(Math.floor(ms / 3600000))}:${p(Math.floor(ms / 60000) % 60)}:${p(Math.floor(ms / 1000) % 60)},${p(ms % 1000, 3)}`; };
+  return subs.map((s, i) => `${i + 1}\n${ts(s.ini)} --> ${ts(s.fin)}\n${s.texto}\n`).join('\n');
+}
+$('#btnSrt').addEventListener('click', async () => {
+  if (!est.api) return;
+  if (!est.api.subtitulos.length) { $('#notaExport').textContent = 'Este guion no tiene narración: no hay subtítulos que exportar.'; return; }
+  if (await guardar(nombreArchivo('srt.txt'), srt(est.api.subtitulos))) $('#notaExport').textContent += ' (formato SRT; renómbralo a .srt si tu plataforma lo pide).';
+});
+$('#btnJson').addEventListener('click', () => {
+  if (!est.spec) return;
+  const s = Object.assign({}, est.spec, { formato: est.formato, tema: Object.assign({}, est.spec.tema, { base: est.tema }) });
+  if (est.marca) s.marca = est.marca; else delete s.marca;
+  guardar(nombreArchivo('json'), JSON.stringify(s, null, 2));
+});
+$('#btnHoja').addEventListener('click', async () => {
+  if (!est.api || !exigirAuditoria()) return;
+  parar();
+  const url = est.api.hoja();
+  irA(est.t);
+  const blob = await (await fetch(url)).blob();
+  guardar(nombreArchivo('png').replace('.png', '-hoja.png'), blob);
+});
+
+async function codecDisponible(w, h) {
+  if (!('VideoEncoder' in window) || !window.Mp4Muxer) return null;
+  for (const codec of ['avc1.640033', 'avc1.4d0033', 'avc1.42e033']) {
+    const cfg = { codec, width: w, height: h, bitrate: 8_000_000, framerate: FPS, avc: { format: 'avc' } };
+    try { if ((await VideoEncoder.isConfigSupported(cfg)).supported) return cfg; } catch { /* siguiente */ }
+  }
+  return null;
+}
+$('#btnMp4').addEventListener('click', async () => {
+  if (est.exportando || !est.api || !exigirAuditoria()) return;
+  const nota = $('#notaExport'), barra = $('#barraExport'), relleno = barra.querySelector('i');
+  const { w, h } = FORMATOS[est.formato];
+  const cfg = await codecDisponible(w, h);
+  if (!cfg) { nota.className = 'nota alerta'; nota.textContent = 'Este navegador no puede codificar H.264. Usa Chrome o Edge en el ordenador, o la herramienta de línea de órdenes.'; return; }
+  parar();
+  est.exportando = true;
+  document.querySelectorAll('.exportar button, .segmentado button').forEach(b => { b.disabled = true; });
+  barra.hidden = false; relleno.style.width = '0%'; nota.className = 'nota';
+  try {
+    const off = document.createElement('canvas');
+    const motor = await crearMotor(off, specEfectiva(), { w, h });
+    const n = Math.round(motor.total * FPS);
+    const muxer = new Mp4Muxer.Muxer({ target: new Mp4Muxer.ArrayBufferTarget(), video: { codec: 'avc', width: w, height: h, frameRate: FPS }, fastStart: 'in-memory' });
+    let fallo = null;
+    const enc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: e => { fallo = e; } });
+    enc.configure(cfg);
+    const t0 = performance.now();
+    for (let i = 0; i < n; i++) {
+      if (fallo) throw fallo;
+      motor.seek(i / FPS);
+      const frame = new VideoFrame(off, { timestamp: Math.round(i * 1e6 / FPS), duration: Math.round(1e6 / FPS) });
+      enc.encode(frame, { keyFrame: i % (FPS * 2) === 0 });
+      frame.close();
+      while (enc.encodeQueueSize > 6) await new Promise(r => setTimeout(r, 4));
+      if (i % 15 === 0) {
+        relleno.style.width = `${(i / n * 100).toFixed(1)}%`;
+        nota.textContent = `Codificando ${i} de ${n} fotogramas…`;
+        await new Promise(r => setTimeout(r, 0));
+      }
+    }
+    await enc.flush();
+    if (fallo) throw fallo;
+    muxer.finalize();
+    relleno.style.width = '100%';
+    const blob = new Blob([muxer.target.buffer], { type: 'video/mp4' });
+    nota.textContent = `Vídeo listo (${(blob.size / 1048576).toFixed(1).replace('.', ',')} MB, ${((performance.now() - t0) / 1000).toFixed(0)} s). Confirma la descarga.`;
+    await guardar(nombreArchivo('mp4'), blob);
+  } catch (err) {
+    nota.className = 'nota alerta'; nota.textContent = `No se pudo generar el vídeo: ${(err && err.message) || err}`;
+  } finally {
+    est.exportando = false;
+    document.querySelectorAll('.exportar button, .segmentado button').forEach(b => { b.disabled = false; });
+    setTimeout(() => { barra.hidden = true; }, 1500);
+  }
+});
+
+// ---------- arranque ----------
+(async () => {
+  if ('VideoEncoder' in window) $('#infoExport').textContent = '30 fps · H.264';
+  else $('#infoExport').textContent = 'MP4 solo en Chrome o Edge';
+  const borrador = leer('vd-guion');
+  let inicial = EJEMPLO, origen = 'ejemplo';
+  if (borrador) { try { inicial = JSON.parse(borrador); origen = JSON.stringify(inicial) === JSON.stringify(EJEMPLO) ? 'ejemplo' : 'propio'; } catch { $('#json').value = borrador; } }
+  await document.fonts.ready;
+  cargarGuion(inicial, origen);
+})();
+</script>
