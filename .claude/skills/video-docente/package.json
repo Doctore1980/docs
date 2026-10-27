@@ -1,0 +1,13 @@
+{
+  "name": "video-docente",
+  "private": true,
+  "description": "Motor determinista de microvídeos docentes (guion JSON → MP4 + SRT)",
+  "scripts": {
+    "revisar": "node tools/video.mjs revisar",
+    "previa": "node tools/video.mjs previa",
+    "render": "node tools/video.mjs render"
+  },
+  "dependencies": {
+    "playwright": "1.63.0"
+  }
+}

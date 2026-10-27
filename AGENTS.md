@@ -15,6 +15,10 @@ The repository also hosts the `/investigar` research skill in `.claude/skills/in
 (see its `README.md`). Its case files live in `investigacion/`, which is excluded from the
 site in `.mintignore`.
 
+It also hosts the `/video-docente` skill in `.claude/skills/video-docente/` (see its
+`README.md`), which renders teaching micro-videos from a JSON script. Its projects and
+renders live in `videos-docentes/`, also excluded in `.mintignore`.
+
 ## Style preferences
 
 - Use active voice and second person ("you")
@@ -26,4 +30,4 @@ site in `.mintignore`.
 ## Content boundaries
 
 - Site pages are the MDX files listed in `docs.json` navigation.
-- Don't publish `investigacion/` case files or the skill's prompts as site pages.
+- Don't publish `investigacion/` case files, `videos-docentes/` projects, or the skills' prompts as site pages.

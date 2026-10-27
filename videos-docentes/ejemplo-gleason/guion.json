@@ -1,0 +1,79 @@
+{
+  "formato": "16:9",
+  "ritmo": "normal",
+  "pie": "Microvídeo docente · Uro-oncología",
+  "tema": { "base": "claro" },
+  "escenas": [
+    {
+      "tipo": "titulo",
+      "titulo": "Del Gleason a los Grupos de Grado ISUP",
+      "subtitulo": "Qué cambió en 2014 y por qué importa",
+      "autor": "Sección de Uro-oncología"
+    },
+    {
+      "tipo": "puntos",
+      "titulo": "Limitaciones del Gleason clásico",
+      "puntos": [
+        "En la práctica, la puntuación más baja asignada es 6",
+        "Un «6 sobre 10» sugiere un riesgo intermedio",
+        "3+4 y 4+3 se agrupaban pese a tener distinto pronóstico"
+      ],
+      "narracion": "Para el paciente, un seis sobre diez parece un cáncer intermedio, cuando en realidad es el grado más favorable que se asigna."
+    },
+    {
+      "tipo": "tabla",
+      "titulo": "Equivalencia Gleason → Grupo de Grado",
+      "columnas": ["Puntuación de Gleason", "Grupo de Grado ISUP"],
+      "filas": [
+        ["≤ 6 (3+3)", "1"],
+        ["7 (3+4)", "2"],
+        ["7 (4+3)", "3"],
+        ["8 (4+4, 3+5, 5+3)", "4"],
+        ["9–10", "5"]
+      ],
+      "destacar": [2, 3],
+      "narracion": "La clave del sistema: el Gleason 7 se divide en dos grupos distintos según cuál sea el patrón predominante."
+    },
+    {
+      "tipo": "barras",
+      "titulo": "Recidiva bioquímica tras prostatectomía",
+      "datos": [
+        { "etiqueta": "Grupo 1", "valor": 1.0 },
+        { "etiqueta": "Grupo 2", "valor": 1.9 },
+        { "etiqueta": "Grupo 3", "valor": 5.1 },
+        { "etiqueta": "Grupo 4", "valor": 8.0 },
+        { "etiqueta": "Grupo 5", "valor": 11.7 }
+      ],
+      "referencia": { "valor": 1, "etiqueta": "HR = 1 (referencia)" },
+      "fuente": "Hazard ratio frente a Gleason 6. Cohorte quirúrgica multicéntrica, n = 20 845 (Epstein et al., Eur Urol 2016).",
+      "narracion": "El riesgo de recidiva aumenta de forma escalonada en cada grupo, y el salto entre los grupos 2 y 3 es grande."
+    },
+    {
+      "tipo": "pasos",
+      "titulo": "Cómo se informa hoy",
+      "pasos": ["Patrón primario + secundario", "Puntuación de Gleason", "Grupo de Grado ISUP"],
+      "narracion": "El Grupo de Grado no sustituye al Gleason: se informan juntos, por ejemplo, Gleason tres más tres igual a seis, Grupo de Grado uno."
+    },
+    {
+      "tipo": "cifra",
+      "valor": "90 %",
+      "texto": "de los participantes en la conferencia de consenso ISUP de 2014 apoyó adoptar el nuevo sistema",
+      "fuente": "Epstein et al., Am J Surg Pathol 2016."
+    },
+    {
+      "tipo": "mensaje",
+      "puntos": [
+        "Los Grupos de Grado 1–5 sustituyen a la escala práctica 6–10",
+        "3+4 (Grupo 2) y 4+3 (Grupo 3) tienen pronóstico distinto",
+        "Se informan junto al Gleason, no en su lugar"
+      ]
+    },
+    {
+      "tipo": "referencias",
+      "refs": [
+        "Epstein JI, Egevad L, Amin MB, Delahunt B, Srigley JR, Humphrey PA, et al. The 2014 International Society of Urological Pathology (ISUP) Consensus Conference on Gleason Grading of Prostatic Carcinoma: definition of grading patterns and proposal for a new grading system. Am J Surg Pathol. 2016;40(2):244-52. doi:10.1097/PAS.0000000000000530",
+        "Epstein JI, Zelefsky MJ, Sjoberg DD, Nelson JB, Egevad L, Magi-Galluzzi C, et al. A contemporary prostate cancer grading system: a validated alternative to the Gleason score. Eur Urol. 2016;69(3):428-35. doi:10.1016/j.eururo.2015.06.046"
+      ]
+    }
+  ]
+}

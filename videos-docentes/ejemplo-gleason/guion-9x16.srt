@@ -1,0 +1,31 @@
+1
+00:00:09,800 --> 00:00:14,200
+Para el paciente, un seis sobre diez parece un cáncer intermedio,
+
+2
+00:00:14,200 --> 00:00:18,600
+cuando en realidad es el grado más favorable que se asigna.
+
+3
+00:00:24,200 --> 00:00:28,200
+La clave del sistema: el Gleason 7 se divide en
+
+4
+00:00:28,200 --> 00:00:31,800
+dos grupos distintos según cuál sea el patrón predominante.
+
+5
+00:00:34,900 --> 00:00:39,300
+El riesgo de recidiva aumenta de forma escalonada en cada grupo,
+
+6
+00:00:39,300 --> 00:00:43,700
+y el salto entre los grupos 2 y 3 es grande.
+
+7
+00:00:45,100 --> 00:00:49,500
+El Grupo de Grado no sustituye al Gleason: se informan juntos,
+
+8
+00:00:49,500 --> 00:00:54,700
+por ejemplo, Gleason tres más tres igual a seis, Grupo de Grado uno.

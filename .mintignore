@@ -8,3 +8,6 @@ drafts/
 
 # Expedientes y codigo del sistema /investigar: no son paginas del sitio
 investigacion/
+
+# Proyectos y salidas del sistema /video-docente: no son paginas del sitio
+videos-docentes/

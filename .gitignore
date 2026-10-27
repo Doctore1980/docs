@@ -1,0 +1,4 @@
+node_modules/
+# Salidas de render de /video-docente (se regeneran desde el guion)
+videos-docentes/**/*.mp4
+videos-docentes/**/salida/
