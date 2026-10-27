@@ -112,7 +112,10 @@ textarea#json { font: 12.5px/1.55 var(--f-mono); min-height: 460px; tab-size: 2;
 .auditoria { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .auditoria li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: start; font-size: 13.5px; }
 .auditoria .esc { font: 500 11px/1.6 var(--f-mono); color: var(--suave); }
-.exportar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.exportar { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 10px 12px; align-items: center; }
+.exportar p { margin: 0; font-size: 13px; line-height: 1.4; color: var(--suave); }
+@media (max-width: 420px) { .exportar { grid-template-columns: minmax(0, 1fr); } .exportar p { margin-bottom: 6px; } }
+.acciones { display: flex; gap: 8px; }
 .progreso { height: 6px; background: var(--papel2); border-radius: 3px; overflow: hidden; }
 .progreso i { display: block; height: 100%; width: 0; background: var(--acento); }
 .check { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; }
@@ -182,8 +185,8 @@ textarea#json { font: 12.5px/1.55 var(--f-mono); min-height: 460px; tab-size: 2;
 
     <div id="vistaGuion" role="tabpanel" aria-labelledby="tabGuion">
       <div class="campo">
-        <div class="cabeza"><label for="json">Guion (JSON)</label><button type="button" class="btn discreto" id="btnEjemplo">Cargar ejemplo</button></div>
-        <textarea id="json" spellcheck="false" aria-describedby="notaJson"></textarea>
+        <div class="cabeza"><label for="json">Guion (JSON)</label><div class="acciones"><button type="button" class="btn discreto" id="btnVaciar">Vaciar</button><button type="button" class="btn discreto" id="btnEjemplo">Cargar ejemplo</button></div></div>
+        <textarea id="json" spellcheck="false" aria-describedby="notaJson" placeholder="Pega aquí el guion: el JSON de Claude, Grok u otro modelo. Puede venir dentro de un bloque de código."></textarea>
         <p class="nota" id="notaJson" aria-live="polite"></p>
       </div>
       <div class="imagenes" id="panelImagenes" hidden>
@@ -226,9 +229,13 @@ textarea#json { font: 12.5px/1.55 var(--f-mono); min-height: 460px; tab-size: 2;
         <label class="check"><input type="checkbox" id="verificado"> He comprobado las cifras y las referencias del guion</label>
         <div class="exportar">
           <button type="button" class="btn lleno" id="btnMp4">Vídeo MP4</button>
+          <p>El vídeo final, listo para el campus virtual, una presentación o redes.</p>
           <button type="button" class="btn" id="btnHoja">Hoja de contactos</button>
+          <p>Una imagen con un fotograma de cada escena: sirve para revisar el vídeo de un vistazo o enviarlo a alguien para que opine antes de exportarlo.</p>
           <button type="button" class="btn discreto" id="btnSrt">Subtítulos</button>
+          <p id="descSrt">La narración con sus tiempos (formato SRT). Súbela a YouTube, Moodle o redes para que el espectador pueda activar o traducir los subtítulos.</p>
           <button type="button" class="btn discreto" id="btnJson">Guion JSON</button>
+          <p>El guion editable, para guardarlo y volver a cargarlo o reutilizarlo en otro vídeo.</p>
         </div>
         <div class="progreso" id="barraExport" hidden><i></i></div>
         <p class="nota" id="notaExport" aria-live="polite"></p>
@@ -316,6 +323,7 @@ function specEfectiva() {
 async function reconstruir() {
   const v = ++est.version;
   const nota = $('#notaJson');
+  if (!$('#json').value.trim()) { nota.className = 'nota'; nota.textContent = 'Editor vacío: pega un guion. La vista previa muestra el anterior hasta que el nuevo sea válido.'; return; }
   let spec;
   try { spec = JSON.parse($('#json').value); }
   catch (err) {
@@ -339,6 +347,11 @@ async function reconstruir() {
     est.t = Math.min(est.t, api.total);
     $('#tiempo').max = api.total.toFixed(2);
     pintarEscenas(); pintarAuditoria(); irA(est.t);
+    const conNarracion = api.subtitulos.length > 0;
+    $('#btnSrt').disabled = !conNarracion;
+    $('#descSrt').textContent = conNarracion
+      ? 'La narración con sus tiempos (formato SRT). Súbela a YouTube, Moodle o redes para que el espectador pueda activar o traducir los subtítulos.'
+      : 'No disponible: este guion no tiene narración. Añade "narracion" a alguna escena para generar subtítulos.';
   } catch (err) {
     nota.className = 'nota alerta'; nota.textContent = `No se pudo montar el vídeo: ${err.message || err}`;
   }
@@ -435,6 +448,15 @@ document.addEventListener('keydown', e => {
 });
 $('#json').addEventListener('input', () => { escribir('vd-guion', $('#json').value); if (est.origen === 'ejemplo') { est.origen = 'propio'; $('#verificado').checked = false; pintarEstado(); } programar(); });
 $('#btnEjemplo').addEventListener('click', () => { cargarGuion(EJEMPLO, 'ejemplo'); });
+$('#btnVaciar').addEventListener('click', () => {
+  parar();
+  $('#json').value = '';
+  escribir('vd-guion', '');
+  est.origen = 'propio'; est.t = 0;
+  $('#verificado').checked = false; pintarEstado();
+  reconstruir();
+  $('#json').focus();
+});
 $('#verificado').addEventListener('change', pintarEstado);
 $('#subirImagenes').addEventListener('change', async e => {
   for (const f of e.target.files) {
@@ -637,6 +659,7 @@ $('#btnMp4').addEventListener('click', async () => {
   } finally {
     est.exportando = false;
     document.querySelectorAll('.exportar button, .segmentado button').forEach(b => { b.disabled = false; });
+    $('#btnSrt').disabled = !(est.api && est.api.subtitulos.length);
     setTimeout(() => { barra.hidden = true; }, 1500);
   }
 });
