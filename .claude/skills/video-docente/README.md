@@ -9,6 +9,8 @@ Motor de microvídeos docentes: un guion JSON se convierte en MP4 y subtítulos 
   disponible sin bajar del mínimo legible.
 - **Auditoría automática.** Detecta texto que no cabe, contraste insuficiente,
   sobrecarga de la escena, tiempos de lectura insuficientes y narración redundante.
+- **Marcas.** Colores, tipografías, sello y cabecera fija definidos en `marcas/<nombre>/`.
+  Incluye la marca de drdominguezesteban.com.
 - **Dos formatos.** 16:9 (clase, campus virtual) y 9:16 (móvil, con zonas seguras para las
   interfaces de las redes).
 
@@ -28,6 +30,7 @@ npx playwright install chromium
 node tools/video.mjs revisar ejemplos/gleason-isup.json
 node tools/video.mjs previa  ejemplos/gleason-isup.json --formato ambos
 node tools/video.mjs render  ejemplos/gleason-isup.json --formato 16:9 [--audio voz.m4a] [--fps 30]
+node tools/video.mjs previa  ejemplos/gleason-isup-marca.json --formato ambos   # con marca
 ```
 
 En Claude Code, `/video-docente` lleva el flujo completo: encargo, contenido verificado,
@@ -39,7 +42,8 @@ guion, revisión, hoja de contactos con tu visto bueno, render y verificación.
 SKILL.md            flujo y esquema del guion (lo lee Claude)
 motor/engine.html   página de render
 motor/engine.js     plantillas, animación (muelles), auditoría y hoja de contactos
-motor/fuentes/      Inter (SIL OFL 1.1)
+motor/fuentes/      Inter (SIL OFL 1.1), fuente de respaldo
+marcas/             identidades visuales (marca.json + fuentes)
 tools/video.mjs     CLI: validación, Playwright y ffmpeg
 ejemplos/           guiones de ejemplo con datos verificados
 ```
@@ -51,3 +55,4 @@ ejemplos/           guiones de ejemplo con datos verificados
 - Los subtítulos se cortan por frases y comas; con frases largas sin puntuación, el corte
   puede caer en un sitio mejorable.
 - No hay animación libre (anatomía, instrumental): solo plantillas.
+- La marca usa un sello vectorial con iniciales; todavía no admite un logotipo en imagen.

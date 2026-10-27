@@ -54,16 +54,28 @@ corrige el guion: no lo fuerces con `--forzar` salvo petición expresa del usuar
 
 Campos globales, todos opcionales:
 
+- `marca`: nombre de una carpeta de `SKILL_DIR/marcas/` (por ejemplo
+  `"drdominguezesteban"`) o ruta a un `marca.json`. Aplica colores, tipografías, sello,
+  cabecera fija y escena de cierre. **Úsala por defecto en los vídeos del usuario.**
 - `formato`: `"16:9"` o `"9:16"`.
 - `ritmo`: `"pausado"`, `"normal"` o `"rapido"` (2,0 / 2,5 / 3,2 palabras por segundo).
-- `pie`: rótulo discreto superior, por ejemplo el curso o la sección.
+- `pie`: rótulo discreto superior, por ejemplo el curso o la sección. Con marca, va a la
+  derecha de la cabecera fija y se omite si no cabe (habitual en 9:16).
 - `progreso`: `false` oculta la barra de progreso.
-- `tema`: `{ "base": "claro" | "oscuro", "colores": { "acento": "#…" } }`. La auditoría
-  rechaza combinaciones con contraste por debajo de 4,5:1.
+- `tema`: `{ "base": "claro" | "oscuro", "colores": { "acento": "#…" } }`. Con marca,
+  `base` elige su variante clara u oscura. La auditoría rechaza el texto con contraste
+  inferior a 4,5:1.
 
-Cada escena lleva `tipo`. Además admite, de forma opcional, `narracion` (texto que se
-muestra como subtítulo y marca el ritmo de la escena) y `duracion` en segundos, que
-sustituye al cálculo automático de lectura.
+Cada escena lleva `tipo`. Además admite, de forma opcional:
+
+- `narracion`: texto que se muestra como subtítulo y marca el ritmo de la escena.
+- `duracion`: segundos; sustituye al cálculo automático de lectura.
+- `antetitulo`: rótulo breve en versalitas monoespaciadas encima del título, por ejemplo
+  el área o la fuente de los datos.
+
+En cualquier texto, `*palabras*` marca énfasis: cursiva y color de acento en los titulares
+de la marca, y seminegrita en el texto corrido. Úsalo con moderación: una o dos palabras
+por titular, como en la web.
 
 | tipo | campos | notas |
 |---|---|---|
@@ -76,8 +88,30 @@ sustituye al cálculo automático de lectura.
 | `pasos` | `titulo?`, `pasos[]` | horizontal en 16:9 con ≤ 4 pasos; si no, vertical |
 | `imagen` | `src`, `titulo?`, `credito` | ruta relativa al guion; png, jpg, webp o svg |
 | `referencias` | `refs[]`, `titulo?` | Vancouver |
+| `cierre` | `titulo?`, `subtitulo?`, `web?` | sello, nombre, lema y web de la marca; sin marca, exige `titulo` |
 
-El ejemplo completo y verificado está en `SKILL_DIR/ejemplos/gleason-isup.json`.
+Hay dos ejemplos completos y verificados: `SKILL_DIR/ejemplos/gleason-isup.json`, sin
+marca, y `SKILL_DIR/ejemplos/gleason-isup-marca.json`, con marca y cierre.
+
+## Marcas
+
+Cada marca es una carpeta en `SKILL_DIR/marcas/<nombre>/` con un `marca.json` y sus
+fuentes, para que el render sea idéntico en cualquier equipo. El `marca.json` define:
+
+- `nombre`, `lema`, `web` y `sello.texto`: iniciales del sello vectorial.
+- `fuentes[]`: `familia`, `archivo` (woff2/otf/ttf), `peso` (`"400"` o rango `"300 700"`)
+  y `estilo`.
+- `estilos`: `titulo`, `cabecera`, `cifra`, `texto`, `fuerte` y `mono`. Cada uno lleva
+  `familia`, `peso` y, de forma opcional, `cursiva` (el énfasis usa cursiva), `track`
+  (espaciado en em) y `mayus`.
+- `temas.claro` y `temas.oscuro`: `fondo`, `tinta`, `titular`, `suave`, `primario`,
+  `acento`, `acentoTexto`, `relleno`, `linea` y `tenue`.
+
+La marca `drdominguezesteban` se extrajo de la web del usuario: variables CSS de los modos
+claro y oscuro, fuentes autoalojadas con licencia SIL OFL y sello «DE». Para crear otra
+marca, parte de la web o del manual de identidad y comprueba la licencia de cada fuente
+antes de incluirla. Los glifos que falten en las fuentes de la marca (por ejemplo `≤` o
+`→`) se dibujan con Inter.
 
 ## Criterios pedagógicos que aplica la auditoría
 

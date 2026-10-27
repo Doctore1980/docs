@@ -15,8 +15,22 @@ const MOTOR = pathToFileURL(path.join(AQUI, '..', 'motor', 'engine.html')).href;
 const FORMATOS = { '16:9': { w: 1920, h: 1080 }, '9:16': { w: 1080, h: 1920 } };
 const OBLIGATORIOS = {
   titulo: ['titulo'], puntos: ['puntos'], mensaje: ['puntos'], tabla: ['columnas', 'filas'],
-  barras: ['datos'], cifra: ['valor'], pasos: ['pasos'], imagen: ['src'], referencias: ['refs'],
+  barras: ['datos'], cifra: ['valor'], pasos: ['pasos'], imagen: ['src'], referencias: ['refs'], cierre: [],
 };
+const MARCAS = path.join(AQUI, '..', 'marcas');
+
+// "marca" en el guion: nombre de una carpeta de ../marcas o ruta a un marca.json.
+// Las fuentes se incrustan en base64 porque una página file:// no puede cargarlas de otra carpeta.
+function cargarMarca(valor, dir) {
+  const candidatos = [path.resolve(dir, valor), path.resolve(dir, valor, 'marca.json'), path.join(MARCAS, valor, 'marca.json')];
+  const fichero = candidatos.find(f => fs.existsSync(f) && fs.statSync(f).isFile());
+  if (!fichero) throw new Error(`No encuentro la marca "${valor}" (busqué en ${candidatos.join(', ')}).`);
+  const m = JSON.parse(fs.readFileSync(fichero, 'utf8'));
+  const base = path.dirname(fichero);
+  m.fuentes = (m.fuentes || []).map(f => ({ ...f, datos: fs.readFileSync(path.resolve(base, f.archivo)).toString('base64') }));
+  for (const campo of ['nombre', 'estilos', 'temas']) if (!m[campo]) throw new Error(`La marca ${fichero} no define "${campo}".`);
+  return m;
+}
 const MIME = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml' };
 
 const AYUDA = `Uso: node video.mjs <revisar|previa|render> guion.json [opciones]
@@ -141,6 +155,7 @@ async function main() {
   const spec = JSON.parse(fs.readFileSync(ruta, 'utf8'));
   const errores = validar(spec, dir);
   if (errores.length) { errores.forEach(e => console.log(`ERROR  ${e}`)); process.exit(1); }
+  if (spec.marca) spec.__marca = cargarMarca(spec.marca, dir);
 
   const pedido = o.formato || spec.formato || '16:9';
   const formatos = pedido === 'ambos' ? ['16:9', '9:16'] : [pedido];

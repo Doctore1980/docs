@@ -1,0 +1,33 @@
+{
+  "nombre": "Dr. Domínguez Esteban",
+  "lema": "Urología con evidencia",
+  "web": "drdominguezesteban.com",
+  "sello": { "texto": "DE" },
+  "origen": "Extraída de https://drdominguezesteban.com (variables CSS :root y :root[data-theme=dark], fuentes autoalojadas) el 27/10/2026.",
+  "fuentes": [
+    { "familia": "Newsreader", "archivo": "fuentes/Newsreader-normal-300-700-latin.woff2", "peso": "300 700", "estilo": "normal" },
+    { "familia": "Newsreader", "archivo": "fuentes/Newsreader-italic-300-600-latin.woff2", "peso": "300 600", "estilo": "italic" },
+    { "familia": "IBM Plex Sans", "archivo": "fuentes/IBMPlexSans-normal-400-600-latin.woff2", "peso": "400 600", "estilo": "normal" },
+    { "familia": "IBM Plex Mono", "archivo": "fuentes/IBMPlexMono-normal-500-latin.woff2", "peso": "500", "estilo": "normal" }
+  ],
+  "estilos": {
+    "titulo":   { "familia": "Newsreader", "peso": 400, "cursiva": true, "track": -0.02 },
+    "cabecera": { "familia": "Newsreader", "peso": 500, "cursiva": true, "track": -0.018 },
+    "cifra":    { "familia": "Newsreader", "peso": 500, "track": -0.02 },
+    "texto":    { "familia": "IBM Plex Sans", "peso": 400 },
+    "fuerte":   { "familia": "IBM Plex Sans", "peso": 600 },
+    "mono":     { "familia": "IBM Plex Mono", "peso": 500, "mayus": true, "track": 0.06 }
+  },
+  "temas": {
+    "claro": {
+      "fondo": "#FAF8F4", "tinta": "#2B3650", "titular": "#0E2240", "suave": "#5B6476",
+      "primario": "#0E2240", "acento": "#C2412A", "acentoTexto": "#A8361F",
+      "relleno": "#F2EEE6", "linea": "#DDD6CA", "tenue": "#8E97A8"
+    },
+    "oscuro": {
+      "fondo": "#0F1826", "tinta": "#C9D2DF", "titular": "#E3E9F2", "suave": "#9EAABC",
+      "primario": "#C9D4E4", "acento": "#EC8A73", "acentoTexto": "#F2A592",
+      "relleno": "#152133", "linea": "#2B3B53", "tenue": "#4E5F78"
+    }
+  }
+}
