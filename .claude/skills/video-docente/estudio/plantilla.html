@@ -174,7 +174,9 @@ textarea#json { font: 12.5px/1.55 var(--f-mono); min-height: 460px; tab-size: 2;
         </div>
         <div class="aviso-caja"><strong>Borrador, no publicación.</strong> Claude redacta a partir de lo que escribes aquí; esta página no consulta PubMed. Comprueba cifras y citas antes de usar el vídeo.</div>
         <button type="submit" class="btn lleno" id="btnRedactar">Redactar guion con Claude</button>
+        <button type="button" class="btn" id="btnCopiarPrompt">Copiar instrucciones para otro modelo</button>
         <p class="nota" id="notaRedactar" aria-live="polite"></p>
+        <textarea id="promptCopia" rows="8" readonly hidden aria-label="Instrucciones para otro modelo"></textarea>
       </form>
     </div>
 
@@ -289,6 +291,18 @@ function validar(spec) {
   return e;
 }
 
+function extraerJson(txt) {
+  const candidatos = [];
+  const valla = txt.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (valla) candidatos.push(valla[1]);
+  const a = txt.indexOf('{'), b = txt.lastIndexOf('}');
+  if (a >= 0 && b > a) candidatos.push(txt.slice(a, b + 1));
+  for (const c of candidatos) {
+    try { const v = JSON.parse(c.replace(/[“”]/g, '"')); if (v && Array.isArray(v.escenas)) return v; } catch { /* siguiente */ }
+  }
+  return null;
+}
+
 function specEfectiva() {
   const s = JSON.parse(JSON.stringify(est.spec));
   s.formato = est.formato;
@@ -304,7 +318,14 @@ async function reconstruir() {
   const nota = $('#notaJson');
   let spec;
   try { spec = JSON.parse($('#json').value); }
-  catch (err) { nota.className = 'nota alerta'; nota.textContent = `El JSON no es válido: ${err.message}`; return; }
+  catch (err) {
+    // Otros modelos suelen devolver el JSON dentro de un bloque de código o con texto alrededor.
+    const extraido = extraerJson($('#json').value);
+    if (!extraido) { nota.className = 'nota alerta'; nota.textContent = `El JSON no es válido: ${err.message}`; return; }
+    spec = extraido;
+    $('#json').value = JSON.stringify(spec, null, 2);
+    escribir('vd-guion', $('#json').value);
+  }
   est.spec = spec;
   pintarImagenes();
   const errores = validar(spec);
@@ -479,11 +500,27 @@ ${f.audiencia.startsWith('Pacientes') ? '7. Para pacientes: lenguaje llano, sin 
 ${ESQUEMA}`;
 }
 
+function leerEncargo() {
+  const f = { tema: $('#tema').value.trim(), objetivo: $('#objetivo').value.trim(), audiencia: $('#audiencia').value, duracion: $('#duracion').value, datos: $('#datos').value.trim() };
+  if (!f.tema) { const nota = $('#notaRedactar'); nota.className = 'nota alerta'; nota.textContent = 'Escribe el tema del vídeo.'; $('#tema').focus(); return null; }
+  return f;
+}
+
+$('#btnCopiarPrompt').addEventListener('click', () => {
+  const f = leerEncargo();
+  if (!f) return;
+  const texto = prompt(f) + '\n\nDevuelve únicamente el JSON, en un solo bloque de código, sin comentarios.';
+  const nota = $('#notaRedactar'), caja = $('#promptCopia');
+  const exito = () => { caja.hidden = true; nota.className = 'nota'; nota.textContent = 'Instrucciones copiadas. Pégalas en el otro modelo y trae su respuesta a la pestaña Guion.'; };
+  const respaldo = () => { caja.value = texto; caja.hidden = false; caja.focus(); caja.select(); nota.className = 'nota'; nota.textContent = 'Copia el texto seleccionado (Ctrl/Cmd + C) y pégalo en el otro modelo.'; };
+  try { navigator.clipboard.writeText(texto).then(exito, respaldo); } catch { respaldo(); }
+});
+
 $('#formEncargo').addEventListener('submit', async e => {
   e.preventDefault();
-  const f = { tema: $('#tema').value.trim(), objetivo: $('#objetivo').value.trim(), audiencia: $('#audiencia').value, duracion: $('#duracion').value, datos: $('#datos').value.trim() };
+  const f = leerEncargo();
   const nota = $('#notaRedactar');
-  if (!f.tema) { nota.className = 'nota alerta'; nota.textContent = 'Escribe el tema del vídeo.'; $('#tema').focus(); return; }
+  if (!f) return;
   const sample = await capacidad('sample');
   if (!sample) { nota.className = 'nota alerta'; nota.textContent = 'Redactar con Claude no está disponible en esta vista. Ábrela en claude.ai o pega un guion en la pestaña Guion.'; return; }
   const btn = $('#btnRedactar');
