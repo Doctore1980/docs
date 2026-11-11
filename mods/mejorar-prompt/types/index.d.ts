@@ -9,6 +9,10 @@ declare module 'claude-code' {
       original: string | null
       /** Barra plegada por la persona. */
       oculta: boolean
+      /** Texto escrito en el panel. */
+      borradorPanel: string
+      /** Última mejora, para mostrarla en el panel. */
+      resultado: { modo: Modo; texto: string } | null
     }
   }
 }

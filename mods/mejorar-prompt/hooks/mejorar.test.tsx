@@ -40,6 +40,7 @@ test('el comando /mejorar usa el modo indicado y sin texto muestra la ayuda', as
   let sistema = ''
   let rellenado = ''
   on('command.register', () => ({ value: { command: 'mejorar' } }))
+  on('ui.open', () => ({ value: { isPlaced: true } }))
   on('session.start', (_, e) => ({ cwd: e.cwd }))
   on('model.complete', (_, e) => {
     sistema = String(e.system ?? '')
@@ -52,11 +53,43 @@ test('el comando /mejorar usa el modo indicado y sin texto muestra la ayuda', as
 
   await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
 
-  const ayuda = await $.command.run({ command: 'mejorar', args: '' })
+  const ayuda = await $.command.run({ command: 'mejorar', args: '' } as never)
   expect(ayuda.text ?? '').toContain('Uso: /mejorar')
 
-  const r = await $.command.run({ command: 'mejorar', args: 'creativo título para una charla de robótica' })
+  const r = await $.command.run({ command: 'mejorar', args: 'creativo título para una charla de robótica' } as never)
   expect(sistema).toContain('CREATIVO')
   expect(rellenado).toBe('Versión creativa')
-  expect(r.text ?? '').toContain('Creativo')
+  expect(r.text ?? '').toContain('Versión creativa')
+})
+
+test('el panel funciona en el móvil y la web: borrador, modo y resultado', async ($, on) => {
+  let sistema = ''
+  let enviado = ''
+  on('model.complete', (_, e) => {
+    sistema = String(e.system ?? '')
+    return { value: { isAnswered: true, text: 'Prompt científico mejorado', usage: USO } }
+  })
+  on('prompt.fill', () => ({ isFilled: false, refusal: 'no_composer' as const }))
+  on('prompt.submit', (_, e) => {
+    enviado = e.text
+    return { text: e.text }
+  })
+
+  for (const surface of ['mobile', 'desktop'] as const) {
+    const ui = await $.ui.mount({
+      plugin: 'mejorar-prompt',
+      surface,
+      component: 'Pane',
+      requestId: 'mejorar-prompt',
+      props: { title: 'Mejorar prompt', isFocused: false, bodyColumns: 40, placement: 'dock', scroll: { offset: 0, bodyRows: 20 }, view: {} },
+    } as never)
+    await ui.input({ key: 'borrador', text: 'evidencia linfadenectomía', kind: 'submit' } as never)
+    await ui.press({ key: 'p-cientifico' })
+    expect(sistema).toContain('CIENTÍFICO')
+    const codigo = await ui.find({ type: 'Code' } as never)
+    expect(JSON.stringify(codigo)).toContain('Prompt científico mejorado')
+    await ui.press({ key: 'p-enviar' })
+    expect(enviado).toBe('Prompt científico mejorado')
+    await ui.unmount()
+  }
 })

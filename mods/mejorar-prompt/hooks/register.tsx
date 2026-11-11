@@ -11,6 +11,11 @@ const LIMITE_MS = 90_000
 const ocupado = atom({ plugin: 'mejorar-prompt', key: 'ocupado' } as const, null)
 const original = atom({ plugin: 'mejorar-prompt', key: 'original' } as const, null)
 const oculta = atom({ plugin: 'mejorar-prompt', key: 'oculta' } as const, false)
+const borradorPanel = atom({ plugin: 'mejorar-prompt', key: 'borradorPanel' } as const, '')
+const resultado = atom({ plugin: 'mejorar-prompt', key: 'resultado' } as const, null)
+
+const PANEL = 'mejorar-prompt'
+const TITULO = 'Mejorar prompt'
 
 const ETIQUETA: Record<Modo, string> = {
   general: 'General',
@@ -78,7 +83,8 @@ const AYUDA = `Uso: /mejorar <modo> <texto del prompt>
 Modos: general (g), creativo (c), cientifico (s)
 Ejemplo: /mejorar cientifico resume la evidencia de la linfadenectomía en la cistectomía radical
 El prompt mejorado queda en la caja de texto para que lo revises y lo envíes tú.
-También puedes escribir el borrador y pulsar los botones de la barra «Mejorar prompt».`
+También puedes escribir el borrador y pulsar los botones de la barra «Mejorar prompt».
+En el móvil o la web: «/mejorar panel» abre el panel con los botones.`
 
 async function mejorar($: EngineInterface, modo: Modo, texto: string): Promise<string | undefined> {
   const borrador = texto.trim()
@@ -111,9 +117,10 @@ async function mejorar($: EngineInterface, modo: Modo, texto: string): Promise<s
       return undefined
     }
     await update($, original, () => borrador)
+    await update($, resultado, () => ({ modo, texto: mejorado }))
     const lleno = await $.prompt.fill({ text: mejorado, mode: 'replace' })
     if (!lleno.isFilled) {
-      $.ui.toast('No se pudo escribir en la caja de texto.')
+      $.ui.toast(`Prompt mejorado (${ETIQUETA[modo]}): está en el panel «${TITULO}».`)
       return mejorado
     }
     $.ui.toast(`Prompt mejorado (${ETIQUETA[modo]}). Revísalo antes de enviar.`)
@@ -129,8 +136,9 @@ export const register: Register = on => {
     await $.command.register({
       name: 'mejorar',
       description: 'Mejora un prompt (general, creativo o científico) y lo deja en la caja de texto sin enviarlo',
-      argumentHint: '<general|creativo|cientifico> <texto>',
+      argumentHint: '<general|creativo|cientifico> <texto> | panel',
     })
+    $.ui.open({ id: PANEL, title: TITULO }).catch(() => undefined)
     return next(e)
   })
 
@@ -144,6 +152,15 @@ export const register: Register = on => {
       if (previo === null) return { text: 'No hay ningún borrador anterior que recuperar.', isTextDisplayOnly: true }
       await $.prompt.fill({ text: previo, mode: 'replace' })
       return { text: 'Borrador original restaurado en la caja de texto.', isTextDisplayOnly: true }
+    }
+    if (args === 'panel') {
+      const { isPlaced } = await $.ui.open({ id: PANEL, title: TITULO })
+      return {
+        text: isPlaced
+          ? `Panel «${TITULO}» abierto.`
+          : `Panel «${TITULO}» preparado; en el móvil está en la hoja de Mods.`,
+        isTextDisplayOnly: true,
+      }
     }
     if (args === 'mostrar') {
       await update($, oculta, () => false)
@@ -161,7 +178,7 @@ export const register: Register = on => {
     const mejorado = await mejorar($, modo, texto)
     return {
       text: mejorado
-        ? `Prompt mejorado en modo ${ETIQUETA[modo]}: está en la caja de texto. «/mejorar deshacer» recupera el original.`
+        ? `Prompt mejorado (${ETIQUETA[modo]}):\n\n${mejorado}\n\nTambién está en la caja de texto o en el panel «${TITULO}». «/mejorar deshacer» recupera el original.`
         : 'No se ha podido mejorar el prompt.',
       isTextDisplayOnly: true,
     }
@@ -209,6 +226,86 @@ export const register: Register = on => {
         )}
         <Text> </Text>
         <Button key="ocultar" label="×" onPress={() => update($, oculta, () => true)} />
+      </Box>
+    )
+  })
+  on('ui.render', { component: 'Pane', requestId: PANEL }, async ($, e) => {
+    const { Box, Button, Text, Input, Code } = $.ui.resolve(e)
+    const enCurso = await read($, ocupado)
+    const texto = await read($, borradorPanel)
+    const res = await read($, resultado)
+
+    const pulsar = (modo: Modo) => async () => {
+      let base = (await read($, borradorPanel)).trim()
+      if (base === '') base = (await $.prompt.read()).text
+      await mejorar($, modo, base)
+    }
+
+    return (
+      <Box flexDirection="column" gap={1}>
+        <Text dimColor>
+          Escribe o pega el borrador y elige el modo. El resultado no se envía hasta que tú lo decidas.
+        </Text>
+        <Input
+          key="borrador"
+          label="Borrador"
+          placeholder="Escribe aquí tu prompt…"
+          rows={4}
+          value={texto}
+          submitLabel="Guardar"
+          onInput={value => void update($, borradorPanel, () => value)}
+          onSubmit={value => void update($, borradorPanel, () => value)}
+        />
+        {enCurso !== null ? (
+          <Text dimColor>Mejorando ({ETIQUETA[enCurso]})…</Text>
+        ) : (
+          <Box flexDirection="row" gap={1}>
+            <Button key="p-general" label="General" onPress={pulsar('general')} />
+            <Button key="p-creativo" label="Creativo" onPress={pulsar('creativo')} />
+            <Button key="p-cientifico" label="Científico" onPress={pulsar('cientifico')} />
+          </Box>
+        )}
+        {res !== null && (
+          <Box flexDirection="column" gap={1}>
+            <Text bold>Resultado ({ETIQUETA[res.modo]})</Text>
+            <Code source={res.texto} language="markdown" wrap="wrap" />
+            <Box flexDirection="row" gap={1}>
+              <Button
+                key="p-copiar"
+                label="Copiar"
+                onPress={async () => {
+                  const r = await $.ui.copy({ text: res.texto, surface: e.surface })
+                  $.ui.toast(r.isCopied ? 'Copiado.' : 'No se pudo copiar: selecciona el texto a mano.')
+                }}
+              />
+              <Button
+                key="p-caja"
+                label="Pasar a la caja"
+                onPress={async () => {
+                  const r = await $.prompt.fill({ text: res.texto, mode: 'replace' })
+                  if (!r.isFilled) $.ui.toast('Esta vista no deja escribir en la caja: usa Copiar o Enviar.')
+                }}
+              />
+              <Button
+                key="p-enviar"
+                label="Enviar"
+                onPress={async () => {
+                  await $.prompt.submit({ text: res.texto })
+                  await update($, resultado, () => null)
+                  await update($, borradorPanel, () => '')
+                }}
+              />
+              <Button
+                key="p-limpiar"
+                label="Limpiar"
+                onPress={async () => {
+                  await update($, resultado, () => null)
+                  await update($, borradorPanel, () => '')
+                }}
+              />
+            </Box>
+          </Box>
+        )}
       </Box>
     )
   })
