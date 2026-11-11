@@ -8,3 +8,6 @@ drafts/
 
 # Expedientes y codigo del sistema /investigar: no son paginas del sitio
 investigacion/
+
+# Mods de Claude Code: no son paginas del sitio
+mods/

@@ -1,0 +1,7 @@
+{
+  "name": "doctore1980-mods",
+  "owner": { "name": "doctore1980" },
+  "plugins": [
+    { "name": "mejorar-prompt", "source": "./mods/mejorar-prompt", "description": "Mejora el borrador del prompt en modo general, creativo o científico sin enviarlo." }
+  ]
+}

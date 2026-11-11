@@ -1,0 +1,6 @@
+{
+  "name": "mejorar-prompt",
+  "version": "0.1.0",
+  "description": "Botones y comando /mejorar que reescriben el borrador del prompt en modo general, creativo o científico, sin enviarlo.",
+  "types": "./types/index.d.ts"
+}
