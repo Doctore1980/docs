@@ -82,9 +82,9 @@ function limpiar(texto: string): string {
 const AYUDA = `Uso: /mejorar <modo> <texto del prompt>
 Modos: general (g), creativo (c), cientifico (s)
 Ejemplo: /mejorar cientifico resume la evidencia de la linfadenectomía en la cistectomía radical
-El prompt mejorado queda en la caja de texto para que lo revises y lo envíes tú.
-También puedes escribir el borrador y pulsar los botones de la barra «Mejorar prompt».
-En el móvil o la web: «/mejorar panel» abre el panel con los botones.`
+El prompt mejorado se muestra aquí y, donde se puede, queda también en la caja de texto. No se envía solo.
+En escritorio y terminal: barra «Mejorar prompt» encima de la caja y «/mejorar panel». La app móvil no muestra la barra ni el panel.
+«/mejorar deshacer» recupera el borrador original.`
 
 async function mejorar($: EngineInterface, modo: Modo, texto: string): Promise<string | undefined> {
   const borrador = texto.trim()
@@ -178,7 +178,7 @@ export const register: Register = on => {
     const mejorado = await mejorar($, modo, texto)
     return {
       text: mejorado
-        ? `Prompt mejorado (${ETIQUETA[modo]}):\n\n${mejorado}\n\nTambién está en la caja de texto o en el panel «${TITULO}». «/mejorar deshacer» recupera el original.`
+        ? `Prompt mejorado (${ETIQUETA[modo]}):\n\n${mejorado}\n\nCópialo desde aquí (en escritorio y terminal también queda en la caja de texto). «/mejorar deshacer» recupera el original.`
         : 'No se ha podido mejorar el prompt.',
       isTextDisplayOnly: true,
     }
