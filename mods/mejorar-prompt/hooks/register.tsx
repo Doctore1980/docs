@@ -230,46 +230,43 @@ export const register: Register = on => {
     )
   })
   on('ui.render', { component: 'Pane', requestId: PANEL }, async ($, e) => {
-    const { Box, Button, Text, Input, Code } = $.ui.resolve(e)
-    const enCurso = await read($, ocupado)
-    const texto = await read($, borradorPanel)
-    const res = await read($, resultado)
+    try {
+      const { Box, Button, Text, Input } = $.ui.resolve(e)
+      const enCurso = await read($, ocupado)
+      const texto = await read($, borradorPanel)
+      const res = await read($, resultado)
 
-    const pulsar = (modo: Modo) => async () => {
-      let base = (await read($, borradorPanel)).trim()
-      if (base === '') base = (await $.prompt.read()).text
-      await mejorar($, modo, base)
-    }
+      const pulsar = (modo: Modo) => async () => {
+        let base = (await read($, borradorPanel)).trim()
+        if (base === '') base = (await $.prompt.read()).text
+        await mejorar($, modo, base)
+      }
 
-    return (
-      <Box flexDirection="column" gap={1}>
-        <Text dimColor>
-          Escribe o pega el borrador y elige el modo. El resultado no se envía hasta que tú lo decidas.
-        </Text>
-        <Input
-          key="borrador"
-          label="Borrador"
-          placeholder="Escribe aquí tu prompt…"
-          rows={4}
-          value={texto}
-          submitLabel="Guardar"
-          onInput={value => void update($, borradorPanel, () => value)}
-          onSubmit={value => void update($, borradorPanel, () => value)}
-        />
-        {enCurso !== null ? (
-          <Text dimColor>Mejorando ({ETIQUETA[enCurso]})…</Text>
-        ) : (
-          <Box flexDirection="row" gap={1}>
-            <Button key="p-general" label="General" onPress={pulsar('general')} />
-            <Button key="p-creativo" label="Creativo" onPress={pulsar('creativo')} />
-            <Button key="p-cientifico" label="Científico" onPress={pulsar('cientifico')} />
-          </Box>
-        )}
-        {res !== null && (
-          <Box flexDirection="column" gap={1}>
-            <Text bold>Resultado ({ETIQUETA[res.modo]})</Text>
-            <Code source={res.texto} language="markdown" wrap="wrap" />
-            <Box flexDirection="row" gap={1}>
+      return (
+        <Box flexDirection="column">
+          <Text>Escribe o pega el borrador, pulsa Guardar y elige el modo.</Text>
+          <Input
+            key="borrador"
+            label="Borrador"
+            placeholder="Escribe aquí tu prompt"
+            value={texto}
+            submitLabel="Guardar"
+            onInput={value => void update($, borradorPanel, () => value)}
+            onSubmit={value => void update($, borradorPanel, () => value)}
+          />
+          {enCurso !== null ? (
+            <Text>Mejorando ({ETIQUETA[enCurso]})…</Text>
+          ) : (
+            <Box flexDirection="column">
+              <Button key="p-general" label="General" onPress={pulsar('general')} />
+              <Button key="p-creativo" label="Creativo" onPress={pulsar('creativo')} />
+              <Button key="p-cientifico" label="Científico" onPress={pulsar('cientifico')} />
+            </Box>
+          )}
+          {res !== null && (
+            <Box flexDirection="column">
+              <Text>Resultado ({ETIQUETA[res.modo]}):</Text>
+              <Text>{res.texto}</Text>
               <Button
                 key="p-copiar"
                 label="Copiar"
@@ -304,9 +301,12 @@ export const register: Register = on => {
                 }}
               />
             </Box>
-          </Box>
-        )}
-      </Box>
-    )
+          )}
+        </Box>
+      )
+    } catch (err) {
+      const { Text } = $.ui.resolve(e)
+      return <Text>Error al dibujar el panel: {String(err)}</Text>
+    }
   })
 }

@@ -11,7 +11,7 @@ El prompt mejorado sustituye al borrador en la caja de texto, pero **no se enví
 ## Uso
 
 - **Botones**: escribe el borrador y pulsa **General**, **Creativo** o **Científico** en la barra «Mejorar prompt», encima de la caja de texto. **↶ Deshacer** recupera el original y **×** oculta la barra.
-- **Panel (móvil y web)**: la barra solo aparece en el terminal y en la app de escritorio. En la app móvil o en claude.ai/code, abre el panel **Mejorar prompt** (en el móvil, en la hoja de Mods, o con `/mejorar panel`). Escribe o pega el borrador, elige el modo y luego **Copiar**, **Pasar a la caja**, **Enviar** o **Limpiar**.
+- **Panel**: `/mejorar panel` abre un panel con campo de borrador, los tres modos y **Copiar**, **Pasar a la caja**, **Enviar** o **Limpiar**. Probado en la app móvil (noviembre de 2026): la app no dibuja el panel; en el móvil usa el comando.
 - **Comando**: `/mejorar cientifico <texto>`, `/mejorar creativo <texto>` o `/mejorar <texto>` (modo general). `/mejorar deshacer` restaura el original, `/mejorar panel` abre el panel, `/mejorar mostrar` vuelve a enseñar la barra y `/mejorar` sin argumentos muestra la ayuda.
 
 ## Instalación

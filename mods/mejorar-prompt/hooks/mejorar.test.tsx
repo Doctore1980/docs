@@ -86,7 +86,7 @@ test('el panel funciona en el móvil y la web: borrador, modo y resultado', asyn
     await ui.input({ key: 'borrador', text: 'evidencia linfadenectomía', kind: 'submit' } as never)
     await ui.press({ key: 'p-cientifico' })
     expect(sistema).toContain('CIENTÍFICO')
-    const codigo = await ui.find({ type: 'Code' } as never)
+    const codigo = await ui.find({ type: 'Text', text: /Prompt científico mejorado/ } as never)
     expect(JSON.stringify(codigo)).toContain('Prompt científico mejorado')
     await ui.press({ key: 'p-enviar' })
     expect(enviado).toBe('Prompt científico mejorado')
